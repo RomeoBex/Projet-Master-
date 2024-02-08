@@ -1,1 +1,3 @@
-# Projet-Master-
+# Projet Master
+            Dans le cadre de notre M1 Statistique et Science des Données nous avons rédigé un projet portant sur l'amélioration de la calibration des réseaux neuronaux profonds pour une meilleure évaluation de l'incertitude dans l'apprentissage profond. Il présente une nouvelle méthode de calibrage appelée cohérence des attentes (EC), qui implique un redimensionnement des poids de la dernière couche après l'entraînement, afin d'aligner la confiance moyenne de validation avec la proportion moyenne d'étiquettes correctes. 
+L'objectif est d'empiriquement démontrer que la méthode EC offre des performances de calibrage comparables à celles de la mise à l'échelle de la température (TS) pour diverses architectures de réseaux neuronaux, tout en nécessitant des ressources similaires en termes d'échantillons de validation et de puissance informatique.
