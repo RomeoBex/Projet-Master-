@@ -114,6 +114,9 @@ Finalement, on a :
 
 Les propriétés de $\text{softmax}$ (toutes les valeurs de sorties sont dans $[0,1]$ et s'additionnent à 1) rendent la fonction adaptée à une interprétation probabiliste très utile dans l'apprentissage automatique, en particulier dans les tâches de classification multiclasse.
 
-On peut interpréter $\text{softmax}$ comme $S_j = \mathbb{P}(y=j|x)$.
-Pour tout x 
+On peut interpréter $\text{softmax}$ comme la probabilité prédite pour la jème classe étant donné un vecteur d’échantillon x et un vecteur de pondération w d'où \\
+\[
+P(y=j | \mathbf{x}) = \frac{e^{\mathbf{x}^{\mathsf{T}}\mathbf{w}_j}}{\sum_{k=1}^{K} e^{\mathbf{x}^{\mathsf{T}}\mathbf{w}_k}}
+\]
+
 \end{document}
