@@ -60,7 +60,8 @@ On obtient donc :
     P(Y=0|\bm{x}) &= 1- \sigma(\bm{\theta}^\top \bm{x}) = \sigma(-\bm{\theta}^\top \bm{x})
 \end{align*}
 
-Le but maintenant est d'estimer $\bm{\theta}$. Supposons que $(x_i, y_i)_{1 \leq i \leq n}$ constitue un échantillon de taille $n$. On a alors :
+Le but maintenant est d'estimer $\bm{\theta}$. Nous avons $(x_i, y_i)_{1 \leq i \leq n}$  où \(x_i \in \mathbb{R}^p\) et \(y_i \in \{0,1\}\) constitue un échantillon de taille \(n\).
+. On a alors :
 
 \[ P(y = y_i | \bm{x} = x_i) = \sigma(\bm{\theta}^\top x_i)^{y_i} \sigma(-\bm{\theta}^\top x_i)^{1-y_i}. \]
 
