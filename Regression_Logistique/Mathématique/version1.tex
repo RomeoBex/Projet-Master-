@@ -3,7 +3,9 @@
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath}
 \usepackage{amsfonts}
-\usepackage{bm} 
+\usepackage{bm}
+\usepackage{stmaryrd}
+\usepackage{dsfont}
 
 
 
@@ -73,6 +75,26 @@ La log-vraisemblance s'exprime alors de cette manière :
 \end{align*}
 
 où l est définie comme étant la fonction de perte logistique. Il faut ensuite  avoir recours à des algorithmes itératifs (descente de gradient, méthode de Newton,...) pour trouver  $\bm{\hat{\theta}}$.
+
+On peut passer du cadre binaire au cadre multi-classes avec \(K\) classes, par exemple, c'est-à-dire en ayant \(Y\) appartenant à \(\llbracket 1, K \rrbracket^{n}\).
+On a alors pour \(\theta \in [\theta_1, \ldots, \theta_K] \in \mathbb{R}^{p\times K}\) et pour \(k \in \llbracket 1, K \rrbracket\):
+
+\begin{align*}
+    P(y=k | \bm{x}) &= \frac{\exp(\langle \boldsymbol{\theta}_k, \bm{x} \rangle)}{\sum_{l=1}^{K} \exp(\langle \boldsymbol{\theta}_l, \bm{x} \rangle)}, \\
+    &= \frac{\exp(\boldsymbol{\theta}_k^T \bm{x})}{\sum_{l=1}^{K} \exp(\boldsymbol{\theta}_l^T \bm{x})}
+\end{align*}
+
+
+On peut écrire cette égalité sous forme vectorielle en utilisant la notation softmax, on a alors :
+$(P(y=k | \bm{x}))_{k=1,...,K}=softmax(\theta_1^T\bm{x},..,\theta_K^T\bm{x})$
+
+Pour la régression softmax, la log-vraisemblance peut être exprimée comme suit :
+
+\begin{align*}
+L(\bm{\theta}) &= \sum_{i=1}^{n} \sum_{k=1}^{K} \mathds{1}(y_i = k) \log\left(\frac{e^{\theta_k^\top x_i}}{\sum_{l=1}^{K} e^{\theta_l^\top x_i}}\right) \\
+\end{align*}
+
+
 
 
 \end{document}
