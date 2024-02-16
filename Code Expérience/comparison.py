@@ -8,6 +8,7 @@ import calibration as uncertaintycalibration
 import densenet, resnet
 from dataloader import get_dataloader
 
+# il faut faire pip install uncertainty-calibration
 # Crée une expérience sacrée nommée "exp_calibration" (pas obligatoire)
 exp = sacred.Experiment("exp_calibration")
 
