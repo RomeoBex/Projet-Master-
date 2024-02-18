@@ -14,10 +14,10 @@ exp = sacred.Experiment("exp_calibration")
 
 # Fonction pour charger un modèle pré-entraîné en fonction du type de modèle
 def load_model(model_path, model_type):
-    if model_type == "cifar10_resnet20":
+    if model_type == "cifar100_resnet20":
         # Charge le modèle spécifique "cifar10_resnet20" en utilisant le hub torch
         try:
-            model = torch.hub.load("chenyaofo/pytorch-cifar-models", "cifar10_resnet20", pretrained=True)
+            model = torch.hub.load("chenyaofo/pytorch-cifar-models", "cifar100_resnet20", pretrained=True)
         except Exception as e:
             print(f"Erreur lors du chargement du modèle : {e}")
             model = None
@@ -95,8 +95,8 @@ def get_logits_and_labels_from_data(model, data_loader):
 @exp.config
 def config():
     model_path = "default.bin"
-    model_type = "cifar10_resnet20"  # Utilisez le modèle spécifique
-    dataset_str = "cifar10"
+    model_type = "cifar100_resnet20"  # Utilisez le modèle spécifique
+    dataset_str = "cifar100"
     random_seed = 42
     train_ratio = 0.9
 
