@@ -27,7 +27,7 @@ Cependant, avant d'obtenir les probabilités associées à chaque classe, les lo
 \sigma(k)(z_{ik}) &= \frac{e^{z_{ik}}}{\sum_{j=1}^{K} e^{z_{ij}}} \\
 \end{align*}
 
-On a que $\sigma(k)(z_{ik})$ est la probablité que $x_i$ appartienne à la classe k, pour prédire qu'elle est la classe associée a $x_i$ on va donc regarder $\max_{k}\sigma(k)(z_{ik})$ pour k appartenant à \(\llbracket 1, K \rrbracket\), de plus on a bien :
+On a que $\sigma(k)(z_{ik})$ est la probablité que $x_i$ appartienne à la classe k, pour prédire qu'elle est la classe associée a $x_i$ on va donc regarder $\hat{y}_i=\max_{k}\sigma(k)(z_{ik})$ pour k appartenant à \(\llbracket 1, K \rrbracket\), de plus on a bien :
 
 \begin{align*}
 \sum_{k=1}^{K} \sigma(k) (z_{ik}) &= \frac{\sum_{k=1}^{K} e^{z_{ik}}}{\sum_{j=1}^{K} e^{z_{ij}}} = 1 \\
