@@ -65,7 +65,7 @@ On obtient donc :
 Le but maintenant est d'estimer $\bm{\theta}$. Nous avons $(x_i, y_i)_{1 \leq i \leq n}$  où \(x_i \in \mathbb{R}^p\) et \(y_i \in \{0,1\}\) qui constitue un échantillon de taille \(n\).
 . On a alors :
 
-\[ P(y = y_i | \bm{x} = x_i) = \sigma(\bm{\theta}^\top x_i)^{y_i} \sigma(-\bm{\theta}^\top x_i)^{1-y_i}. \]
+\[ P(Y = y_i | \bm{x} = x_i) = \sigma(\bm{\theta}^\top x_i)^{y_i} \sigma(-\bm{\theta}^\top x_i)^{1-y_i}. \]
 
 La log-vraisemblance s'exprime alors de cette manière :
 
@@ -84,13 +84,13 @@ $ pour \(k \in \llbracket 1, K-1 \rrbracket\) et $\theta_{k} \in \mathbb{R}^p$
 On a alors pour paramètre globale: \(\theta \in [\theta_1, \ldots, \theta_K] \in \mathbb{R}^{p\times K}\) et pour \(k \in \llbracket 1, K \rrbracket\):
 
 \begin{align*}
-    P(y=k | \bm{x}) &= \frac{\exp(\langle \boldsymbol{\theta}_k, \bm{x} \rangle)}{\sum_{l=1}^{K} \exp(\langle \boldsymbol{\theta}_l, \bm{x} \rangle)}, \\
+    P(Y=k | \bm{x}) &= \frac{\exp(\langle \boldsymbol{\theta}_k, \bm{x} \rangle)}{\sum_{l=1}^{K} \exp(\langle \boldsymbol{\theta}_l, \bm{x} \rangle)}, \\
     &= \frac{\exp(\boldsymbol{\theta}_k^T \bm{x})}{\sum_{l=1}^{K} \exp(\boldsymbol{\theta}_l^T \bm{x})}
 \end{align*}
 
 
 On peut écrire cette égalité sous forme vectorielle en utilisant la notation softmax, on a alors :
-$(P(y=k | \bm{x}))_{k=1,...,K}=softmax(\theta_1^T\bm{x},..,\theta_K^T\bm{x})$
+$(P(Y=k | \bm{x}))_{k=1,...,K}=softmax(\theta_1^T\bm{x},..,\theta_K^T\bm{x})$
 
 Pour la régression softmax, la log-vraisemblance peut être exprimée comme suit :
 
