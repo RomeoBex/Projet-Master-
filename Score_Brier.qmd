@@ -1,0 +1,50 @@
+---
+title: "Score de Brier"
+format: 
+    html: default 
+    pdf: default 
+---
+
+Le score de Brier est une fonction de Score qui mesure l'exactiture des préditictions probabilistes. 
+Pour les prédictions unidimensionnelles, elle est strictement équivalente à l'erreur quadratique moyenne aux probabilités prédites. 
+
+# Définition dans le cas d'une variable binaire :
+
+Considérons une variable à prévoir qui ne peut prendre que deux valeurs (réalisation ou non d'un évènement). Si on dispose d'un ensemble de $n$ prévisions de la probabilité de réalisation de cet évènement et des observations correspondantes, le score de Brier est défini par : 
+
+$$
+B_s = \frac{1}{n}\sum_{i=1}^{n}(p_i - o_i)^2
+$$
+
+où les $p_i$ sont les probabilités prévues correspondantes à la réalisation de l'évènement, les $o_{i}$ (déterministes) sont la i-ème observation valant 1 si l'évènement est réalisé et 0 sinon et $n$ le nombre de prévisions.
+
+# Définition générale : 
+
+Dans le cas où une variable peut prendre plus de 2 valeurs. 
+Le score de Brier est alors défini par : 
+$$
+B_s = \frac{1/2n}\sum_{i=1}^{n}\sum_{j=1}^{m}(p_{i,j} - o_{i,j})^2
+$$
+
+où R est le nombre de classes possibles dans lesquelles l'évènement peut tomber, et N le nombre total d'instances de toutes les classes.
+$p_{i,j}$ représente la probabilité prédite pour la classe $i$, $o_{i,j}$ vaut 1 si si la ième observation est de la catégorie j et 0 sinon. 
+
+Le score de Brier peut être décomposé en 3 composantes additives : incertitude, fiabilité et résolution 
+$$
+B_s = F - R + I 
+$$
+
+I : terme d'incertitude qui prend en compte la dispersion des observations 
+F : terme de fiabilité qui mesure dans quelle circonstances les probabilités prévues sont proches des probabilités réelles compte tenu d'une prévision.
+R : terme de résolution qui mesure la distance entre les probabilités d'occurence 
+
+
+# Interprétation et décomposition : 
+
+Plus la valeur du score de Brier sera faible plus la prédiction sera bonne et une prévision parfaite obtiendra un score de 0. A l'inverse le plus mauvais score sera de 1. 
+
+On peut aussi décomposer le score de Brier de la façon suivante : 
+
+$$
+
+
