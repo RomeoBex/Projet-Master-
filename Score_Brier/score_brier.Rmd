@@ -28,7 +28,7 @@ où les $p_i$ sont les probabilités prévues correspondantes à la réalisation
 Dans le cas où une variable peut prendre plus de 2 valeurs. 
 Le score de Brier est alors défini par : 
 $$
-B_s = \frac{1/2n}\sum_{i=1}^{n}\sum_{j=1}^{m}(p_{i,j} - o_{i,j})^2
+B_s = \frac{1}{n}\sum_{i=1}^{n}\sum_{j=1}^{m}(p_{i,j} - o_{i,j})^2
 $$
 
 où R est le nombre de classes possibles dans lesquelles l'évènement peut tomber, et N le nombre total d'instances de toutes les classes.
