@@ -64,3 +64,15 @@ Ensuite, une fonction objectif est définie, notée objective(T), qui prend la t
 La valeur de retour de la fonction objectif est la moyenne de ces probabilités maximales moins la complémentaire de l'erreur de validation c'est-à-dire la précision moyenne sur l'ensemble de validation. On utilise l'optimiseur "optimize.root_scalar" de la bibliothèque "scipy" pour trouver la racine de cette fonction dans l'intervalle spécifié par [$T_{min}$, $T_{max}$].
 
 # L'erreur d'étallonage attendue (ECE)
+
+L'Expected Calibration Error (ECE) est une mesure d'évaluation de la calibration d'un modèle de réseau de neurones, particulièrement dans le contexte de la classification probabiliste. La calibration se réfère à la justesse des prédictions de probabilité du modèle, c'est-à-dire à quel point les probabilités prédites correspondent aux fréquences réelles des événements.
+
+On dit qu'un algortithme de classification est calibré si la probabilité prédite $\hat{p}$, correspond à la probabilité réelle que la prédiction soit bonne. Ce qui revient mathématqiquement à:
+$$
+P(\hat{y}=y|\hat{p}=p)=p, \forall p\in [0;1]
+$$
+Où $\hat{y}$ est la classe prédite et y est la vraie classe. L'erreur de calibration est une valeur qui représente la calibration du modèle sur l'ensemble des prédictions. Il s'agit de l'espérance mathématique de la différence entre la réalité et la confiance du modèle. On a donc:
+$$
+ECE=\mathbb{E}[P(\hat{y}=y|\hat{p}=p)-p]_{\hat{p}}
+$$
+On a donc que une valeur faible de l'ECE indique une bonne calibration, tandis qu'une valeur élevée suggère une mauvaise calibration. En effet, une ECE faible indique que le modèle a une tendance à produire des probabilités proches des véritables probabilités d'appartenance à une classe. 
