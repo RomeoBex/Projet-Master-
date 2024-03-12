@@ -63,7 +63,12 @@ La première étape consiste à calculer l'erreur de classification du modèle �
 Ensuite, une fonction objectif est définie, notée objective(T), qui prend la température T comme paramètre. À l'intérieur de cette fonction, les logits sont divisés par la température T, puis passés à travers la fonction softmax. On extrait ensuite les probabilités maximales pour chaque exemple avec l'aide de la fonction "torch.max".
 La valeur de retour de la fonction objectif est la moyenne de ces probabilités maximales moins la complémentaire de l'erreur de validation c'est-à-dire la précision moyenne sur l'ensemble de validation. On utilise l'optimiseur "optimize.root_scalar" de la bibliothèque "scipy" pour trouver la racine de cette fonction dans l'intervalle spécifié par [$T_{min}$, $T_{max}$].
 
-# L'erreur d'étallonage attendue (ECE)
+
+
+
+
+
+# L'Expected Calibration Error (ECE)
 
 L'Expected Calibration Error (ECE) est une mesure d'évaluation de la calibration d'un modèle de réseau de neurones, particulièrement dans le contexte de la classification probabiliste. La calibration se réfère à la justesse des prédictions de probabilité du modèle, c'est-à-dire à quel point les probabilités prédites correspondent aux fréquences réelles des événements.
 
@@ -71,8 +76,22 @@ On dit qu'un algortithme de classification est calibré si la probabilité préd
 $$
 P(\hat{y}=y|\hat{p}=p)=p, \forall p\in [0;1]
 $$
-Où $\hat{y}$ est la classe prédite et y est la vraie classe. L'erreur de calibration est une valeur qui représente la calibration du modèle sur l'ensemble des prédictions. Il s'agit de l'espérance mathématique de la différence entre la réalité et la confiance du modèle. On a donc:
+Où $\hat{y}$ est la classe prédite et y est la vraie classe. Dans tous les contextes pratiques, atteindre une calibration parfaite est impossible. L'erreur de calibration est une valeur qui représente la calibration du modèle sur l'ensemble des prédictions. Il s'agit de l'espérance mathématique de la différence entre la réalité et la confiance du modèle. On a donc:
 $$
 ECE=\mathbb{E}[P(\hat{y}=y|\hat{p}=p)-p]_{\hat{p}}
 $$
 On a donc que une valeur faible de l'ECE indique une bonne calibration, tandis qu'une valeur élevée suggère une mauvaise calibration. En effet, une ECE faible indique que le modèle a une tendance à produire des probabilités proches des véritables probabilités d'appartenance à une classe. 
+
+La calibration d'un modéle peut etre visualisée par un diagramme de fiabilité ( reliability diagram). Pour estimer la précision attendue à partir d'échantillons finis de taille N, il faut regrouper les prédictions en M intervalles (chacun de taille $\frac{1}{M}$). On considère l'intervalle $I_m=(\frac{m-1}{M},\frac{m}{M}]$ et $B_m$ l'ensemble des indices des échantillons dont la confiance de prédiction se situe dans l'intervalle $I_m$.  Pour chaque groupe $B_m$ on calcule l'accuracy qui correspond à la proportion d'échantillons correctement classés et la confiance moyenne:
+
+$$
+acc(B_m)=\frac{1}{|B_m|}\sum_{i\in B_m}{1}(y_i=\hat{y_i})
+$$
+$$
+conf(B_m)=\frac{1}{|B_m|}\sum_{i\in B_m}\hat{p_i}
+$$
+Puisqu’il y a un nombre fini M de groupes, on calcule l’erreur de calibration comme suit :
+
+$$
+ECE=\frac{1}{N}\sum_{m=1}^{M}|B_m||acc(B_m)-conf(B_m)|
+$$ 
