@@ -4,18 +4,22 @@ author: "Rivaldi Tristan"
 date: "2024-03-01"
 output: 
   pdf_document:
+    toc: true
     extra_dependencies:
       stmaryrd: null
       dsfont: null
 bibliography: references.bib
+header-includes:
+  - \usepackage{titlesec}
+  - \renewcommand{\contentsname}{Sommaire}
 ---
 
-
+\newpage
 # Explication de l'algorithme pour la méthode EC
 
-Le but de cet algorithme est de calculer $T_{\text{EC}}$ pour que la confiance moyenne corresponde à la précision moyenne sur l'ensemble de validation. Pour ce faire, on dispose d'un ensemble de validation $(x_i, y_i)$ pour $i = 1, \ldots, n_{\text{val}}$, et d'un classifieur $\hat{f} : X \rightarrow \mathbb{R}^K$ où les $x_i \in \mathbb{R}^p$ sont les caractéristiques (les variables) et les $y_i \in \llbracket 1, K \rrbracket$ sont les étiquettes de classes associées à ces caractéristiques. L'algorithme calcule les logits $z_i = f(x_i) \in \mathbb{R}^K$ et produit la sortie $\hat{y}_i = \arg \max_k z_{ik}$.
+Le but de cet algorithme est de calculer $T_{\text{EC}}$ pour que la confiance moyenne corresponde à la précision moyenne sur l'ensemble de validation. Pour ce faire, on dispose d'un ensemble de validation $(x_i, y_i)$ pour $i = 1, \ldots, n_{\text{val}}$, et d'un classifieur $\hat{f} : X \rightarrow \mathbb{R}^K$ où les $x_i \in \mathbb{R}^p$ sont les caractéristiques (les variables) et les $y_i \in \llbracket 1, K \rrbracket$ sont les étiquettes de classes associées à ces caractéristiques. L'algorithme calcule les logits $z^{(i)} = f(x_i) \in \mathbb{R}^K$ et produit la sortie $\hat{y}_i = \arg \max_k z_{k}^{(i)}$.
 
-Le classifieur prend en entrée des données (ici les caractéristiques $x_i$ extraites d'une observation) et y attribue des logits  $z_i=(z_{i1},...,z_{iK})$ où pour tous $k$ appartenant à $\llbracket 1, K \rrbracket$, chaque $z_{ik} \in \mathbb{R}$. Pour un $k$ fixé $z_{ik}$ correspond au logit (score) associé à la classe $k$. Le fait de produire la sortie $\hat{y}_i = \arg \max_k z_{ik}$ signifie que la classe correspondant au logit le plus élevé est choisie comme la prédiction. Pour la classe d'appartenance de $x_i$, l'algorithme choisit de prédire que la classe associée à $x_i$ est $\hat{y}_i$.
+Le classifieur prend en entrée des données (ici les caractéristiques $x_i$ extraites d'une observation) et y attribue des logits  $z^{(i)}=(z_{1}^{(i)},...,z_{K}^{(i)})$ où pour tous $k$ appartenant à $\llbracket 1, K \rrbracket$, chaque $z_{k}^{(i)} \in \mathbb{R}$. Pour un $k$ fixé $z_{k}^{(i)}$ correspond au logit (score) associé à la classe $k$. Le fait de produire la sortie $\hat{y}_i = \arg \max_k z_{k}^{(i)}$ signifie que la classe correspondant au logit le plus élevé est choisie comme la prédiction. Pour la classe d'appartenance de $x_i$, l'algorithme choisit de prédire que la classe associée à $x_i$ est $\hat{y}_i$.
 
 Ensuite, l'algorithme calcule la précision moyenne sur l'ensemble de validation :
 
@@ -26,7 +30,7 @@ A_{val} = \frac{1}{n_{\text{val}}} \sum_{i} \mathds{1}(y_i = \hat{y}_i)  \enspac
 
 Les logits sont des valeurs brutes, résultant de la dernière couche d'un réseau de neurones avant l'application d'une fonction d'activation. Ces valeurs brutes ne sont pas normalisées et peuvent être n'importe quel nombre réel.
 
-Cependant, avant d'obtenir les probabilités associées à chaque classe, les logits passent généralement par une fonction d'activation softmax. La fonction softmax transforme les logits en probabilités, produisant une distribution de probabilité sur les classes. Les valeurs résultantes après la fonction softmax seront dans l'intervalle [0,1], et leur somme sera égale à 1. La fonction softmax va transformer le vecteur $z^{(i)}$ en un vecteur $z_i'=(\sigma(1)(z_{i1}),...,\sigma(K)(z_{iK}))$ où pour tous $k$ appartenant à $\llbracket 1, K \rrbracket$: 
+Cependant, avant d'obtenir les probabilités associées à chaque classe, les logits passent généralement par une fonction d'activation softmax. La fonction softmax transforme les logits en probabilités, produisant une distribution de probabilité sur les classes. Les valeurs résultantes après la fonction softmax seront dans l'intervalle [0,1], et leur somme sera égale à 1. La fonction softmax va transformer le vecteur $z^{(i)}$ en un vecteur $z^{(i)'}=\sigma(z^{(i)})$ où : 
 
 \begin{align*}
 \sigma : \mathbb{R}^K & \to \mathbb{R}^K \\
@@ -34,10 +38,10 @@ Cependant, avant d'obtenir les probabilités associées à chaque classe, les lo
 \end{align*}
 
 
-On a que $(\sigma(z^{(i)}))_k$ est la probabilité telle qu’estimée par le réseau, que $x_i$ appartienne à la classe $k$. Pour un  $x_i \in \mathbb{R}^p$ la prédiction finale du modèle pour prédire quelle est la classe associée à $x_i$, est alors donner par $\hat{y}_i=\arg\max_{k}\sigma(k)(z_{ik})$ pour $k$ appartenant à $\llbracket 1, K \rrbracket$ et la confiance de prédiction associé est définie comme étant: $\max_{k}\sigma(k)(z_{ik})$ . De plus, on a bien :
+On a que $(\sigma(z^{(i)}))_k$ est la probabilité telle qu’estimée par le réseau, que $x_i$ appartienne à la classe $k$. Pour un  $x_i \in \mathbb{R}^p$ la prédiction finale du modèle pour prédire quelle est la classe associée à $x_i$, est alors donner par $\hat{y}_i=\arg\max_{k}\sigma(z^{(i)})_k$ pour $k$ appartenant à $\llbracket 1, K \rrbracket$ et la confiance de prédiction associé est définie comme étant: $\max_{k}\sigma(z^{(i)})_k$ . De plus, on a bien :
 
 $$
-\sum_{k=1}^{K} \sigma(k) (z_{ik}) = \frac{\sum_{k=1}^{K} e^{z_{ik}}}{\sum_{j=1}^{K} e^{z_{ij}}} = 1 \enspace .
+\sum_{k=1}^{K} \sigma(z^{(i)})_k = \frac{\sum_{k=1}^{K} e^{z_{k}^{(i)}}}{\sum_{j=1}^{K} e^{z_{j}^{(j)}}} = 1 \enspace .
 $$
 
 Pour trouver $T_{\text{EC}}$, on va en fait prendre $T_{\text{EC}}$ tel que :
@@ -99,9 +103,11 @@ Puisqu’il y a un nombre fini M de groupes, on calcule l’erreur de calibratio
 $$
 ECE=\frac{1}{N}\sum_{m=1}^{M}|B_m||acc(B_m)-conf(B_m)|\enspace .
 $$
+\newpage
 
-
-## Bibliographie
+# Bibliographie
 
 ::: {#refs}
 :::
+
+
