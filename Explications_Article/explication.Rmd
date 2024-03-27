@@ -8,6 +8,7 @@ output:
     extra_dependencies:
       stmaryrd: null
       dsfont: null
+      hyperref: null
 bibliography: references.bib
 header-includes:
   - \usepackage{titlesec}
@@ -54,6 +55,21 @@ De cette manière, $T_{\text{EC}}$ permet à ce que la probabilité maximale d'a
 
 ## Dans la pratique
 
+Voici le code pour calculer la température $T_{EC}$:
+
+```{python}
+# Fonction pour trouver la température optimale pour la méthode EC
+def find_optimal_temperature_expectation_consistency(logits, labels, T_min=0.01, T_max=10.0):
+    validation_error = get_classification_error(logits, labels)
+
+    def objective(T):
+        probas = torch.max(torch.softmax(logits / T, dim=1), dim=1)[0]
+        return torch.mean(probas) - (1.0 - validation_error)
+
+    res = optimize.root_scalar(objective, bracket=[T_min, T_max])
+    return float(res.root)
+```
+
 Dans la pratique, le code qui calcule la température $T_{EC}$ est une fonction qu'on applique a un modèle de réseau de neurones et qui prend en entrée :
 
 
@@ -73,6 +89,27 @@ La première étape consiste à calculer l'erreur de classification du modèle �
 
 Ensuite, une fonction objectif est définie, notée `objective(T)`, qui prend la température T comme paramètre. À l'intérieur de cette fonction, les logits sont divisés par la température T, puis passés à travers la fonction softmax. On extrait ensuite les probabilités maximales pour chaque exemple avec l'aide de la fonction `torch.max`.
 La valeur de retour de la fonction objectif est la moyenne de ces probabilités maximales moins la complémentaire de l'erreur de validation c'est-à-dire la précision moyenne sur l'ensemble de validation. On utilise l'optimiseur `optimize.root_scalar` de la bibliothèque `scipy` pour trouver la racine de cette fonction dans l'intervalle spécifié par $[T_{min}, T_{max}]$.
+
+## Résultats Obtenus
+
+Nous avons utilisé des modèles pré-entraînés provenant du dépôt Github: [https://github.com/chenyaofo/pytorch-cifar-models](https://github.com/chenyaofo/pytorch-cifar-models).
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|c|}
+\hline
+Modèle & Score de Brier & ECE \\
+\hline
+Modèle non calibré & 0.455 & 0.104 \\
+Calibré avec TS & 0.436 & 0.030 \\
+Calibré avec TEC & 0.436 & 0.028 \\
+\hline
+\end{tabular}
+\caption{Résultats obtenus pour CIFAR-100 Resnet20}
+\label{tab:table1}
+\end{table}
+
+On peux voir les résultats obtenus : Tableau \ref{tab:table1}
 
 
 # L'Expected Calibration Error (ECE)
@@ -109,5 +146,8 @@ $$
 
 ::: {#refs}
 :::
+
+
+
 
 
