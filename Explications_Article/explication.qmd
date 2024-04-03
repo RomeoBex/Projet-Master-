@@ -103,23 +103,17 @@ La valeur de retour de la fonction objectif est la moyenne de ces probabilités 
 Nous avons utilisé des modèles pré-entraînés provenant du dépôt Github: [https://github.com/chenyaofo/pytorch-cifar-models](https://github.com/chenyaofo/pytorch-cifar-models). Les valeurs trouvées pour température TS et température $T_{EC}$ sont respectivement 1.436 et 1.445, elle sont donc trés proches. Nous remarquons que les deux méthodes donnes des températures supèrieurs à 1 ce qui est cohérent avec le fait que les réseaux originaux étaient surconfiants.
 
 
-\begin{table}[H]
-\centering
-\begin{tabular}{|c|c|c|}
-\hline
-Modèle & Score de Brier & ECE \\
-\hline
-Modèle non calibré & 0.455 & 0.104 \\
-Calibré avec TS & 0.436 & 0.030 \\
-Calibré avec TEC & 0.436 & 0.028 \\
-\hline
-\end{tabular}
-\caption{Résultats obtenus pour CIFAR-100 Resnet20}
-\label{tab:table1}
-\end{table}
+| Modèle | Score de Brier | ECE |
+|--------|----------------|-----|
+| Modèle non calibré    | 0.455    | 0.104    |
+| Calibré avec TS    | 0.436    | 0.030    |
+| Calibré avec TEC    | 0.436    | 0.028    |
+
+: Résultats obtenus pour CIFAR-100 Resnet20 {#tbl-first}
 
 
-On peux voir les résultats obtenus : Tableau \ref{tab:table1}. D'aprés ces résultats on voit que les deux méthodes améliorent le score Brier et L'Expected Calibration Error et donnent des résultats très similaires.
+On peux voir les résultats obtenus @tbl-first. D'aprés ces résultats on voit que les deux méthodes améliorent le score Brier et L'Expected Calibration Error et donnent des résultats très similaires.
+
 
 
 # L'Expected Calibration Error (ECE)
