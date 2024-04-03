@@ -60,11 +60,15 @@ De cette manière, $T_{\text{EC}}$ permet à ce que la probabilité maximale d'a
 
 Voici le code pour calculer la température $T_{EC}$:
 
-(CF. ALSO: https://pytorch.org/torcheval/main/generated/torcheval.metrics.MulticlassAccuracy.html#torcheval.metrics.MulticlassAccuracy)
 ```{python}
+# Il faut utiliser:
+
+from sklearn.metrics import accuracy_score
+
 # Fonction pour trouver la température optimale pour la méthode EC
-def opt_temp(logits, labels, T_min=0.01, T_max=10.0):
-    validation_error = get_classification_error(logits, labels)
+
+def find_opt_temp_exp_consist(logits, labels, T_min=0.01, T_max=10.0):
+    validation_error = 1.0 - accuracy_score(labels, torch.argmax(logits, dim=1))
 
     def objective(T):
         probas = torch.max(torch.softmax(logits / T, dim=1), dim=1)[0]
@@ -89,17 +93,17 @@ Dans la pratique, le code qui calcule la température $T_{EC}$ est une fonction 
 - $T_{max}$ qui est la température maximale à considérer (10)
 
 
-La première étape consiste à calculer l'erreur de classification du modèle à l'aide de la fonction `get_classification_error(logits, labels)`. Cela donne la mesure de la performance actuelle du modèle. Par exemple si elle vaut 0.30 cela veux dire que dans 70% des cas le modèle associe correctement les étiquettes et les données du modèle.
+La première étape consiste à calculer l'erreur de classification du modèle à l'aide de la fonction `accuracy_score` de `sklearn`. Cela donne la mesure de la performance actuelle du modèle. Par exemple si elle vaut 0.30 cela veux dire que dans 70% des cas le modèle associe correctement les étiquettes et les données du modèle.
 
 Ensuite, une fonction objectif est définie, notée `objective(T)`, qui prend la température T comme paramètre. À l'intérieur de cette fonction, les logits sont divisés par la température T, puis passés à travers la fonction softmax. On extrait ensuite les probabilités maximales pour chaque exemple avec l'aide de la fonction `torch.max`.
 La valeur de retour de la fonction objectif est la moyenne de ces probabilités maximales moins la complémentaire de l'erreur de validation c'est-à-dire la précision moyenne sur l'ensemble de validation. On utilise l'optimiseur `optimize.root_scalar` de la bibliothèque `scipy` pour trouver la racine de cette fonction dans l'intervalle spécifié par $[T_{min}, T_{max}]$.
 
 ## Résultats Obtenus
 
-Nous avons utilisé des modèles pré-entraînés provenant du dépôt Github: [https://github.com/chenyaofo/pytorch-cifar-models](https://github.com/chenyaofo/pytorch-cifar-models).
+Nous avons utilisé des modèles pré-entraînés provenant du dépôt Github: [https://github.com/chenyaofo/pytorch-cifar-models](https://github.com/chenyaofo/pytorch-cifar-models). Les valeurs trouvées pour température TS et température $T_{EC}$ sont respectivement 1.436 et 1.445, elle sont donc trés proches. Nous remarquons que les deux méthodes donnes des températures supèrieurs à 1 ce qui est cohérent avec le fait que les réseaux originaux étaient surconfiants.
 
 
-\begin{table}[h]
+\begin{table}[H]
 \centering
 \begin{tabular}{|c|c|c|}
 \hline
@@ -115,7 +119,7 @@ Calibré avec TEC & 0.436 & 0.028 \\
 \end{table}
 
 
-On peux voir les résultats obtenus : Tableau \ref{tab:table1}
+On peux voir les résultats obtenus : Tableau \ref{tab:table1}. D'aprés ces résultats on voit que les deux méthodes améliorent le score Brier et L'Expected Calibration Error et donnent des résultats très similaires.
 
 
 # L'Expected Calibration Error (ECE)
