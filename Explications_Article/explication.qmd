@@ -1,6 +1,6 @@
 ---
 title: "Explication de l'algorithme pour la méthode EC"
-author: "Rivaldi Tristan"
+author: "Rivaldi Tristan et Bex Roméo"
 date: "2024-03-01"
 format:
   pdf:
@@ -255,7 +255,8 @@ $$
 P(Y=1|\mathbf{x}) = \sigma({\theta}^\top \mathbf{x})
 $$
 
-$$ P(Y=0|\mathbf{x}) = 1- \sigma({\theta}^\top \mathbf{x}) = \sigma(-{\theta}^\top \mathbf{x})
+$$ 
+P(Y=0|\mathbf{x}) = 1- \sigma({\theta}^\top \mathbf{x}) = \sigma(-{\theta}^\top \mathbf{x})
 $$
 
 Le but maintenant est d'estimer ${\theta}$. Nous avons $(x_i, y_i)_{1 \leq i \leq n}$  où $x_i \in \mathbb{R}^p$ et $y_i \in \{0,1\}$ qui constitue un échantillon de taille $n$.
@@ -267,7 +268,8 @@ $$
 
 La log-vraisemblance s'exprime alors de cette manière :
 
-$$ L({\theta}) = \sum_{i=1}^{n} \log\left( \sigma({\theta}^\top x_i)^{y_i} \sigma(-{\theta}^\top x_i)^{1-y_i} \right)
+$$ 
+L({\theta}) = \sum_{i=1}^{n} \log\left( \sigma({\theta}^\top x_i)^{y_i} \sigma(-{\theta}^\top x_i)^{1-y_i} \right)
 $$
 
 où $l$ est définie comme étant la fonction de perte logistique. Il faut ensuite  avoir recours à des algorithmes itératifs (descente de gradient, méthode de Newton,...) pour trouver  ${\hat{\theta}}$.
@@ -297,7 +299,8 @@ $$
 Pour la régression softmax, la log-vraisemblance peut être exprimée comme suit :
 
 $$
-L({\theta}) = \sum_{i=1}^{n} \sum_{k=1}^{K} {1}(y_i = k) \log\left(\frac{e^{\theta_k^\top x_i}}{\sum_{l=1}^{K} e^{\theta_l^\top x_i}}\right) $$
+L({\theta}) = \sum_{i=1}^{n} \sum_{k=1}^{K} {1}(y_i = k) \log\left(\frac{e^{\theta_k^\top x_i}}{\sum_{l=1}^{K} e^{\theta_l^\top x_i}}\right)
+$$
 
 On utilise ensuite des méthodes algorithmiques pour trouver ${\hat{\theta}}$.
 
