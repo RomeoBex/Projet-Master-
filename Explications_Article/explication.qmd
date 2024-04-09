@@ -93,7 +93,8 @@ Dans la pratique, le code qui calcule la température $T_{EC}$ est une fonction 
 - $T_{max}$ qui est la température maximale à considérer (10)
 
 
-La première étape consiste à calculer l'erreur de classification du modèle à l'aide de la fonction `accuracy_score` de `sklearn`. Cela donne la mesure de la performance actuelle du modèle. Par exemple si elle vaut 0.30 cela veux dire que dans 70% des cas le modèle associe correctement les étiquettes et les données du modèle.
+
+La première étape consiste à calculer l'erreur de classification du modèle à l'aide de la fonction `accuracy_score` de `sklearn`. Cette fonction donne le score de classification, de précision du modèle, par exemple si il vaut 0.5 cela veut dire que le modéle à une prédiction juste une fois sur deux. Pour obtenir l'erreur de classification du modèle on a donc juste à faire 1 moins l'`accuracy_score`. Par exemple si elle vaut 0.30 cela veux dire que dans 70% des cas le modèle associe correctement les étiquettes et les données du modèle.
 
 Ensuite, une fonction objectif est définie, notée `objective(T)`, qui prend la température T comme paramètre. À l'intérieur de cette fonction, les logits sont divisés par la température T, puis passés à travers la fonction softmax. On extrait ensuite les probabilités maximales pour chaque exemple avec l'aide de la fonction `torch.max`.
 La valeur de retour de la fonction objectif est la moyenne de ces probabilités maximales moins la complémentaire de l'erreur de validation c'est-à-dire la précision moyenne sur l'ensemble de validation. On utilise l'optimiseur `optimize.root_scalar` de la bibliothèque `scipy` pour trouver la racine de cette fonction dans l'intervalle spécifié par $[T_{min}, T_{max}]$.
@@ -113,6 +114,9 @@ Nous avons utilisé des modèles pré-entraînés provenant du dépôt Github: [
 
 
 On peux voir les résultats obtenus @tbl-first. D'aprés ces résultats on voit que les deux méthodes améliorent le score Brier et L'Expected Calibration Error et donnent des résultats très similaires.
+
+
+
 
 
 
@@ -144,10 +148,37 @@ Puisqu’il y a un nombre fini M de groupes, on calcule l’erreur de calibratio
 $$
 ECE=\frac{1}{N}\sum_{m=1}^{M}|B_m||acc(B_m)-conf(B_m)|\enspace .
 $$
+On peut donner un exemple assez simple, prenons 9 échantillons avec des probabilités estimées ou aussi appelés « confidences » ($\hat{p_i}$) pour prédire soit 0 ou 1. Si la probabilité $\hat{p_i}$ pour l'étiquette 0 est supérieure à 0,5 alors l'étiquette prédite sera 0. S'il est inférieur à 0,5, alors la probabilité sera plus élevée pour l'étiquette 1 et, par conséquent, l'étiquette prévue sera 1 (voir @tbl-second). La dernière colonne montre la véritable étiquette d'un échantillon i.
 
 
 
-## Score de Brier
+| échantillon (i) | Probabilité prédite pour le label 0| Probabilité prédite pour le label 1 | label prédit ($\hat{y_i}$) | Vrai label ($y_i$) |
+|-----------------|------------------------------------|-------------------------------------|----------------------------|--------------------|
+| 1               | 0.78                               | 0.22                                |  0                         |   0                |
+| 2               | 0.36                               | 0.64                                |  1                         |   1                |
+| 3               | 0.08                               | 0.92                                |  1                         |   0                |
+| 4               | 0.58                               | 0.42                                |  0                         |   0                |
+| 5               | 0.49                               | 0.51                                |  1                         |   0                |
+| 6               | 0.85                               | 0.15                                |  0                         |   0                |  
+| 7               | 0.30                               | 0.70                                |  1                         |   1                |         
+| 8               | 0.63                               | 0.37                                |  0                         |   1                |
+| 9               | 0.17                               | 0.83                                |  1                         |   0                |
+
+: Situation {#tbl-second}
+
+Pour déterminer le reste de la formule, nous devrons d'abord diviser nos échantillons en bacs. Seules les probabilités qui déterminent l'étiquette prévue sont utilisées dans le calcul de la ECE. Par conséquent, nous ne déposerons que des échantillons basés sur la probabilité maximale entre les étiquettes (voir @tbl-second). Pour garder l'exemple simple, nous avons divisé les données en 5 bacs, M=5. Avec B1 qui correspond aux probabiltées prédites de 0 à 0.2, B2 qui correspond aux probabiltées prédites de 0.2 à 0.4, B3 qui correspond aux probabiltéss prédites de 0.4 à 0.6, B4 qui correspond aux probabiltées prédites de 0.6 à 0.8 et B5 qui correspond aux probabiltées prédites de 0.8 à 1. Déposons maintenant les échantillons dans leurs bacs : dans B1 et B2 il n'y a aucun échantillons, dans B3 on a 4 et 5, dans B4 on a 8, 7, 2 et 1 et dans B5 on a 9, 6 et 3.
+
+On va maintenant déterminer $conf(B_m)$, pour calculer $conf(B_m)$ nous prenons la somme des probabilités maximales estimées $\hat{p_i}$ pour chaque bac m dans @tbl-second, puis nous la divisons par la taille du bac |Bm|, on obtient : $con(B3)=\frac{0.58+0.51}{2}=0.545$, $con(B4)=\frac{0.78+0.64+0.7+0.63}{4}=0.6865$ et $con(B5)=\frac{0.92+0.85+0.83}{3}=0.8667$.
+
+Il ne nous manque plus que $acc(B_m)$ qui correspond au nombre d'échantillons correctement prédit dans le bac m diviser par le nombre d'échantillons dans le bac. On trouve donc : $acc(B3)=0.5$, $acc(B4)=0.75$ et $acc(B5)=\frac{2}{3}$.
+
+On peut don maintenant calculer l'ECE :
+
+$$ECE= \frac{2}{9}|0.5-0.545|   +   \frac{4}{9}|0.75-0.6865| + \frac{3}{9}|\frac{2}{3}-0.8667|=0.1044$$
+Dans notre petit exemple de 9 échantillons, nous nous avons une ECE de 0,1044. Un modèle parfaitement calibré aurait une ECE de 0.
+
+
+# Score de Brier
 
 Le score de Brier est une fonction de Score qui mesure l'exactitude des prédictions probabilistes.
 Pour les prédictions unidimensionnelles, elle est strictement équivalente à l'erreur quadratique moyenne aux probabilités prédites.
