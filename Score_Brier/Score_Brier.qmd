@@ -4,72 +4,61 @@ format: pdf
 editor: visual
 ---
 
-Le score de Brier est une fonction de Score qui mesure l'exactiture des préditictions probabilistes. 
-Pour les prédictions unidimensionnelles, elle est strictement équivalente à l'erreur quadratique moyenne aux probabilités prédites. 
+Le score de Brier est une fonction de Score qui mesure l'exactiture des préditictions probabilistes. Pour les prédictions unidimensionnelles, elle est strictement équivalente à l'erreur quadratique moyenne aux probabilités prédites.
 
-# Définition générale : 
+# Définition générale :
 
-Dans le cas où une variable peut prendre plus de 2 valeurs. 
-Le score de Brier est alors défini par : 
-$$
+Dans le cas où une variable peut prendre plus de 2 valeurs. Le score de Brier est alors défini par : $$
 B_s = \frac{1}{n}\sum_{i=1}^{n}\sum_{j=1}^{m}(p_{i,j} - o_{i,j})^2
-$$
-où R est le nombre de classes possibles dans lesquelles l'évènement peut tomber, et N le nombre total d'instances de toutes les classes.
-$p_{i,j}$ représente la probabilité prédite pour la classe $i$, $o_{i,j}$ vaut 1 si si la ième observation est de la catégorie j et 0 sinon. 
+$$ où R est le nombre de classes possibles dans lesquelles l'évènement peut tomber, et N le nombre total d'instances de toutes les classes. $p_{i,j}$ représente la probabilité prédite pour la classe $i$, $o_{i,j}$ vaut 1 si si la ième observation est de la catégorie j et 0 sinon.
 
-Le score de Brier peut être décomposé en 3 composantes additives : incertitude, fiabilité et résolution 
-$$
+Le score de Brier peut être décomposé en 3 composantes additives : incertitude, fiabilité et résolution $$
 B_s = F - R + I 
 $$
 
-I : terme d'incertitude qui prend en compte la dispersion des observations 
-F : terme de fiabilité qui mesure dans quelle circonstances les probabilités prévues sont proches des probabilités réelles compte tenu d'une prévision.
-R : terme de résolution qui mesure la distance entre les probabilités d'occurence 
+I : terme d'incertitude qui prend en compte la dispersion des observations F : terme de fiabilité qui mesure dans quelle circonstances les probabilités prévues sont proches des probabilités réelles compte tenu d'une prévision. R : terme de résolution qui mesure la distance entre les probabilités d'occurence
 
-# Interprétation et décomposition : 
+# Interprétation et décomposition :
 
-Plus la valeur du score de Brier sera faible plus la prédiction sera bonne et une prévision parfaite obtiendra un score de 0. A l'inverse le plus mauvais score sera de 1. 
-Code de la fonction : 
+Plus la valeur du score de Brier sera faible plus la prédiction sera bonne et une prévision parfaite obtiendra un score de 0. A l'inverse le plus mauvais score sera de 1. Code de la fonction :
 
 ```{python}
 # code de la fonction 
 
-import numpy as np
 
-def brier_score_f(y_true, y_prob):
-    # Args:
-    # - y_true : les vraies étiquettes 
-    # - y_prob : les probabilités prédites pour la classe positive 
-    n = len(y_true)
-    
-    brier_score = np.sum((y_prob - y_true) ** 2) / n
- 
-    return brier_score
- 
+def brier_score_f(predictions, observations):
+    """
+    Calcul du score de Brier.
 
-```
+    Arguments:
+        predictions (liste de liste ou numpy array) Prédictions des probabilités pour chaque classe.
+        observations (liste de liste ou numpy arrays): Observations réelles (0 ou 1 pour chaque classe).
 
+    """
+    n = len(predictions)
+    m = len(predictions[0])
+    bs = 0.0
 
+    for i in range(n):
+        for j in range(m):
+            bs += (predictions[i][j] - observations[i][j]) ** 2
 
-
-```{python}
-
-import numpy as np
-
-# Exemple de prédictions et de vraies étiquettes
-y_true = np.array([0, 1, 1, 0])
-y_prob = np.array([0.1, 0.9, 0.8, 0.3])
+    bs /= (n * m)
+    return bs
 
 
-n = len(y_true)
+# Exemple : 
 
-# Calcul du score de Brier
-brier_score = brier_score_f(y_true, y_prob)
+predictions = [[0.1, 0.9, 0.8, 0.3],[0.4,0.9,0.2,0.7]]
+observations = [[0, 1, 1, 0],[1,1,0,1]]
 
-print("Score de Brier:", brier_score)
+bs = brier_score_f(predictions, observations)
+print("Score de Brier :", bs)
+
 
 
 ```
+
 
 
 
