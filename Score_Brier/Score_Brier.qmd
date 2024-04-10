@@ -10,9 +10,14 @@ Le score de Brier est une fonction de Score qui mesure l'exactiture des préditi
 
 Dans le cas où une variable peut prendre plus de 2 valeurs. Le score de Brier est alors défini par : $$
 B_s = \frac{1}{n}\sum_{i=1}^{n}\sum_{j=1}^{m}(p_{i,j} - o_{i,j})^2
-$$ où R est le nombre de classes possibles dans lesquelles l'évènement peut tomber, et N le nombre total d'instances de toutes les classes. $p_{i,j}$ représente la probabilité prédite pour la classe $i$, $o_{i,j}$ vaut 1 si si la ième observation est de la catégorie j et 0 sinon.
+$$
 
-Le score de Brier peut être décomposé en 3 composantes additives : incertitude, fiabilité et résolution 
+- $n$ représente le nombre total d'instances de toutes les classes (nombre de sous vecteurs)
+- $m$ représente le nombre total de classes possibles dans lesquels l'évènement peut tomber 
+- $p_{i,j}$ représente la probabilité prédite pour la classe $i$ pour i $\in [\![1,n]\!]$
+- $o_{i,j}$ vaut 1 si si la ième observation est de la catégorie j et 0 sinon pour j $ \in [\![1,m]\!]$
+
+Le score de Brier peut être décomposé en 3 composantes additives : incertitude, fiabilité et résolution
 
 $$
 B_s = F - R + I 
@@ -22,8 +27,7 @@ I : terme d'incertitude qui prend en compte la dispersion des observations F : t
 
 # Interprétation et décomposition :
 
-Plus la valeur du score de Brier sera faible plus la prédiction sera bonne et une prévision parfaite obtiendra un score de 0. A l'inverse le plus mauvais score sera de 1. 
-
+Plus la valeur du score de Brier sera faible plus la prédiction sera bonne et une prévision parfaite obtiendra un score de 0. A l'inverse le plus mauvais score sera de 1.
 
 Code de la fonction :
 
@@ -59,12 +63,7 @@ observations = [[0, 1, 1, 0],[1,1,0,1]]
 
 bs = brier_score_f(predictions, observations)
 print("Score de Brier :", bs)
-
+    
 
 
 ```
-
-
-
-
-
