@@ -154,11 +154,11 @@ test_brier_ts = get_brier_score(test_logits / temperature_ts, test_labels)
 test_brier_ec = get_brier_score(test_logits / temperature_ec, test_labels)
 print(f"Test BS (Uncal., TS, EC) : {test_brier}, {test_brier_ts}, {test_brier_ec}")
 # Diagrammes de fiabilité
-diagramme_non_calibré = reliability_diagram(
+diagramme_non_calibre = reliability_diagram(
     test_labels,
     torch.argmax(test_logits, dim=1),
-    torch.softmax(test_logits, dim=1)[:, 1].numpy(),
-    num_bins=5,
+    torch.max(torch.softmax(test_logits, dim=1), dim=1).values.numpy(),
+    num_bins=10,
 )
 diagramme_ts = reliability_diagram(
     test_labels,
@@ -169,11 +169,9 @@ diagramme_ts = reliability_diagram(
 diagramme_ec = reliability_diagram(
     test_labels,
     torch.argmax(test_logits / temperature_ec, dim=1),
-    torch.softmax(test_logits / temperature_ec, dim=1).numpy(),
-    num_bins=5,
+    torch.max(torch.softmax(test_logits / temperature_ec, dim=1), dim=1).values.numpy(),
+    num_bins=10,
 )
 
 
-diagramme_non_calibré.show()
-diagramme_ts.show()
-diagramme_ec.show()
+
