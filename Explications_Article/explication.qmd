@@ -107,14 +107,6 @@ Nous avons utilisé des modèles pré-entraînés provenant du dépôt Github: <
 
 On peux voir les résultats obtenus @tbl-first. D'aprés ces résultats on voit que les deux méthodes améliorent le score Brier et L'Expected Calibration Error et donnent des résultats très similaires.
 
-<<<<<<< HEAD
-=======
-
-
-
-
-
->>>>>>> de27a282a4db0718903197425e00857937e39b54
 # L'Expected Calibration Error (ECE)
 
 L'Expected Calibration Error (ECE) est une mesure d'évaluation de la calibration d'un modèle de réseau de neurones, particulièrement dans le contexte de la classification probabiliste (cf. @guo2017calibration). La calibration se réfère à la justesse des prédictions de probabilité du modèle, c'est-à-dire à quel point les probabilités prédites correspondent aux fréquences réelles des événements.
@@ -140,9 +132,6 @@ ECE=\frac{1}{N}\sum_{m=1}^{M}|B_m||acc(B_m)-conf(B_m)|\enspace .
 $$
 On peut donner un exemple assez simple, prenons 9 échantillons avec des probabilités estimées ou aussi appelés « confidences » ($\hat{p_i}$) pour prédire soit 0 ou 1. Si la probabilité $\hat{p_i}$ pour l'étiquette 0 est supérieure à 0,5 alors l'étiquette prédite sera 0. S'il est inférieur à 0,5, alors la probabilité sera plus élevée pour l'étiquette 1 et, par conséquent, l'étiquette prévue sera 1 (voir @tbl-second). La dernière colonne montre la véritable étiquette d'un échantillon i.
 
-<<<<<<< HEAD
-## Score de Brier
-=======
 
 
 | échantillon (i) | Probabilité prédite pour le label 0| Probabilité prédite pour le label 1 | label prédit ($\hat{y_i}$) | Vrai label ($y_i$) |
@@ -172,7 +161,7 @@ Dans notre petit exemple de 9 échantillons, nous nous avons une ECE de 0,1044. 
 
 
 # Score de Brier
->>>>>>> de27a282a4db0718903197425e00857937e39b54
+
 
 Le score de Brier est une fonction de Score qui mesure l'exactitude des prédictions probabilistes. Pour les prédictions unidimensionnelles, elle est strictement équivalente à l'erreur quadratique moyenne aux probabilités prédites.
 
