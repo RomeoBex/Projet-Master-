@@ -45,7 +45,7 @@ def brier_score_f(y_true, y_prob):
     brier_score = np.sum((y_prob - y_true) ** 2) / n
  
     return brier_score
-
+ 
 
 ```
 
