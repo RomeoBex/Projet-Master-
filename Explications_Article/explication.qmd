@@ -68,11 +68,11 @@ from sklearn.metrics import accuracy_score
 # Fonction pour trouver la température optimale pour la méthode EC
 
 def find_opt_temp_exp_consist(logits, labels, T_min=0.01, T_max=10.0):
-    validation_error = 1.0 - accuracy_score(labels, torch.argmax(logits, dim=1))
+    val_error = 1.0 - accuracy_score(labels, torch.argmax(logits, dim=1))
 
     def objective(T):
         probas = torch.max(torch.softmax(logits / T, dim=1), dim=1)[0]
-        return torch.mean(probas) - (1.0 - validation_error)
+        return torch.mean(probas) - (1.0 - val_error)
 
     res = optimize.root_scalar(objective, bracket=[T_min, T_max])
     return float(res.root)
@@ -95,7 +95,7 @@ Ensuite, une fonction objectif est définie, notée `objective(T)`, qui prend la
 
 ## Résultats Obtenus
 
-Nous avons utilisé des modèles pré-entraînés provenant du dépôt Github: <https://github.com/chenyaofo/pytorch-cifar-models>. Les valeurs trouvées pour température TS et température $T_{EC}$ sont respectivement 1.436 et 1.445, elle sont donc trés proches. Nous remarquons que les deux méthodes donnes des températures supèrieurs à 1 ce qui est cohérent avec le fait que les réseaux originaux étaient surconfiants.
+Nous avons utilisé des modèles pré-entraînés provenant du dépôt Github: <https://github.com/chenyaofo/pytorch-cifar-models>. Les valeurs trouvées pour température TS et température $T_{EC}$ sont respectivement 1.436 et 1.445, elle sont donc très proches. Nous remarquons que les deux méthodes donnes des températures supérieurs à 1 ce qui est cohérent avec le fait que les réseaux originaux étaient sûr-confiants.
 
 | Modèle             | Score de Brier | ECE   |
 |--------------------|----------------|-------|
@@ -105,17 +105,21 @@ Nous avons utilisé des modèles pré-entraînés provenant du dépôt Github: <
 
 : Résultats obtenus pour CIFAR-100 Resnet20 {#tbl-first}
 
-On peux voir les résultats obtenus @tbl-first. D'aprés ces résultats on voit que les deux méthodes améliorent le score Brier et L'Expected Calibration Error et donnent des résultats très similaires.
+On peux voir les résultats obtenus @tbl-first. D'après ces résultats on voit que les deux méthodes améliorent le score Brier et L'Expected Calibration Error et donnent des résultats très similaires.
 
 # L'Expected Calibration Error (ECE)
 
 L'Expected Calibration Error (ECE) est une mesure d'évaluation de la calibration d'un modèle de réseau de neurones, particulièrement dans le contexte de la classification probabiliste (cf. @guo2017calibration). La calibration se réfère à la justesse des prédictions de probabilité du modèle, c'est-à-dire à quel point les probabilités prédites correspondent aux fréquences réelles des événements.
 
-On dit qu'un algorithme de classification est calibré si la probabilité prédite $\hat{p}$, correspond à la probabilité réelle que la prédiction soit bonne. Ce qui revient mathématiquement à: $$
+On dit qu'un algorithme de classification est calibré si la probabilité prédite $\hat{p}$, correspond à la probabilité réelle que la prédiction soit bonne. Ce qui revient mathématiquement à: 
+$$
 P(\hat{y}=y|\hat{p}=p)=p, \quad \forall p\in [0;1]
-$$ Où $\hat{y}$ est la classe prédite et y est la vraie classe. Dans tous les contextes pratiques, atteindre une calibration parfaite est impossible. L'erreur de calibration est une valeur qui représente la calibration du modèle sur l'ensemble des prédictions. Il s'agit de l'espérance mathématique de la différence entre la réalité et la confiance du modèle. On a donc: $$
-ECE=\mathbb{E}[P(\hat{y}=y|\hat{p}=p)-p]_{\hat{p}}
-$$ On a donc que une valeur faible de l'ECE indique une bonne calibration, tandis qu'une valeur élevée suggère une mauvaise calibration. En effet, une ECE faible indique que le modèle a une tendance à produire des probabilités proches des véritables probabilités d'appartenance à une classe.
+$$
+où $\hat{y}$ est la classe prédite et y est la vraie classe. Dans tous les contextes pratiques, atteindre une calibration parfaite est impossible. L'erreur de calibration est une valeur qui représente la calibration du modèle sur l'ensemble des prédictions. Il s'agit de l'espérance mathématique de la différence entre la réalité et la confiance du modèle. On a donc:
+$$
+ECE=\mathbb{E}[P(\hat{y}=y|\hat{p}=p)-p]_{\hat{p}} \enspace.
+$$
+On a donc que une valeur faible de l'ECE indique une bonne calibration, tandis qu'une valeur élevée suggère une mauvaise calibration. En effet, une ECE faible indique que le modèle a une tendance à produire des probabilités proches des véritables probabilités d'appartenance à une classe.
 
 La calibration d'un modèle peut être visualisée par un diagramme de fiabilité ( reliability diagram). Pour estimer la précision attendue à partir d'échantillons finis de taille N, il faut regrouper les prédictions en M intervalles (chacun de taille $\frac{1}{M}$). On considère l'intervalle $I_m=(\frac{m-1}{M},\frac{m}{M}]$ et $B_m$ l'ensemble des indices des échantillons dont la confiance de prédiction se situe dans l'intervalle $I_m$. Pour chaque groupe $B_m$ on calcule l'accuracy qui correspond à la proportion d'échantillons correctement classés et la confiance moyenne:
 
@@ -148,7 +152,7 @@ On peut donner un exemple assez simple, prenons 9 échantillons avec des probabi
 
 : Situation {#tbl-second}
 
-Pour déterminer le reste de la formule, nous devrons d'abord diviser nos échantillons en bacs. Seules les probabilités qui déterminent l'étiquette prévue sont utilisées dans le calcul de la ECE. Par conséquent, nous ne déposerons que des échantillons basés sur la probabilité maximale entre les étiquettes (voir @tbl-second). Pour garder l'exemple simple, nous avons divisé les données en 5 bacs, M=5. Avec B1 qui correspond aux probabiltées prédites de 0 à 0.2, B2 qui correspond aux probabiltées prédites de 0.2 à 0.4, B3 qui correspond aux probabiltéss prédites de 0.4 à 0.6, B4 qui correspond aux probabiltées prédites de 0.6 à 0.8 et B5 qui correspond aux probabiltées prédites de 0.8 à 1. Déposons maintenant les échantillons dans leurs bacs : dans B1 et B2 il n'y a aucun échantillons, dans B3 on a 4 et 5, dans B4 on a 8, 7, 2 et 1 et dans B5 on a 9, 6 et 3.
+Pour déterminer le reste de la formule, nous devrons d'abord diviser nos échantillons en bacs. Seules les probabilités qui déterminent l'étiquette prévue sont utilisées dans le calcul de la ECE. Par conséquent, nous ne déposerons que des échantillons basés sur la probabilité maximale entre les étiquettes (voir @tbl-second). Pour garder l'exemple simple, nous avons divisé les données en 5 bacs, $M=5$. Avec B1 qui correspond aux probabiltées prédites de 0 à 0.2, B2 qui correspond aux probabiltées prédites de 0.2 à 0.4, B3 qui correspond aux probabiltéss prédites de 0.4 à 0.6, B4 qui correspond aux probabiltées prédites de 0.6 à 0.8 et B5 qui correspond aux probabiltées prédites de 0.8 à 1. Déposons maintenant les échantillons dans leurs bacs : dans B1 et B2 il n'y a aucun échantillons, dans B3 on a 4 et 5, dans B4 on a 8, 7, 2 et 1 et dans B5 on a 9, 6 et 3.
 
 On va maintenant déterminer $conf(B_m)$, pour calculer $conf(B_m)$ nous prenons la somme des probabilités maximales estimées $\hat{p_i}$ pour chaque bac m dans @tbl-second, puis nous la divisons par la taille du bac |Bm|, on obtient : $con(B3)=\frac{0.58+0.51}{2}=0.545$, $con(B4)=\frac{0.78+0.64+0.7+0.63}{4}=0.6865$ et $con(B5)=\frac{0.92+0.85+0.83}{3}=0.8667$.
 
@@ -156,7 +160,9 @@ Il ne nous manque plus que $acc(B_m)$ qui correspond au nombre d'échantillons c
 
 On peut don maintenant calculer l'ECE :
 
-$$ECE= \frac{2}{9}|0.5-0.545|   +   \frac{4}{9}|0.75-0.6865| + \frac{3}{9}|\frac{2}{3}-0.8667|=0.1044$$
+$$
+ECE= \frac{2}{9}|0.5-0.545|   +   \frac{4}{9}|0.75-0.6865| + \frac{3}{9}|\frac{2}{3}-0.8667|=0.1044
+$$
 Dans notre petit exemple de 9 échantillons, nous nous avons une ECE de 0,1044. Un modèle parfaitement calibré aurait une ECE de 0.
 
 
@@ -177,13 +183,15 @@ où les $p_i$ sont les probabilités prévues correspondantes à la réalisation
 
 # Définition générale :
 
-Dans le cas où une variable peut prendre plus de 2 valeurs. Le score de Brier est alors défini par : $$
+Dans le cas où une variable peut prendre plus de 2 valeurs. Le score de Brier est alors défini par : 
+$$
 B_s = \frac{1}{n}\sum_{i=1}^{n}\sum_{j=1}^{m}(p_{i,j} - o_{i,j})^2
 $$
 
 où R est le nombre de classes possibles dans lesquelles l'évènement peut tomber, et N le nombre total d'instances de toutes les classes. $p_{i,j}$ représente la probabilité prédite pour la classe $i$, $o_{i,j}$ vaut 1 si si la ième observation est de la catégorie j et 0 sinon.
 
-Le score de Brier peut être décomposé en 3 composantes additives : incertitude, fiabilité et résolution $$
+Le score de Brier peut être décomposé en 3 composantes additives : incertitude, fiabilité et résolution
+$$
 B_s = F - R + I
 $$
 
@@ -286,7 +294,7 @@ $$
 On peut écrire cette égalité sous forme vectorielle en utilisant la notation softmax, on a alors :
 
 $$
-(P(Y=k | \mathbf{x}))_{k=1,...,K}=softmax(\theta_1^T\mathbf{x},..,\theta_K^T\mathbf{x})
+(P(Y=k | \mathbf{x}))_{k=1,\cdots,K}=softmax(\theta_1^T\mathbf{x},\cdots,\theta_K^T\mathbf{x})
 $$
 
 Pour la régression softmax, la log-vraisemblance peut être exprimée comme suit :
