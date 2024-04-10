@@ -12,7 +12,9 @@ Dans le cas où une variable peut prendre plus de 2 valeurs. Le score de Brier e
 B_s = \frac{1}{n}\sum_{i=1}^{n}\sum_{j=1}^{m}(p_{i,j} - o_{i,j})^2
 $$ où R est le nombre de classes possibles dans lesquelles l'évènement peut tomber, et N le nombre total d'instances de toutes les classes. $p_{i,j}$ représente la probabilité prédite pour la classe $i$, $o_{i,j}$ vaut 1 si si la ième observation est de la catégorie j et 0 sinon.
 
-Le score de Brier peut être décomposé en 3 composantes additives : incertitude, fiabilité et résolution $$
+Le score de Brier peut être décomposé en 3 composantes additives : incertitude, fiabilité et résolution 
+
+$$
 B_s = F - R + I 
 $$
 
