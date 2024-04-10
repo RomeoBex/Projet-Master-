@@ -61,7 +61,7 @@ def brier_score_f(predictions, observations):
         for j in range(m):
             bs += (predictions[i][j] - observations[i][j]) ** 2
 
-    bs /= (n * m)
+    bs /= n
     return bs
 
 
