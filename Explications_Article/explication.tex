@@ -1,0 +1,646 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+%
+\documentclass[
+  letterpaper,
+  DIV=11,
+  numbers=noendperiod]{scrartcl}
+
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else  
+    % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{241,243,245}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.40,0.45,0.13}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\BuiltInTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\ExtensionTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.28,0.35,0.67}{#1}}
+\newcommand{\ImportTok}[1]{\textcolor[rgb]{0.00,0.46,0.62}{#1}}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\NormalTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.07,0.07,0.07}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+\newlength{\cslentryspacingunit} % times entry-spacing
+\setlength{\cslentryspacingunit}{\parskip}
+\newenvironment{CSLReferences}[2] % #1 hanging-ident, #2 entry spacing
+ {% don't indent paragraphs
+  \setlength{\parindent}{0pt}
+  % turn on hanging indent if param 1 is 1
+  \ifodd #1
+  \let\oldpar\par
+  \def\par{\hangindent=\cslhangindent\oldpar}
+  \fi
+  % set entry spacing
+  \setlength{\parskip}{#2\cslentryspacingunit}
+ }%
+ {}
+\usepackage{calc}
+\newcommand{\CSLBlock}[1]{#1\hfill\break}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{#1}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
+
+\usepackage{dsfont}
+\usepackage{stmaryrd}
+\usepackage{hyperref}
+\renewcommand{\contentsname}{Sommaire}
+\KOMAoption{captions}{tableheading}
+\makeatletter
+\makeatother
+\makeatletter
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\AtBeginDocument{%
+\ifdefined\contentsname
+  \renewcommand*\contentsname{Table of contents}
+\else
+  \newcommand\contentsname{Table of contents}
+\fi
+\ifdefined\listfigurename
+  \renewcommand*\listfigurename{List of Figures}
+\else
+  \newcommand\listfigurename{List of Figures}
+\fi
+\ifdefined\listtablename
+  \renewcommand*\listtablename{List of Tables}
+\else
+  \newcommand\listtablename{List of Tables}
+\fi
+\ifdefined\figurename
+  \renewcommand*\figurename{Figure}
+\else
+  \newcommand\figurename{Figure}
+\fi
+\ifdefined\tablename
+  \renewcommand*\tablename{Table}
+\else
+  \newcommand\tablename{Table}
+\fi
+}
+\@ifpackageloaded{float}{}{\usepackage{float}}
+\floatstyle{ruled}
+\@ifundefined{c@chapter}{\newfloat{codelisting}{h}{lop}}{\newfloat{codelisting}{h}{lop}[chapter]}
+\floatname{codelisting}{Listing}
+\newcommand*\listoflistings{\listof{codelisting}{List of Listings}}
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
+\makeatother
+\makeatletter
+\@ifpackageloaded{tcolorbox}{}{\usepackage[skins,breakable]{tcolorbox}}
+\makeatother
+\makeatletter
+\@ifundefined{shadecolor}{\definecolor{shadecolor}{rgb}{.97, .97, .97}}
+\makeatother
+\makeatletter
+\makeatother
+\makeatletter
+\makeatother
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  pdftitle={Explication de l'algorithme pour la méthode EC},
+  pdfauthor={Rivaldi Tristan et Bex Roméo},
+  colorlinks=true,
+  linkcolor={blue},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={Blue},
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Explication de l'algorithme pour la méthode EC}
+\author{Rivaldi Tristan et Bex Roméo}
+\date{2024-03-01}
+
+\begin{document}
+\maketitle
+\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[enhanced, borderline west={3pt}{0pt}{shadecolor}, boxrule=0pt, interior hidden, breakable, sharp corners, frame hidden]}{\end{tcolorbox}}\fi
+
+\hypertarget{explication-de-lalgorithme-pour-la-muxe9thode-ec}{%
+\section{Explication de l'algorithme pour la méthode
+EC}\label{explication-de-lalgorithme-pour-la-muxe9thode-ec}}
+
+Le but de cet algorithme est de calculer \(T_{\text{EC}}\) pour que la
+confiance moyenne corresponde à la précision moyenne sur l'ensemble de
+validation. Pour ce faire, on dispose d'un ensemble de validation
+\((x_i, y_i)\) pour \(i = 1, \ldots, n_{\text{val}}\), et d'un
+classifieur \(\hat{f} : X \rightarrow \mathbb{R}^K\) où les
+\(x_i \in \mathbb{R}^p\) sont les caractéristiques (les variables) et
+les \(y_i \in \llbracket 1, K \rrbracket\) sont les étiquettes de
+classes associées à ces caractéristiques. L'algorithme calcule les
+logits \(z^{(i)} = f(x_i) \in \mathbb{R}^K\) et produit la sortie
+\(\hat{y}_i = \arg \max_k z_{k}^{(i)}\).
+
+Le classifieur prend en entrée des données (ici les caractéristiques
+\(x_i\) extraites d'une observation) et y attribue des logits
+\(z^{(i)}=(z_{1}^{(i)},...,z_{K}^{(i)})\) où pour tous \(k\) appartenant
+à \(\llbracket 1, K \rrbracket\), chaque \(z_{k}^{(i)} \in \mathbb{R}\).
+Pour un \(k\) fixé \(z_{k}^{(i)}\) correspond au logit (score) associé à
+la classe \(k\). Le fait de produire la sortie
+\(\hat{y}_i = \arg \max_k z_{k}^{(i)}\) signifie que la classe
+correspondant au logit le plus élevé est choisie comme la prédiction.
+Pour la classe d'appartenance de \(x_i\), l'algorithme choisit de
+prédire que la classe associée à \(x_i\) est \(\hat{y}_i\).
+
+Ensuite, l'algorithme calcule la précision moyenne sur l'ensemble de
+validation :
+
+\begin{align*}
+A_{val} = \frac{1}{n_{\text{val}}} \sum_{i} \mathds{1}(y_i = \hat{y}_i)  \enspace .
+\end{align*}
+
+Les logits sont des valeurs brutes, résultant de la dernière couche d'un
+réseau de neurones avant l'application d'une fonction d'activation. Ces
+valeurs brutes ne sont pas normalisées et peuvent être n'importe quel
+nombre réel.
+
+Cependant, avant d'obtenir les probabilités associées à chaque classe,
+les logits passent généralement par une fonction d'activation softmax.
+La fonction softmax transforme les logits en probabilités, produisant
+une distribution de probabilité sur les classes. Les valeurs résultantes
+après la fonction softmax seront dans l'intervalle {[}0,1{]}, et leur
+somme sera égale à 1. La fonction softmax va transformer le vecteur
+\(z^{(i)}\) en un vecteur \(z^{(i)'}=\sigma(z^{(i)})\) où :
+
+\begin{align*}
+\sigma : \mathbb{R}^K & \to \mathbb{R}^K \\
+(z_1, \dots, z_K) & \mapsto \left(\frac{e^{z_{1}}}{\sum_{j=1}^{K} e^{z_{j}}},\dots, \frac{e^{z_{K}}}{\sum_{j=1}^{K} e^{z_{j}}} \right)\enspace .
+\end{align*}
+
+On a que \(\sigma(z^{(i)})_k\) est la probabilité telle qu'estimée par
+le réseau, que \(x_i\) appartienne à la classe \(k\). Pour un
+\(x_i \in \mathbb{R}^p\) la prédiction finale du modèle pour prédire
+quelle est la classe associée à \(x_i\), est alors donner par
+\(\hat{y}_i=\arg\max_{k}\sigma(z^{(i)})_k\) pour \(k\) appartenant à
+\(\llbracket 1, K \rrbracket\) et la confiance de prédiction associé est
+définie comme étant: \(\max_{k}\sigma(z^{(i)})_k\) . De plus, on a bien
+:
+
+\[
+\sum_{k=1}^{K} \sigma(z^{(i)})_k = \frac{\sum_{k=1}^{K} e^{z_{k}^{(i)}}}{\sum_{j=1}^{K} e^{z_{j}^{(i)}}} = 1 \enspace .
+\]
+
+Pour trouver \(T_{\text{EC}}\), on va en fait prendre \(T_{\text{EC}}\)
+tel que :
+
+\[
+\frac{1}{n_{\text{val}}} \sum_{i =1}^{n_{\text{val}}} \max_{k=1}^{K} \sigma \left(\frac{z^{(i)}}{T_{\text{EC}}}\right)_k = A_{\text{val}} \enspace .
+\]
+
+De cette manière, \(T_{\text{EC}}\) permet à ce que la probabilité
+maximale d'appartenir à une classe après l'application de la fonction
+softmax soit en accord avec la précision moyenne sur l'ensemble de
+validation. De cette manière on a bien que la confiance moyenne
+correspond à la précision moyenne sur l'ensemble de validation.
+
+\hypertarget{dans-la-pratique}{%
+\subsection{Dans la pratique}\label{dans-la-pratique}}
+
+Voici le code pour calculer la température \(T_{EC}\):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Il faut utiliser:}
+
+\ImportTok{from}\NormalTok{ sklearn.metrics }\ImportTok{import}\NormalTok{ accuracy\_score}
+
+\CommentTok{\# Fonction pour trouver la température optimale pour la méthode EC}
+
+\KeywordTok{def}\NormalTok{ find\_opt\_temp\_exp\_consist(logits, labels, T\_min}\OperatorTok{=}\FloatTok{0.01}\NormalTok{, T\_max}\OperatorTok{=}\FloatTok{10.0}\NormalTok{):}
+\NormalTok{    validation\_error }\OperatorTok{=} \FloatTok{1.0} \OperatorTok{{-}}\NormalTok{ accuracy\_score(labels, torch.argmax(logits, dim}\OperatorTok{=}\DecValTok{1}\NormalTok{))}
+
+    \KeywordTok{def}\NormalTok{ objective(T):}
+\NormalTok{        probas }\OperatorTok{=}\NormalTok{ torch.}\BuiltInTok{max}\NormalTok{(torch.softmax(logits }\OperatorTok{/}\NormalTok{ T, dim}\OperatorTok{=}\DecValTok{1}\NormalTok{), dim}\OperatorTok{=}\DecValTok{1}\NormalTok{)[}\DecValTok{0}\NormalTok{]}
+        \ControlFlowTok{return}\NormalTok{ torch.mean(probas) }\OperatorTok{{-}}\NormalTok{ (}\FloatTok{1.0} \OperatorTok{{-}}\NormalTok{ validation\_error)}
+
+\NormalTok{    res }\OperatorTok{=}\NormalTok{ optimize.root\_scalar(objective, bracket}\OperatorTok{=}\NormalTok{[T\_min, T\_max])}
+    \ControlFlowTok{return} \BuiltInTok{float}\NormalTok{(res.root)}
+\end{Highlighting}
+\end{Shaded}
+
+Dans la pratique, le code qui calcule la température \(T_{EC}\) est une
+fonction qu'on applique a un modèle de réseau de neurones et qui prend
+en entrée :
+
+\begin{itemize}
+\item
+  les logits: qui sont les sorties brutes du réseau de neurones avant
+  l'application de la fonction softmax.
+\item
+  les labels: qui sont les étiquettes réelles associées aux données
+\item
+  \(T_{min}\) qui est la température minimale à considérer (0,01)
+\item
+  \(T_{max}\) qui est la température maximale à considérer (10)
+\end{itemize}
+
+La première étape consiste à calculer l'erreur de classification du
+modèle à l'aide de la fonction \texttt{accuracy\_score} de
+\texttt{sklearn}. Cela donne la mesure de la performance actuelle du
+modèle. Par exemple si elle vaut 0.30 cela veux dire que dans 70\% des
+cas le modèle associe correctement les étiquettes et les données du
+modèle.
+
+Ensuite, une fonction objectif est définie, notée \texttt{objective(T)},
+qui prend la température T comme paramètre. À l'intérieur de cette
+fonction, les logits sont divisés par la température T, puis passés à
+travers la fonction softmax. On extrait ensuite les probabilités
+maximales pour chaque exemple avec l'aide de la fonction
+\texttt{torch.max}. La valeur de retour de la fonction objectif est la
+moyenne de ces probabilités maximales moins la complémentaire de
+l'erreur de validation c'est-à-dire la précision moyenne sur l'ensemble
+de validation. On utilise l'optimiseur \texttt{optimize.root\_scalar} de
+la bibliothèque \texttt{scipy} pour trouver la racine de cette fonction
+dans l'intervalle spécifié par \([T_{min}, T_{max}]\).
+
+\hypertarget{ruxe9sultats-obtenus}{%
+\subsection{Résultats Obtenus}\label{ruxe9sultats-obtenus}}
+
+Nous avons utilisé des modèles pré-entraînés provenant du dépôt Github:
+\url{https://github.com/chenyaofo/pytorch-cifar-models}. Les valeurs
+trouvées pour température TS et température \(T_{EC}\) sont
+respectivement 1.436 et 1.445, elle sont donc trés proches. Nous
+remarquons que les deux méthodes donnes des températures supèrieurs à 1
+ce qui est cohérent avec le fait que les réseaux originaux étaient
+surconfiants.
+
+\hypertarget{tbl-first}{}
+\begin{longtable}[]{@{}lll@{}}
+\caption{\label{tbl-first}Résultats obtenus pour CIFAR-100
+Resnet20}\tabularnewline
+\toprule\noalign{}
+Modèle & Score de Brier & ECE \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+Modèle & Score de Brier & ECE \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Modèle non calibré & 0.455 & 0.104 \\
+Calibré avec TS & 0.436 & 0.030 \\
+Calibré avec TEC & 0.436 & 0.028 \\
+\end{longtable}
+
+On peux voir les résultats obtenus Table~\ref{tbl-first}. D'aprés ces
+résultats on voit que les deux méthodes améliorent le score Brier et
+L'Expected Calibration Error et donnent des résultats très similaires.
+
+\hypertarget{lexpected-calibration-error-ece}{%
+\section{L'Expected Calibration Error
+(ECE)}\label{lexpected-calibration-error-ece}}
+
+L'Expected Calibration Error (ECE) est une mesure d'évaluation de la
+calibration d'un modèle de réseau de neurones, particulièrement dans le
+contexte de la classification probabiliste (cf. Guo et al. (2017)). La
+calibration se réfère à la justesse des prédictions de probabilité du
+modèle, c'est-à-dire à quel point les probabilités prédites
+correspondent aux fréquences réelles des événements.
+
+On dit qu'un algorithme de classification est calibré si la probabilité
+prédite \(\hat{p}\), correspond à la probabilité réelle que la
+prédiction soit bonne. Ce qui revient mathématiquement à: \[
+P(\hat{y}=y|\hat{p}=p)=p, \quad \forall p\in [0;1]
+\] Où \(\hat{y}\) est la classe prédite et y est la vraie classe. Dans
+tous les contextes pratiques, atteindre une calibration parfaite est
+impossible. L'erreur de calibration est une valeur qui représente la
+calibration du modèle sur l'ensemble des prédictions. Il s'agit de
+l'espérance mathématique de la différence entre la réalité et la
+confiance du modèle. On a donc: \[
+ECE=\mathbb{E}[P(\hat{y}=y|\hat{p}=p)-p]_{\hat{p}}
+\] On a donc que une valeur faible de l'ECE indique une bonne
+calibration, tandis qu'une valeur élevée suggère une mauvaise
+calibration. En effet, une ECE faible indique que le modèle a une
+tendance à produire des probabilités proches des véritables probabilités
+d'appartenance à une classe.
+
+La calibration d'un modèle peut être visualisée par un diagramme de
+fiabilité ( reliability diagram). Pour estimer la précision attendue à
+partir d'échantillons finis de taille N, il faut regrouper les
+prédictions en M intervalles (chacun de taille \(\frac{1}{M}\)). On
+considère l'intervalle \(I_m=(\frac{m-1}{M},\frac{m}{M}]\) et \(B_m\)
+l'ensemble des indices des échantillons dont la confiance de prédiction
+se situe dans l'intervalle \(I_m\). Pour chaque groupe \(B_m\) on
+calcule l'accuracy qui correspond à la proportion d'échantillons
+correctement classés et la confiance moyenne:
+
+\[
+acc(B_m)=\frac{1}{|B_m|}\sum_{i\in B_m}{1}(y_i=\hat{y_i}) \enspace ,
+\]
+
+\[
+conf(B_m)=\frac{1}{|B_m|}\sum_{i\in B_m}\hat{p_i} \enspace .
+\] Puisqu'il y a un nombre fini M de groupes, on calcule l'erreur de
+calibration comme suit :
+
+\[
+ECE=\frac{1}{N}\sum_{m=1}^{M}|B_m||acc(B_m)-conf(B_m)|\enspace .
+\]
+
+\hypertarget{score-de-brier}{%
+\subsection{Score de Brier}\label{score-de-brier}}
+
+Le score de Brier est une fonction de Score qui mesure l'exactitude des
+prédictions probabilistes. Pour les prédictions unidimensionnelles, elle
+est strictement équivalente à l'erreur quadratique moyenne aux
+probabilités prédites.
+
+\hypertarget{duxe9finition-dans-le-cas-dune-variable-binaire}{%
+\section{Définition dans le cas d'une variable binaire
+:}\label{duxe9finition-dans-le-cas-dune-variable-binaire}}
+
+Considérons une variable à prévoir qui ne peut prendre que deux valeurs
+(réalisation ou non d'un évènement). Si on dispose d'un ensemble de
+\(n\) prévisions de la probabilité de réalisation de cet évènement et
+des observations correspondantes, le score de Brier est défini par :
+
+\[
+B_s = \frac{1}{n}\sum_{i=1}^{n}(p_i - o_i)^2
+\]
+
+où les \(p_i\) sont les probabilités prévues correspondantes à la
+réalisation de l'évènement, les \(o_{i}\) (déterministes) sont la i-ème
+observation valant 1 si l'évènement est réalisé et 0 sinon et \(n\) le
+nombre de prévisions.
+
+\hypertarget{duxe9finition-guxe9nuxe9rale}{%
+\section{Définition générale :}\label{duxe9finition-guxe9nuxe9rale}}
+
+Dans le cas où une variable peut prendre plus de 2 valeurs. Le score de
+Brier est alors défini par : \[
+B_s = \frac{1}{n}\sum_{i=1}^{n}\sum_{j=1}^{m}(p_{i,j} - o_{i,j})^2
+\]
+
+où R est le nombre de classes possibles dans lesquelles l'évènement peut
+tomber, et N le nombre total d'instances de toutes les classes.
+\(p_{i,j}\) représente la probabilité prédite pour la classe \(i\),
+\(o_{i,j}\) vaut 1 si si la ième observation est de la catégorie j et 0
+sinon.
+
+Le score de Brier peut être décomposé en 3 composantes additives :
+incertitude, fiabilité et résolution \[
+B_s = F - R + I
+\]
+
+I : terme d'incertitude qui prend en compte la dispersion des
+observations F : terme de fiabilité qui mesure dans quelle circonstances
+les probabilités prévues sont proches des probabilités réelles compte
+tenu d'une prévision. R : terme de résolution qui mesure la distance
+entre les probabilités d'occurence
+
+\hypertarget{interpruxe9tation-et-duxe9composition}{%
+\section{Interprétation et décomposition
+:}\label{interpruxe9tation-et-duxe9composition}}
+
+Plus la valeur du score de Brier sera faible plus la prédiction sera
+bonne et une prévision parfaite obtiendra un score de 0. A l'inverse le
+plus mauvais score sera de 1.
+
+On peut aussi décomposer le score de Brier de la façon suivante :
+
+\hypertarget{la-regression-logistique}{%
+\subsection{La Regression logistique}\label{la-regression-logistique}}
+
+La régression logistique est une technique de modélisation statistique
+utilisée pour prédire la probabilité qu'une variable descriptive binaire
+prenne l'une des deux valeurs possibles (0 ou 1), que l'on peut noter
+\(Y\) cette variable (elle appartient à \(\{0, 1\}^n)\) en fonction d'un
+ensemble de variables explicatives que l'on note
+\(X = \left[\mathbf{x_1}, \ldots,\mathbf{x_n} \right]^\top \in \mathbb{R}^{n \times p}\),
+avec \(n\) observations et \(p\) variables. C'est une méthode couramment
+utilisée en apprentissage automatique et en statistiques.
+
+La régression logistique a une interprétation probabiliste, elle permet
+de modéliser \(P(Y = 1 | \mathbf{x})\), où
+\(\mathbf{x}\in \mathbb{R}^{p}\).
+
+En utilisant la loi de Bayes et le fait que :
+
+\[
+P(\mathbf{x}) = P(\mathbf{x}|Y=1)P(Y=1) + P(\mathbf{x}|Y=0)P(Y=0)
+\]
+
+nous avons :
+
+\begin{align*}
+P(Y=1|\mathbf{x})
+& = \frac{P(\mathbf{x}|Y=1)P(Y=1)}{P(\mathbf{x}|Y=1)P(Y=1) + P(\mathbf{x}|Y=0)P(Y=0)}\\
+& = \frac{1}{1 + \frac{P(\mathbf{x}|Y=0)P(Y=0)}{P(\mathbf{x}|Y=1)P(Y=1)}} \\
+& = \frac{1}{1 + \frac{P(Y=0|\mathbf{x})}{P(Y=1|\mathbf{x})}}
+\end{align*}
+
+On note
+\(f(\mathbf{x}) := \log\left(\frac{P(Y=1|\mathbf{x})}{P(Y=0|\mathbf{x})}\right)\).
+
+On a ainsi \(P(Y=1|\mathbf{x}) =: \sigma(f(\mathbf{x}))\) avec
+\(\sigma(z) = \frac{1}{1 + e^{-z}}\).
+
+La fonction \(\sigma\), appelée fonction logistique, satisfait les
+propriétés suivantes :
+
+\[
+\sigma(-z) = 1 - \sigma(z)
+\]
+
+\[
+\frac{d\sigma(z)}{dz} = \sigma(z) \sigma(-z)
+\]
+
+L'intérêt de la fonction logistique réside dans sa capacité à
+transformer une fonction \(f\) à valeurs dans \(\mathbb{R}\) en une
+probabilité comprise entre 0 et 1.
+
+La régression logistique revient en fait à supposer que \(f\) est
+linéaire de la forme \(f : \mathbf{x} \mapsto {\theta}^\top \mathbf{x}\)
+avec \({\theta} \in \mathbb{R}^p\).
+
+Sous cette hypothèse, la règle de classification est simplement :
+
+\[
+\begin{cases}
+\text{si } {\theta}^\top \mathbf{x}\leq 0 , \text{ on étiquette 0 au point } \mathbf{x} \\
+\text{si } {\theta}^\top \mathbf{x} > 0, \text{ on étiquette 1 au point } \mathbf{x}
+\end{cases}
+\]
+
+On obtient donc :
+
+\[
+P(Y=1|\mathbf{x}) = \sigma({\theta}^\top \mathbf{x})
+\]
+
+\[ 
+P(Y=0|\mathbf{x}) = 1- \sigma({\theta}^\top \mathbf{x}) = \sigma(-{\theta}^\top \mathbf{x})
+\]
+
+Le but maintenant est d'estimer \({\theta}\). Nous avons
+\((x_i, y_i)_{1 \leq i \leq n}\) où \(x_i \in \mathbb{R}^p\) et
+\(y_i \in \{0,1\}\) qui constitue un échantillon de taille \(n\). . On a
+alors :
+
+\[
+P(Y = y_i | \mathbf{x} = x_i) = \sigma({\theta}^\top x_i)^{y_i} \sigma(-{\theta}^\top x_i)^{1-y_i}
+\]
+
+La log-vraisemblance s'exprime alors de cette manière :
+
+\[ 
+L({\theta}) = \sum_{i=1}^{n} \log\left( \sigma({\theta}^\top x_i)^{y_i} \sigma(-{\theta}^\top x_i)^{1-y_i} \right)
+\]
+
+où \(l\) est définie comme étant la fonction de perte logistique. Il
+faut ensuite avoir recours à des algorithmes itératifs (descente de
+gradient, méthode de Newton,\ldots) pour trouver \({\hat{\theta}}\).
+
+On peut passer du cadre binaire au cadre multi-classes avec \(K\)
+classes, par exemple, c'est-à-dire en ayant \(Y\) appartenant à
+\(\{1, 2, \ldots, K\}\). De nouveau, on modélise les probabilités
+conditionnelles des classes, ou plutôt leur log-ratio, par des quantités
+linéaires :
+
+\[
+\log\left(\frac{P(Y=k|\mathbf{x})}{P(Y=K|\mathbf{x})}\right) = \theta_k^\top \mathbf{x_i}
+\]
+
+pour \(k \in \{1, 2, \ldots, K-1\}\) et \(\theta_{k} \in \mathbb{R}^p\).
+
+On a alors pour paramètre global:
+\(\theta \in [\theta_1, \ldots, \theta_K] \in \mathbb{R}^{p\times K}\)
+et pour \(k \in \{1, 2, \ldots, K\}\):
+
+\[
+P(Y=k | \mathbf{x}) = \frac{\exp(\langle {\theta}_k, \mathbf{x} \rangle)}{\sum_{l=1}^{K} \exp(\langle {\theta}_l, \mathbf{x} \rangle)} \\
+= \frac{\exp({\theta}_k^T \mathbf{x})}{\sum_{l=1}^{K} \exp({\theta}_l^T \mathbf{x})}
+\]
+
+On peut écrire cette égalité sous forme vectorielle en utilisant la
+notation softmax, on a alors :
+
+\[
+(P(Y=k | \mathbf{x}))_{k=1,...,K}=softmax(\theta_1^T\mathbf{x},..,\theta_K^T\mathbf{x})
+\]
+
+Pour la régression softmax, la log-vraisemblance peut être exprimée
+comme suit :
+
+\[
+L({\theta}) = \sum_{i=1}^{n} \sum_{k=1}^{K} {1}(y_i = k) \log\left(\frac{e^{\theta_k^\top x_i}}{\sum_{l=1}^{K} e^{\theta_l^\top x_i}}\right)
+\]
+
+On utilise ensuite des méthodes algorithmiques pour trouver
+\({\hat{\theta}}\).
+
+\hypertarget{bibliographie}{%
+\section{Bibliographie}\label{bibliographie}}
+
+\hypertarget{refs}{}
+\begin{CSLReferences}{1}{0}
+\leavevmode\vadjust pre{\hypertarget{ref-guo2017calibration}{}}%
+Guo, Chuan, Geoff Pleiss, Yu Sun, and Kilian Q Weinberger. 2017. {``On
+Calibration of Modern Neural Networks.''} In \emph{International
+Conference on Machine Learning}, 1321--30. PMLR.
+
+\end{CSLReferences}
+
+
+
+\end{document}
