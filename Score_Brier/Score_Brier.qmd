@@ -20,7 +20,10 @@ I : terme d'incertitude qui prend en compte la dispersion des observations F : t
 
 # Interprétation et décomposition :
 
-Plus la valeur du score de Brier sera faible plus la prédiction sera bonne et une prévision parfaite obtiendra un score de 0. A l'inverse le plus mauvais score sera de 1. Code de la fonction :
+Plus la valeur du score de Brier sera faible plus la prédiction sera bonne et une prévision parfaite obtiendra un score de 0. A l'inverse le plus mauvais score sera de 1. 
+
+
+Code de la fonction :
 
 ```{python}
 # code de la fonction 

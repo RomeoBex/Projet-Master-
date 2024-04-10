@@ -193,7 +193,7 @@
 
 \begin{document}
 \maketitle
-\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[enhanced, breakable, borderline west={3pt}{0pt}{shadecolor}, sharp corners, boxrule=0pt, interior hidden, frame hidden]}{\end{tcolorbox}}\fi
+\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[frame hidden, boxrule=0pt, sharp corners, interior hidden, enhanced, borderline west={3pt}{0pt}{shadecolor}, breakable]}{\end{tcolorbox}}\fi
 
 Le score de Brier est une fonction de Score qui mesure l'exactiture des
 préditictions probabilistes. Pour les prédictions unidimensionnelles,
@@ -229,46 +229,48 @@ entre les probabilités d'occurence
 
 Plus la valeur du score de Brier sera faible plus la prédiction sera
 bonne et une prévision parfaite obtiendra un score de 0. A l'inverse le
-plus mauvais score sera de 1. Code de la fonction :
+plus mauvais score sera de 1.
+
+Code de la fonction :
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# code de la fonction }
 
-\ImportTok{import}\NormalTok{ numpy }\ImportTok{as}\NormalTok{ np}
 
-\KeywordTok{def}\NormalTok{ brier\_score\_f(y\_true, y\_prob):}
-    \CommentTok{\# Args:}
-    \CommentTok{\# {-} y\_true : les vraies étiquettes }
-    \CommentTok{\# {-} y\_prob : les probabilités prédites pour la classe positive }
-\NormalTok{    n }\OperatorTok{=} \BuiltInTok{len}\NormalTok{(y\_true)}
-    
-\NormalTok{    brier\_score }\OperatorTok{=}\NormalTok{ np.}\BuiltInTok{sum}\NormalTok{((y\_prob }\OperatorTok{{-}}\NormalTok{ y\_true) }\OperatorTok{**} \DecValTok{2}\NormalTok{) }\OperatorTok{/}\NormalTok{ n}
- 
-    \ControlFlowTok{return}\NormalTok{ brier\_score}
-\end{Highlighting}
-\end{Shaded}
+\KeywordTok{def}\NormalTok{ brier\_score\_f(predictions, observations):}
+    \CommentTok{"""}
+\CommentTok{    Calcul du score de Brier.}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\ImportTok{import}\NormalTok{ numpy }\ImportTok{as}\NormalTok{ np}
+\CommentTok{    Arguments:}
+\CommentTok{        predictions (liste de liste ou numpy array) Prédictions des probabilités pour chaque classe.}
+\CommentTok{        observations (liste de liste ou numpy arrays): Observations réelles (0 ou 1 pour chaque classe).}
 
-\CommentTok{\# Exemple de prédictions et de vraies étiquettes}
-\NormalTok{y\_true }\OperatorTok{=}\NormalTok{ np.array([}\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{0}\NormalTok{])}
-\NormalTok{y\_prob }\OperatorTok{=}\NormalTok{ np.array([}\FloatTok{0.1}\NormalTok{, }\FloatTok{0.9}\NormalTok{, }\FloatTok{0.8}\NormalTok{, }\FloatTok{0.3}\NormalTok{])}
+\CommentTok{    """}
+\NormalTok{    n }\OperatorTok{=} \BuiltInTok{len}\NormalTok{(predictions)}
+\NormalTok{    m }\OperatorTok{=} \BuiltInTok{len}\NormalTok{(predictions[}\DecValTok{0}\NormalTok{])}
+\NormalTok{    bs }\OperatorTok{=} \FloatTok{0.0}
+
+    \ControlFlowTok{for}\NormalTok{ i }\KeywordTok{in} \BuiltInTok{range}\NormalTok{(n):}
+        \ControlFlowTok{for}\NormalTok{ j }\KeywordTok{in} \BuiltInTok{range}\NormalTok{(m):}
+\NormalTok{            bs }\OperatorTok{+=}\NormalTok{ (predictions[i][j] }\OperatorTok{{-}}\NormalTok{ observations[i][j]) }\OperatorTok{**} \DecValTok{2}
+
+\NormalTok{    bs }\OperatorTok{/=}\NormalTok{ (n }\OperatorTok{*}\NormalTok{ m)}
+    \ControlFlowTok{return}\NormalTok{ bs}
 
 
-\NormalTok{n }\OperatorTok{=} \BuiltInTok{len}\NormalTok{(y\_true)}
+\CommentTok{\# Exemple : }
 
-\CommentTok{\# Calcul du score de Brier}
-\NormalTok{brier\_score }\OperatorTok{=}\NormalTok{ brier\_score\_f(y\_true, y\_prob)}
+\NormalTok{predictions }\OperatorTok{=}\NormalTok{ [[}\FloatTok{0.1}\NormalTok{, }\FloatTok{0.9}\NormalTok{, }\FloatTok{0.8}\NormalTok{, }\FloatTok{0.3}\NormalTok{],[}\FloatTok{0.4}\NormalTok{,}\FloatTok{0.9}\NormalTok{,}\FloatTok{0.2}\NormalTok{,}\FloatTok{0.7}\NormalTok{]]}
+\NormalTok{observations }\OperatorTok{=}\NormalTok{ [[}\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{0}\NormalTok{],[}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{]]}
 
-\BuiltInTok{print}\NormalTok{(}\StringTok{"Score de Brier:"}\NormalTok{, brier\_score)}
+\NormalTok{bs }\OperatorTok{=}\NormalTok{ brier\_score\_f(predictions, observations)}
+\BuiltInTok{print}\NormalTok{(}\StringTok{"Score de Brier :"}\NormalTok{, bs)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-Score de Brier: 0.03749999999999999
+Score de Brier : 0.08125000000000002
 \end{verbatim}
 
 
