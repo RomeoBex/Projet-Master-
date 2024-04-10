@@ -193,7 +193,7 @@
 
 \begin{document}
 \maketitle
-\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[interior hidden, breakable, borderline west={3pt}{0pt}{shadecolor}, enhanced, frame hidden, boxrule=0pt, sharp corners]}{\end{tcolorbox}}\fi
+\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[frame hidden, boxrule=0pt, interior hidden, borderline west={3pt}{0pt}{shadecolor}, enhanced, breakable, sharp corners]}{\end{tcolorbox}}\fi
 
 Le score de Brier est une fonction de Score qui mesure l'exactiture des
 préditictions probabilistes. Pour les prédictions unidimensionnelles,
@@ -204,7 +204,9 @@ probabilités prédites.
 \section{Définition générale :}\label{duxe9finition-guxe9nuxe9rale}}
 
 Dans le cas où une variable peut prendre plus de 2 valeurs. Le score de
-Brier est alors défini par : \[
+Brier est alors défini par :
+
+\[
 B_s = \frac{1}{n}\sum_{i=1}^{n}\sum_{j=1}^{m}(p_{i,j} - o_{i,j})^2
 \]
 
@@ -221,7 +223,7 @@ B_s = \frac{1}{n}\sum_{i=1}^{n}\sum_{j=1}^{m}(p_{i,j} - o_{i,j})^2
   pour i \(\in [\![1,n]\!]\)
 \item
   \(o_{i,j}\) vaut 1 si si la ième observation est de la catégorie j et
-  0 sinon pour j \$ \in [\![1,m]!{]}\$
+  0 sinon pour j \(\in [\![1,m]\!]\)
 \end{itemize}
 
 Le score de Brier peut être décomposé en 3 composantes additives :
@@ -231,11 +233,21 @@ incertitude, fiabilité et résolution
 B_s = F - R + I 
 \]
 
-I : terme d'incertitude qui prend en compte la dispersion des
-observations F : terme de fiabilité qui mesure dans quelle circonstances
-les probabilités prévues sont proches des probabilités réelles compte
-tenu d'une prévision. R : terme de résolution qui mesure la distance
-entre les probabilités d'occurence
+\begin{itemize}
+\item
+  I : terme d'incertitude qui prend en compte la dispersion des
+  observations.
+\item
+  F : terme de fiabilité qui mesure dans quelle circonstances les
+  probabilités prévues sont proches des probabilités réelles compte tenu
+  d'une prévision. Si la fiabilité est de 0 la prévision est
+  parfaitement fiable. Par exemple si on regroupe tous les cas où 80\%
+  de probabilité de pluie était prévue, si il a plu 4 jours sur 5 on
+  obtient ainsi une fiabilité parfaite.
+\item
+  R : terme de résolution qui mesure la distance entre les probabilités
+  d'occurence
+\end{itemize}
 
 \hypertarget{interpruxe9tation-et-duxe9composition}{%
 \section{Interprétation et décomposition
