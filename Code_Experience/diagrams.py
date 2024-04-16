@@ -3,11 +3,13 @@ import sacred
 import scipy.optimize as optimize
 import torch
 import torch.nn.functional as functional
+from sklearn.metrics import accuracy_score
 
 import calibration as uncertaintycalibration
 import densenet, resnet
 from dataloader import get_dataloader
 from reliability_diagrams import reliability_diagram
+
 
 
 exp = sacred.Experiment("exp_calibration")
@@ -59,10 +61,7 @@ def get_brier_score(logits, labels):
     return torch.mean(torch.sum((probs - target_one_hot) ** 2, axis=1))
 
 
-def get_classification_error(logits, labels):
-    output = torch.argmax(logits, dim=1)
-    correct = (output == labels).sum().item()
-    return 1.0 - correct / list(output.size())[0]
+
 
 
 ##
@@ -79,10 +78,8 @@ def find_optimal_temperature_temperature_scaling(
     return float(res.x)
 
 
-def find_optimal_temperature_expectation_consistency(
-    logits, labels, T_min=0.01, T_max=10.0
-):
-    validation_error = get_classification_error(logits, labels)
+def find_optimal_temperature_expectation_consistency(logits, labels, T_min=0.01, T_max=10.0):
+    validation_error = 1.0 - accuracy_score(labels, torch.argmax(logits, dim=1))
 
     def objective(T):
         probas = torch.max(torch.softmax(logits / T, dim=1), dim=1)[0]
@@ -133,7 +130,7 @@ validation_logits, validation_labels = get_logits_and_labels_from_data(
     model, validation_loader
 )
 test_logits, test_labels = get_logits_and_labels_from_data(model, test_loader)
-print(f"Classification error : {get_classification_error(test_logits, test_labels)}")
+print(f'Classification error : {1.0 - accuracy_score(test_labels, torch.argmax(test_logits, dim=1))}') 
 
 temperature_ts = find_optimal_temperature_temperature_scaling(
     validation_logits, validation_labels
@@ -154,6 +151,7 @@ test_brier_ts = get_brier_score(test_logits / temperature_ts, test_labels)
 test_brier_ec = get_brier_score(test_logits / temperature_ec, test_labels)
 print(f"Test BS (Uncal., TS, EC) : {test_brier}, {test_brier_ts}, {test_brier_ec}")
 # Diagrammes de fiabilité
+
 diagramme_non_calibre = reliability_diagram(
     test_labels,
     torch.argmax(test_logits, dim=1),
@@ -172,6 +170,3 @@ diagramme_ec = reliability_diagram(
     torch.max(torch.softmax(test_logits / temperature_ec, dim=1), dim=1).values.numpy(),
     num_bins=10,
 )
-
-
-
