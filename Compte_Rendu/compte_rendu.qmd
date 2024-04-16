@@ -183,6 +183,19 @@ $$
 Dans notre petit exemple de 9 échantillons, nous nous avons une ECE de 0,1044. Un modèle parfaitement calibré aurait une ECE de 0.
 
 
+On peut visualiser graphiquement cela à quoi ca correspond avec l'aide des diagrammes de fiabilité  (reliability diagrams en anglais) notre but ici est de montrer que le modèle calibrer avec la température $T_{EC}$ a une erreur de calibration plus faible que le modèle non calibré et une erreur de calibration relativement proche du modèle calibré avec TS. Voici les résultats pour un nombre de Bacs $M=10$:
+
+::: {layout-ncol=2}
+![Modèle non calibré](Figure_1.svg){width=250 #fig-1 fig-pos='H'}
+
+![Modèle calibré avec TS](Figure_2.svg){width=250 #fig-2 fig-pos='H'}
+:::
+![Modèle calibré avec TEC](Figure_3.svg){width=250 #fig-3 fig-pos='H'}
+
+
+En comparant @fig-1 avec @fig-2 et @fig-3 on remarque que c'est bien le cas.
+
+
 # Score de Brier
 
 Le score de Brier est une fonction de Score qui mesure l'exactiture des préditictions probabilistes. Pour les prédictions unidimensionnelles, elle est strictement équivalente à l'erreur quadratique moyenne aux probabilités prédites.
