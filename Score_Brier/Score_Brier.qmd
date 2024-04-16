@@ -72,6 +72,12 @@ observations = [[0, 1, 1, 0],[1,1,0,1]]
 
 bs = brier_score_f(predictions, observations)
 print("Score de Brier :", bs)
-    
-
 ```
+
+# Exemple pour la classification avec Iris : 
+
+```{python}
+print(metrics.confusion_matrix(attendu,prediction))
+```
+
+
