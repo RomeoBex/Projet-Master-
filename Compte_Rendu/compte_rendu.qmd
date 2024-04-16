@@ -137,7 +137,7 @@ ECE=\mathbb{E}[P(\hat{y}=y|\hat{p}=p)-p]_{\hat{p}} \enspace.
 $$
 On a donc que une valeur faible de l'ECE indique une bonne calibration, tandis qu'une valeur élevée suggère une mauvaise calibration. En effet, une ECE faible indique que le modèle a une tendance à produire des probabilités proches des véritables probabilités d'appartenance à une classe.
 
-La calibration d'un modèle peut être visualisée par un diagramme de fiabilité ( reliability diagram). Pour estimer la précision attendue à partir d'échantillons finis de taille N, il faut regrouper les prédictions en M intervalles (chacun de taille $\frac{1}{M}$). On considère l'intervalle $I_m=[\frac{m-1}{M},\frac{m}{M}]$ et $B_m$ l'ensemble des indices des échantillons dont la confiance de prédiction se situe dans l'intervalle $I_m$. Pour chaque groupe $B_m$ on calcule l'accuracy qui correspond à la proportion d'échantillons correctement classés et la confiance moyenne:
+La calibration d'un modèle peut être visualisée par un diagramme de fiabilité ( reliability diagram). Pour estimer la précision attendue à partir d'échantillons finis de taille $N$, il faut regrouper les prédictions en M intervalles (chacun de taille $\frac{1}{M}$). On considère l'intervalle $I_m=[\frac{m-1}{M},\frac{m}{M}]$ et $B_m$ l'ensemble des indices des échantillons dont la confiance de prédiction se situe dans l'intervalle $I_m$. Pour chaque groupe $B_m$ on calcule l'accuracy qui correspond à la proportion d'échantillons correctement classés et la confiance moyenne:
 
 $$
 acc(B_m)=\frac{1}{|B_m|}\sum_{i\in B_m}{1}(y_i=\hat{y_i}) \enspace ,
