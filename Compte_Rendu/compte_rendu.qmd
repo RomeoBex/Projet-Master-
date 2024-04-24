@@ -185,6 +185,7 @@ Dans notre petit exemple de 9 échantillons, nous nous avons une ECE de 0,1044. 
 
 On peut visualiser graphiquement cela à quoi ca correspond avec l'aide des diagrammes de fiabilité  (reliability diagrams en anglais) notre but ici est de montrer que le modèle calibrer avec la température $T_{EC}$ a une erreur de calibration plus faible que le modèle non calibré et une erreur de calibration relativement proche du modèle calibré avec TS. Voici les résultats pour un nombre de Bacs $M=10$:
 
+
 ::: {layout-ncol=2}
 ![Modèle non calibré](Figure_1.svg){width=230 #fig-1 fig-pos='H'}
 
@@ -379,6 +380,8 @@ L({\theta}) = \sum_{i=1}^{n} \sum_{k=1}^{K} {1}(y_i = k) \log\left(\frac{e^{\the
 $$
 
 On utilise ensuite des méthodes algorithmiques pour trouver ${\hat{\theta}}$.
+
+
 
 # Bibliographie
 
