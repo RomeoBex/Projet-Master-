@@ -5,6 +5,7 @@ date: "2024-05-29"
 format:
   pdf:
     documentclass: report
+    link-citations: true
     toc: true
     toc-title: "Table des matières"
     block-headings: false
@@ -20,17 +21,13 @@ bibliography: references.bib
 
 \newpage
 
-# Introduction et Motivations : 
+# Introduction et Motivations  
 
 Malgré leurs performances incroyables, il est bien connu que les réseaux neuronaux 
 profonds ont tendance à être trop optimistes quant à la confiance qu'ils accordent à leurs prédictions.
 Trouver des méthodes de calibration efficaces pour les réseaux neuronaux est donc un 
-effort important pour une meilleure quantification de l'incertitude dans
-l'apprentissage profond.
-Dans ce travail nous considérerons une nouvelle technique de calibrage appelée 
-cohérence des attentes (EC), qui consiste en un redimensionnement post-formation des 
-poids de la dernière couche en imposant que la confiance de validation moyenne coïncide avec la proportion moyenne d'étiquettes correctes.
-Il s'agira principalement de vérifier empiriquement que la méthode EC permet d'obtenir des performances d'étalonnage similaires à celles de la mise à l'échelle de la température (TS) pour différentes architectures de réseaux neuronaux, tout en nécessitant des échantillons de validation et des ressources informatiques similaires.
+effort important pour une meilleure quantification de l'incertitude dansl'apprentissage profond. Dans ce travail nous considérerons une nouvelle technique de calibrage appelée cohérence des attentes (EC) (cf. @clarte2023expectation), qui consiste en un redimensionnement post-formation des poids de la dernière couche en imposant que la confiance de validation moyenne coïncide avec la proportion moyenne d'étiquettes correctes. Il s'agira principalement de vérifier empiriquement que la méthode EC permet d'obtenir des performances d'étalonnage similaires à celles de la mise à l'échelle de la température (TS) (cf. @guo2017calibration) pour différentes architectures de réseaux neuronaux, tout en nécessitant des échantillons de validation et des ressources informatiques similaires. Le code utiliser dans se projet est disponible dans le référentiel <https://github.com/RomeoBex/Projet-Master->. Nous avons utilisé le modèle pré-entraîné CIFAR-100 Resnet20 provenant du dépôt Github: <https://github.com/chenyaofo/pytorch-cifar-models> puis nous avons trouver la température $T_{\text{EC}}$ et la température TS et nous avons comparer l'Expected Calibration Error (ECE) et le Score de Brier du modèle non-calibrés, du modèle calibré avec $T_{\text{EC}}$ et du modèle calibré avec TS pour mettre en évidence que le modèle original est sur-confiant et que la technique de calibrage appelée cohérence des attentes (EC) améliore les performances du modèle et  permet d'obtenir des performances d'étalonnage similaires à celles de la mise à l'échelle de la température (TS).
+
 
 
 
@@ -352,13 +349,13 @@ $$
 
 où $l$ est définie comme étant la fonction de perte logistique. Il faut ensuite avoir recours à des algorithmes itératifs (descente de gradient, méthode de Newton,...) pour trouver ${\hat{\theta}}$.
 
-On peut passer du cadre binaire au cadre multi-classes avec $K$ classes, par exemple, c'est-à-dire en ayant $Y$ appartenant à $\{1, 2, \ldots, K\}$. De nouveau, on modélise les probabilités conditionnelles des classes, ou plutôt leur log-ratio, par des quantités linéaires :
+On peut passer du cadre binaire au cadre multi-classes avec $K$ classes, par exemple, c'est-à-dire en ayant $Y$ appartenant à $\{1, 2, \ldots, K\}$. De nouveau, on modélise les probabilités conditionnelles des classes, ou plutôt leur log-ratio, par des quantités linéaires, pour $k \in \{1, 2, \ldots, K-1\}$ et $\theta_{k} \in \mathbb{R}^p$:
+ 
 
 $$
-\log\left(\frac{P(Y=k|\mathbf{x})}{P(Y=K|\mathbf{x})}\right) = \theta_k^\top \mathbf{x_i}
+\log\left(\frac{P(Y=k|\mathbf{x})}{P(Y=K|\mathbf{x})}\right) = \theta_k^\top \mathbf{x}
 $$
 
-pour $k \in \{1, 2, \ldots, K-1\}$ et $\theta_{k} \in \mathbb{R}^p$.
 
 On a alors pour paramètre global: $\theta \in [\theta_1, \ldots, \theta_K] \in \mathbb{R}^{p\times K}$ et pour $k \in \{1, 2, \ldots, K\}$:
 
