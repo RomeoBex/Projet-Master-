@@ -59,16 +59,16 @@ P(Y=1|\mathbf{x})
 ```
 On note $f(\mathbf{x}) := \log\left(\frac{P(Y=1|\mathbf{x})}{P(Y=0|\mathbf{x})}\right)$.
 
-On a ainsi $P(Y=1|\mathbf{x}) =: \sigma(f(\mathbf{x}))$ avec $\sigma(z) = \frac{1}{1 + e^{-z}}$.
+On a ainsi $P(Y=1|\mathbf{x}) =: sig(f(\mathbf{x}))$ avec $sig(z) = \frac{1}{1 + e^{-z}}$.
 
-La fonction $\sigma$, appelée fonction logistique, satisfait les propriétés suivantes :
-
-$$
-\sigma(-z) = 1 - \sigma(z)
-$$
+La fonction $sig$, appelée fonction logistique ou fonction sigmoïde, satisfait les propriétés suivantes :
 
 $$
-\frac{d\sigma(z)}{dz} = \sigma(z) \sigma(-z)
+sig(-z) = 1 - sig(z)
+$$
+
+$$
+\frac{dsig(z)}{dz} = sig(z) sig(-z)
 $$
 
 L'intérêt de la fonction logistique réside dans sa capacité à transformer une fonction $f$ à valeurs dans $\mathbb{R}$ en une probabilité comprise entre 0 et 1.
@@ -87,23 +87,23 @@ $$
 On obtient donc :
 
 $$
-P(Y=1|\mathbf{x}) = \sigma({\theta}^\top \mathbf{x})
+P(Y=1|\mathbf{x}) = sig({\theta}^\top \mathbf{x})
 $$
 
 $$
-P(Y=0|\mathbf{x}) = 1- \sigma({\theta}^\top \mathbf{x}) = \sigma(-{\theta}^\top \mathbf{x})
+P(Y=0|\mathbf{x}) = 1- sig({\theta}^\top \mathbf{x}) = sig(-{\theta}^\top \mathbf{x})
 $$
 
 Le but maintenant est d'estimer ${\theta}$. Nous avons $(x_i, y_i)_{1 \leq i \leq n}$ où $x_i \in \mathbb{R}^p$ et $y_i \in \{0,1\}$ qui constitue un échantillon de taille $n$. . On a alors :
 
 $$
-P(Y = y_i | \mathbf{x} = x_i) = \sigma({\theta}^\top x_i)^{y_i} \sigma(-{\theta}^\top x_i)^{1-y_i}
+P(Y = y_i | \mathbf{x} = x_i) = sig({\theta}^\top x_i)^{y_i} sig(-{\theta}^\top x_i)^{1-y_i}
 $$
 
 La log-vraisemblance s'exprime alors de cette manière :
 
 $$
-L({\theta}) = \sum_{i=1}^{n} \log\left( \sigma({\theta}^\top x_i)^{y_i} \sigma(-{\theta}^\top x_i)^{1-y_i} \right)
+L({\theta}) = \sum_{i=1}^{n} \log\left( sig({\theta}^\top x_i)^{y_i} sig(-{\theta}^\top x_i)^{1-y_i} \right)
 $$
 
 où $l$ est définie comme étant la fonction de perte logistique. Il faut ensuite avoir recours à des algorithmes itératifs (descente de gradient, méthode de Newton,...) pour trouver ${\hat{\theta}}$.
@@ -229,6 +229,18 @@ Nous avons utilisé des modèles pré-entraînés provenant du dépôt Github: <
 
 On peux voir les résultats obtenus @tbl-first. D'après ces résultats on voit que les deux méthodes améliorent le score Brier et L'Expected Calibration Error et donnent des résultats très similaires.
 
+Pour le modèle CIFAR-10 Resnet20 les valeurs trouvées pour température TS et température $T_{EC}$ sont respectivement 0.49 et 0.52 de plus l'erreur de classification vaut 0.077, elle est donc trés faible. Nous remarquons que cette fois les deux méthodes donne des températures infèrieures à 1.
+
+| Modèle             | Score de Brier | ECE   |
+|--------------------|----------------|-------|
+| Modèle non calibré | 0.122          | 0.041 |
+| Calibré avec TS    | 0.136          | 0.061 |
+| Calibré avec TEC   | 0.135          | 0.060 |
+
+: Résultats obtenus pour CIFAR-100 Resnet20 {#tbl-j}
+
+On peux voir les résultats obtenus @tbl-j. D'après ces résultats on voit que les deux méthodes n'améliorent pas le score Brier et L'Expected Calibration Error et donnent des résultats moins bons que le modèle calibré, cela peut être du au fait que le modèle a une erreur de classification trés faible.
+
 # Erreur de calibration attendue (ECE)
 
 L'Expected Calibration Error (ECE) est une mesure d'évaluation de la calibration d'un modèle de réseau de neurones, particulièrement dans le contexte de la classification probabiliste (cf. @guo2017calibration). La calibration se réfère à la justesse des prédictions de probabilité du modèle, c'est-à-dire à quel point les probabilités prédites correspondent aux fréquences réelles des événements.
@@ -292,19 +304,40 @@ Dans notre petit exemple de 9 échantillons, nous nous avons une ECE de 0,1044. 
 On peut visualiser graphiquement cela à quoi ca correspond avec l'aide des diagrammes de fiabilité  (reliability diagrams en anglais) notre but ici est de montrer que le modèle calibrer avec la température $T_{EC}$ a une erreur de calibration plus faible que le modèle non calibré et une erreur de calibration relativement proche du modèle calibré avec TS. Voici les résultats pour un nombre de Bacs $M=10$:
 
 
-::: {#fig-ECE layout-ncol=3}
-![Modèle non calibré](Figure_1.svg){width=160 #fig-1 fig-pos='H'}
+::: {#fig-ECE layout-ncol=3 fig-pos='H'}
+![Modèle non calibré](Figure_1.svg){width=160 #fig-1 }
 
-![Modèle calibré avec TS](Figure_2.svg){width=160 #fig-2 fig-pos='H'}
+![Modèle calibré avec TS](Figure_2.svg){width=160 #fig-2 }
 
-![Modèle calibré avec TEC](Figure_3.svg){width=160 #fig-3 fig-pos='H'}
+![Modèle calibré avec TEC](Figure_3.svg){width=160 #fig-3 }
 
-Test XXX
+Diagrammes de fiabilité pour Cifar100-resnet20 
 :::
 
 
-En comparant @fig-1 avec @fig-2 et @fig-3 on remarque que c'est bien le cas. Pour interpréter ces Figures, on voit que sur @fig-1 le modèle a tendance a être sur-confiant, car les probabilités qu'il prédit (confidence) sont supérieurs à l'Expected accuracy qui est la précision réelle du modèle. Un modèle parfaitement calibré reste sur la diagonale, les barres rouges montre l'écart entre la confiance et la précision du modèle. Pour la @fig-1 on voit que la confiance moyenne est largement supérieur à la précision moyenne du modèle ce qui montre clairement que le modèle est sur-confiant. Tandis qu'on voit que sur les @fig-2 et @fig-3  le modèle est mieux calibré et il donne des prédictions plus cohérentes au vu de la précision du modèle.
+En comparant @fig-1 avec @fig-2 et @fig-3 on remarque que c'est bien le cas. Pour interpréter ces Figures, on voit que sur @fig-1 le modèle a tendance a être sur-confiant, car les probabilités qu'il prédit (confidence) sont supérieurs à l'Expected accuracy qui est la précision réelle du modèle. Un modèle parfaitement calibré reste sur la diagonale, les barres rouges montre l'écart entre la confiance et la précision du modèle.
 
+Pour la @fig-1 on voit que la confiance moyenne est largement supérieur à la précision moyenne du modèle ce qui montre clairement que le modèle est sur-confiant. Tandis qu'on voit que sur les @fig-2 et @fig-3  le modèle est mieux calibré et il donne des prédictions plus cohérentes au vu de la précision du modèle.
+
+On a pour Cifar10-resnet20 :
+
+::: {#fig-ECE layout-ncol=3 fig-pos='H'}
+![Modèle non calibré](Figure_nc_c10.svg){width=160 #fig-4}
+
+![Modèle calibré avec TS](Figure_ts_c10.svg){width=160 #fig-5}
+
+![Modèle calibré avec TEC](Figure_ec_c10.svg){width=160 #fig-6}
+
+Diagrammes de fiabilité pour Cifar10-resnet20 
+:::
+
+
+
+
+
+
+
+En comparant @fig-4 avec @fig-5 et @fig-6 on voit que pour ce modèle, les deux méthodes d'étalonnages n'améliore pas la calibration du modèle. Elles augmentent même l'ECE, cela peut être du au fait que l'on voit que le modèle est sous-confiant à un moment or ces méthodes semble etre efficace uniquement pour améliorer la calibration des modèles qui sont toujours sur-confiants.
 
 # Score de Brier
 
