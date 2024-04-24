@@ -337,7 +337,7 @@ Diagrammes de fiabilité pour Cifar10-resnet20
 
 
 
-En comparant @fig-4 avec @fig-5 et @fig-6 on voit que pour ce modèle, les deux méthodes d'étalonnages n'améliore pas la calibration du modèle. Elles augmentent même l'ECE, cela peut être du au fait que l'on voit que le modèle est sous-confiant à un moment or ces méthodes semble etre efficace uniquement pour améliorer la calibration des modèles qui sont toujours sur-confiants.
+En comparant @fig-4 avec @fig-5 et @fig-6 on voit que pour ce modèle, les deux méthodes d'étalonnages n'améliore pas la calibration du modèle. Elles augmentent même l'ECE, cela peut être du au fait que l'on voit que le modèle est sous-confiant à un moment or ces méthodes semble être efficaces uniquement pour améliorer la calibration des modèles qui sont toujours sur-confiants.
 
 # Score de Brier
 
