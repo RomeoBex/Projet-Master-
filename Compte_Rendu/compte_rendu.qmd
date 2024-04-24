@@ -28,6 +28,108 @@ profonds ont tendance à être trop optimistes quant à la confiance qu'ils acco
 Trouver des méthodes de calibration efficaces pour les réseaux neuronaux est donc un 
 effort important pour une meilleure quantification de l'incertitude dansl'apprentissage profond. Dans ce travail nous considérerons une nouvelle technique de calibrage appelée cohérence des attentes (EC) (cf. @clarte2023expectation), qui consiste en un redimensionnement post-formation des poids de la dernière couche en imposant que la confiance de validation moyenne coïncide avec la proportion moyenne d'étiquettes correctes. Il s'agira principalement de vérifier empiriquement que la méthode EC permet d'obtenir des performances d'étalonnage similaires à celles de la mise à l'échelle de la température (TS) (cf. @guo2017calibration) pour différentes architectures de réseaux neuronaux, tout en nécessitant des échantillons de validation et des ressources informatiques similaires. Le code utiliser dans se projet est disponible dans le référentiel <https://github.com/RomeoBex/Projet-Master->. Nous avons utilisé le modèle pré-entraîné CIFAR-100 Resnet20 provenant du dépôt Github: <https://github.com/chenyaofo/pytorch-cifar-models> puis nous avons trouver la température $T_{\text{EC}}$ et la température TS et nous avons comparer l'Expected Calibration Error (ECE) et le Score de Brier du modèle non-calibrés, du modèle calibré avec $T_{\text{EC}}$ et du modèle calibré avec TS pour mettre en évidence que le modèle original est sur-confiant et que la technique de calibrage appelée cohérence des attentes (EC) améliore les performances du modèle et  permet d'obtenir des performances d'étalonnage similaires à celles de la mise à l'échelle de la température (TS).
 
+# La Regression logistique
+
+La régression logistique est une technique de modélisation statistique utilisée pour prédire la probabilité qu'une variable descriptive binaire prenne l'une des deux valeurs possibles (0 ou 1), que l'on peut noter $Y$ cette variable (elle appartient à $\{0, 1\}^n)$ en fonction d'un ensemble de variables explicatives que l'on note $X = \left[\mathbf{x_1}, \ldots,\mathbf{x_n} \right]^\top \in \mathbb{R}^{n \times p}$, avec $n$ observations et $p$ variables. C'est une méthode couramment utilisée en apprentissage automatique et en statistiques.
+
+La régression logistique a une interprétation probabiliste, elle permet de modéliser $P(Y = 1 | \mathbf{x})$, où $\mathbf{x}\in \mathbb{R}^{p}$.
+
+En utilisant la loi de Bayes et le fait que :
+
+$$
+P(\mathbf{x}) = P(\mathbf{x}|Y=1)P(Y=1) + P(\mathbf{x}|Y=0)P(Y=0)
+$$
+
+nous avons :
+
+```{=tex}
+\begin{align*}
+P(Y=1|\mathbf{x})
+& = \frac{P(\mathbf{x}|Y=1)P(Y=1)}{P(\mathbf{x}|Y=1)P(Y=1) + P(\mathbf{x}|Y=0)P(Y=0)}\\
+& = \frac{1}{1 + \frac{P(\mathbf{x}|Y=0)P(Y=0)}{P(\mathbf{x}|Y=1)P(Y=1)}} \\
+& = \frac{1}{1 + \frac{P(Y=0|\mathbf{x})}{P(Y=1|\mathbf{x})}}
+\end{align*}
+```
+On note $f(\mathbf{x}) := \log\left(\frac{P(Y=1|\mathbf{x})}{P(Y=0|\mathbf{x})}\right)$.
+
+On a ainsi $P(Y=1|\mathbf{x}) =: \sigma(f(\mathbf{x}))$ avec $\sigma(z) = \frac{1}{1 + e^{-z}}$.
+
+La fonction $\sigma$, appelée fonction logistique, satisfait les propriétés suivantes :
+
+$$
+\sigma(-z) = 1 - \sigma(z)
+$$
+
+$$
+\frac{d\sigma(z)}{dz} = \sigma(z) \sigma(-z)
+$$
+
+L'intérêt de la fonction logistique réside dans sa capacité à transformer une fonction $f$ à valeurs dans $\mathbb{R}$ en une probabilité comprise entre 0 et 1.
+
+La régression logistique revient en fait à supposer que $f$ est linéaire de la forme $f : \mathbf{x} \mapsto {\theta}^\top \mathbf{x}$ avec ${\theta} \in \mathbb{R}^p$.
+
+Sous cette hypothèse, la règle de classification est simplement :
+
+$$
+\begin{cases}
+\text{si } {\theta}^\top \mathbf{x}\leq 0 , \text{ on étiquette 0 au point } \mathbf{x} \\
+\text{si } {\theta}^\top \mathbf{x} > 0, \text{ on étiquette 1 au point } \mathbf{x}
+\end{cases}
+$$
+
+On obtient donc :
+
+$$
+P(Y=1|\mathbf{x}) = \sigma({\theta}^\top \mathbf{x})
+$$
+
+$$ 
+P(Y=0|\mathbf{x}) = 1- \sigma({\theta}^\top \mathbf{x}) = \sigma(-{\theta}^\top \mathbf{x})
+$$
+
+Le but maintenant est d'estimer ${\theta}$. Nous avons $(x_i, y_i)_{1 \leq i \leq n}$ où $x_i \in \mathbb{R}^p$ et $y_i \in \{0,1\}$ qui constitue un échantillon de taille $n$. . On a alors :
+
+$$
+P(Y = y_i | \mathbf{x} = x_i) = \sigma({\theta}^\top x_i)^{y_i} \sigma(-{\theta}^\top x_i)^{1-y_i}
+$$
+
+La log-vraisemblance s'exprime alors de cette manière :
+
+$$ 
+L({\theta}) = \sum_{i=1}^{n} \log\left( \sigma({\theta}^\top x_i)^{y_i} \sigma(-{\theta}^\top x_i)^{1-y_i} \right)
+$$
+
+où $l$ est définie comme étant la fonction de perte logistique. Il faut ensuite avoir recours à des algorithmes itératifs (descente de gradient, méthode de Newton,...) pour trouver ${\hat{\theta}}$.
+
+On peut passer du cadre binaire au cadre multi-classes avec $K$ classes, par exemple, c'est-à-dire en ayant $Y$ appartenant à $\{1, 2, \ldots, K\}$. De nouveau, on modélise les probabilités conditionnelles des classes, ou plutôt leur log-ratio, par des quantités linéaires, pour $k \in \{1, 2, \ldots, K-1\}$ et $\theta_{k} \in \mathbb{R}^p$:
+ 
+
+$$
+\log\left(\frac{P(Y=k|\mathbf{x})}{P(Y=K|\mathbf{x})}\right) = \theta_k^\top \mathbf{x}
+$$
+
+
+On a alors pour paramètre global: $\theta \in [\theta_1, \ldots, \theta_K] \in \mathbb{R}^{p\times K}$ et pour $k \in \{1, 2, \ldots, K\}$:
+
+$$
+P(Y=k | \mathbf{x}) = \frac{\exp(\langle {\theta}_k, \mathbf{x} \rangle)}{\sum_{l=1}^{K} \exp(\langle {\theta}_l, \mathbf{x} \rangle)} \\
+= \frac{\exp({\theta}_k^T \mathbf{x})}{\sum_{l=1}^{K} \exp({\theta}_l^T \mathbf{x})}
+$$
+
+On peut écrire cette égalité sous forme vectorielle en utilisant la notation softmax, on a alors :
+
+$$
+(P(Y=k | \mathbf{x}))_{k=1,\cdots,K}=softmax(\theta_1^T\mathbf{x},\cdots,\theta_K^T\mathbf{x})
+$$
+
+Pour la régression softmax, la log-vraisemblance peut être exprimée comme suit :
+
+$$
+L({\theta}) = \sum_{i=1}^{n} \sum_{k=1}^{K} {1}(y_i = k) \log\left(\frac{e^{\theta_k^\top x_i}}{\sum_{l=1}^{K} e^{\theta_l^\top x_i}}\right)
+$$
+
+On utilise ensuite des méthodes algorithmiques pour trouver ${\hat{\theta}}$.
+
 
 
 
@@ -275,108 +377,6 @@ print("Score de Brier :", bs)
 
 ```
 
-
-# La Regression logistique
-
-La régression logistique est une technique de modélisation statistique utilisée pour prédire la probabilité qu'une variable descriptive binaire prenne l'une des deux valeurs possibles (0 ou 1), que l'on peut noter $Y$ cette variable (elle appartient à $\{0, 1\}^n)$ en fonction d'un ensemble de variables explicatives que l'on note $X = \left[\mathbf{x_1}, \ldots,\mathbf{x_n} \right]^\top \in \mathbb{R}^{n \times p}$, avec $n$ observations et $p$ variables. C'est une méthode couramment utilisée en apprentissage automatique et en statistiques.
-
-La régression logistique a une interprétation probabiliste, elle permet de modéliser $P(Y = 1 | \mathbf{x})$, où $\mathbf{x}\in \mathbb{R}^{p}$.
-
-En utilisant la loi de Bayes et le fait que :
-
-$$
-P(\mathbf{x}) = P(\mathbf{x}|Y=1)P(Y=1) + P(\mathbf{x}|Y=0)P(Y=0)
-$$
-
-nous avons :
-
-```{=tex}
-\begin{align*}
-P(Y=1|\mathbf{x})
-& = \frac{P(\mathbf{x}|Y=1)P(Y=1)}{P(\mathbf{x}|Y=1)P(Y=1) + P(\mathbf{x}|Y=0)P(Y=0)}\\
-& = \frac{1}{1 + \frac{P(\mathbf{x}|Y=0)P(Y=0)}{P(\mathbf{x}|Y=1)P(Y=1)}} \\
-& = \frac{1}{1 + \frac{P(Y=0|\mathbf{x})}{P(Y=1|\mathbf{x})}}
-\end{align*}
-```
-On note $f(\mathbf{x}) := \log\left(\frac{P(Y=1|\mathbf{x})}{P(Y=0|\mathbf{x})}\right)$.
-
-On a ainsi $P(Y=1|\mathbf{x}) =: \sigma(f(\mathbf{x}))$ avec $\sigma(z) = \frac{1}{1 + e^{-z}}$.
-
-La fonction $\sigma$, appelée fonction logistique, satisfait les propriétés suivantes :
-
-$$
-\sigma(-z) = 1 - \sigma(z)
-$$
-
-$$
-\frac{d\sigma(z)}{dz} = \sigma(z) \sigma(-z)
-$$
-
-L'intérêt de la fonction logistique réside dans sa capacité à transformer une fonction $f$ à valeurs dans $\mathbb{R}$ en une probabilité comprise entre 0 et 1.
-
-La régression logistique revient en fait à supposer que $f$ est linéaire de la forme $f : \mathbf{x} \mapsto {\theta}^\top \mathbf{x}$ avec ${\theta} \in \mathbb{R}^p$.
-
-Sous cette hypothèse, la règle de classification est simplement :
-
-$$
-\begin{cases}
-\text{si } {\theta}^\top \mathbf{x}\leq 0 , \text{ on étiquette 0 au point } \mathbf{x} \\
-\text{si } {\theta}^\top \mathbf{x} > 0, \text{ on étiquette 1 au point } \mathbf{x}
-\end{cases}
-$$
-
-On obtient donc :
-
-$$
-P(Y=1|\mathbf{x}) = \sigma({\theta}^\top \mathbf{x})
-$$
-
-$$ 
-P(Y=0|\mathbf{x}) = 1- \sigma({\theta}^\top \mathbf{x}) = \sigma(-{\theta}^\top \mathbf{x})
-$$
-
-Le but maintenant est d'estimer ${\theta}$. Nous avons $(x_i, y_i)_{1 \leq i \leq n}$ où $x_i \in \mathbb{R}^p$ et $y_i \in \{0,1\}$ qui constitue un échantillon de taille $n$. . On a alors :
-
-$$
-P(Y = y_i | \mathbf{x} = x_i) = \sigma({\theta}^\top x_i)^{y_i} \sigma(-{\theta}^\top x_i)^{1-y_i}
-$$
-
-La log-vraisemblance s'exprime alors de cette manière :
-
-$$ 
-L({\theta}) = \sum_{i=1}^{n} \log\left( \sigma({\theta}^\top x_i)^{y_i} \sigma(-{\theta}^\top x_i)^{1-y_i} \right)
-$$
-
-où $l$ est définie comme étant la fonction de perte logistique. Il faut ensuite avoir recours à des algorithmes itératifs (descente de gradient, méthode de Newton,...) pour trouver ${\hat{\theta}}$.
-
-On peut passer du cadre binaire au cadre multi-classes avec $K$ classes, par exemple, c'est-à-dire en ayant $Y$ appartenant à $\{1, 2, \ldots, K\}$. De nouveau, on modélise les probabilités conditionnelles des classes, ou plutôt leur log-ratio, par des quantités linéaires, pour $k \in \{1, 2, \ldots, K-1\}$ et $\theta_{k} \in \mathbb{R}^p$:
- 
-
-$$
-\log\left(\frac{P(Y=k|\mathbf{x})}{P(Y=K|\mathbf{x})}\right) = \theta_k^\top \mathbf{x}
-$$
-
-
-On a alors pour paramètre global: $\theta \in [\theta_1, \ldots, \theta_K] \in \mathbb{R}^{p\times K}$ et pour $k \in \{1, 2, \ldots, K\}$:
-
-$$
-P(Y=k | \mathbf{x}) = \frac{\exp(\langle {\theta}_k, \mathbf{x} \rangle)}{\sum_{l=1}^{K} \exp(\langle {\theta}_l, \mathbf{x} \rangle)} \\
-= \frac{\exp({\theta}_k^T \mathbf{x})}{\sum_{l=1}^{K} \exp({\theta}_l^T \mathbf{x})}
-$$
-
-On peut écrire cette égalité sous forme vectorielle en utilisant la notation softmax, on a alors :
-
-$$
-(P(Y=k | \mathbf{x}))_{k=1,\cdots,K}=softmax(\theta_1^T\mathbf{x},\cdots,\theta_K^T\mathbf{x})
-$$
-
-Pour la régression softmax, la log-vraisemblance peut être exprimée comme suit :
-
-$$
-L({\theta}) = \sum_{i=1}^{n} \sum_{k=1}^{K} {1}(y_i = k) \log\left(\frac{e^{\theta_k^\top x_i}}{\sum_{l=1}^{K} e^{\theta_l^\top x_i}}\right)
-$$
-
-On utilise ensuite des méthodes algorithmiques pour trouver ${\hat{\theta}}$.
 
 
 
