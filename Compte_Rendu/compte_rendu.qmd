@@ -2,6 +2,7 @@
 title: "Cohérence des attentes pour l'étalonnage des réseaux neuronaux"
 author: "Rivaldi Tristan et Bex Roméo"
 date: "2024-05-29"
+lang: fr
 format:
   pdf:
     documentclass: report
@@ -14,6 +15,7 @@ format:
             \usepackage{dsfont}
             \usepackage{stmaryrd}
             \usepackage{hyperref}
+            \usepackage{geometry}
             \renewcommand{\contentsname}{Sommaire}
 bibliography: references.bib
 ---
@@ -21,12 +23,17 @@ bibliography: references.bib
 
 \newpage
 
-# Introduction et Motivations  
+# Introduction et Motivations
 
-Malgré leurs performances incroyables, il est bien connu que les réseaux neuronaux 
-profonds ont tendance à être trop optimistes quant à la confiance qu'ils accordent à leurs prédictions.
-Trouver des méthodes de calibration efficaces pour les réseaux neuronaux est donc un 
-effort important pour une meilleure quantification de l'incertitude dansl'apprentissage profond. Dans ce travail nous considérerons une nouvelle technique de calibrage appelée cohérence des attentes (EC) (cf. @clarte2023expectation), qui consiste en un redimensionnement post-formation des poids de la dernière couche en imposant que la confiance de validation moyenne coïncide avec la proportion moyenne d'étiquettes correctes. Il s'agira principalement de vérifier empiriquement que la méthode EC permet d'obtenir des performances d'étalonnage similaires à celles de la mise à l'échelle de la température (TS) (cf. @guo2017calibration) pour différentes architectures de réseaux neuronaux, tout en nécessitant des échantillons de validation et des ressources informatiques similaires. Le code utiliser dans se projet est disponible dans le référentiel <https://github.com/RomeoBex/Projet-Master->. Nous avons utilisé le modèle pré-entraîné CIFAR-100 Resnet20 provenant du dépôt Github: <https://github.com/chenyaofo/pytorch-cifar-models> puis nous avons trouver la température $T_{\text{EC}}$ et la température TS et nous avons comparer l'Expected Calibration Error (ECE) et le Score de Brier du modèle non-calibrés, du modèle calibré avec $T_{\text{EC}}$ et du modèle calibré avec TS pour mettre en évidence que le modèle original est sur-confiant et que la technique de calibrage appelée cohérence des attentes (EC) améliore les performances du modèle et  permet d'obtenir des performances d'étalonnage similaires à celles de la mise à l'échelle de la température (TS).
+Malgré leurs performances incroyables, il est bien connu que les réseaux neuronaux profonds ont tendance à être trop optimistes quant à la confiance qu'ils accordent à leurs prédictions.
+Trouver des méthodes de calibration efficaces pour les réseaux neuronaux est donc un effort important pour une meilleure quantification de l'incertitude dans l'apprentissage profond.
+
+Dans ce travail nous considérerons une nouvelle technique de calibration appelée cohérence des attentes (EC) (cf. @clarte2023expectation).
+Celle-ci consiste en un redimensionnement post-formation des poids de la dernière couche en imposant que la confiance de validation moyenne coïncide avec la proportion moyenne d'étiquettes correctes.
+Il s'agira principalement de vérifier empiriquement que la méthode EC permet d'obtenir des performances d'étalonnage similaires à celles de la mise à l'échelle de la température (TS) (cf. @guo2017calibration) pour différentes architectures de réseaux neuronaux, tout en nécessitant des échantillons de validation et des ressources informatiques similaires.
+Le code utiliser dans se projet est disponible dans le référentiel <https://github.com/RomeoBex/Projet-Master->.
+
+Nous avons utilisé le modèle pré-entraîné CIFAR-100 Resnet20 provenant du dépôt Github: <https://github.com/chenyaofo/pytorch-cifar-models> puis nous avons trouver la température $T_{\text{EC}}$ et la température TS et nous avons comparer l'Expected Calibration Error (ECE) et le Score de Brier du modèle non-calibrés, du modèle calibré avec $T_{\text{EC}}$ et du modèle calibré avec TS pour mettre en évidence que le modèle original est sur-confiant et que la technique de calibrage appelée cohérence des attentes (EC) améliore les performances du modèle et  permet d'obtenir des performances d'étalonnage similaires à celles de la mise à l'échelle de la température (TS).
 
 # La Regression logistique
 
@@ -83,7 +90,7 @@ $$
 P(Y=1|\mathbf{x}) = \sigma({\theta}^\top \mathbf{x})
 $$
 
-$$ 
+$$
 P(Y=0|\mathbf{x}) = 1- \sigma({\theta}^\top \mathbf{x}) = \sigma(-{\theta}^\top \mathbf{x})
 $$
 
@@ -95,14 +102,14 @@ $$
 
 La log-vraisemblance s'exprime alors de cette manière :
 
-$$ 
+$$
 L({\theta}) = \sum_{i=1}^{n} \log\left( \sigma({\theta}^\top x_i)^{y_i} \sigma(-{\theta}^\top x_i)^{1-y_i} \right)
 $$
 
 où $l$ est définie comme étant la fonction de perte logistique. Il faut ensuite avoir recours à des algorithmes itératifs (descente de gradient, méthode de Newton,...) pour trouver ${\hat{\theta}}$.
 
 On peut passer du cadre binaire au cadre multi-classes avec $K$ classes, par exemple, c'est-à-dire en ayant $Y$ appartenant à $\{1, 2, \ldots, K\}$. De nouveau, on modélise les probabilités conditionnelles des classes, ou plutôt leur log-ratio, par des quantités linéaires, pour $k \in \{1, 2, \ldots, K-1\}$ et $\theta_{k} \in \mathbb{R}^p$:
- 
+
 
 $$
 \log\left(\frac{P(Y=k|\mathbf{x})}{P(Y=K|\mathbf{x})}\right) = \theta_k^\top \mathbf{x}
@@ -122,7 +129,7 @@ $$
 (P(Y=k | \mathbf{x}))_{k=1,\cdots,K}=softmax(\theta_1^T\mathbf{x},\cdots,\theta_K^T\mathbf{x})
 $$
 
-Pour la régression softmax, la log-vraisemblance peut être exprimée comme suit :
+Pour la régression softmax, la log-vraisemblance peut être exprimée comme suit:
 
 $$
 L({\theta}) = \sum_{i=1}^{n} \sum_{k=1}^{K} {1}(y_i = k) \log\left(\frac{e^{\theta_k^\top x_i}}{\sum_{l=1}^{K} e^{\theta_l^\top x_i}}\right)
@@ -139,7 +146,7 @@ Le but de cet algorithme est de calculer $T_{\text{EC}}$ pour que la confiance m
 
 Le classifieur prend en entrée des données (ici les caractéristiques $x_i$ extraites d'une observation) et y attribue des logits $z^{(i)}=(z_{1}^{(i)},...,z_{K}^{(i)})$ où pour tous $k$ appartenant à $\llbracket 1, K \rrbracket$, chaque $z_{k}^{(i)} \in \mathbb{R}$. Pour un $k$ fixé $z_{k}^{(i)}$ correspond au logit (score) associé à la classe $k$. Le fait de produire la sortie $\hat{y}_i = \arg \max_k z_{k}^{(i)}$ signifie que la classe correspondant au logit le plus élevé est choisie comme la prédiction. Pour la classe d'appartenance de $x_i$, l'algorithme choisit de prédire que la classe associée à $x_i$ est $\hat{y}_i$.
 
-Ensuite, l'algorithme calcule la précision moyenne sur l'ensemble de validation :
+Ensuite, l'algorithme calcule la précision moyenne sur l'ensemble de validation:
 
 ```{=tex}
 \begin{align*}
@@ -208,7 +215,7 @@ La première étape consiste à calculer l'erreur de classification du modèle �
 
 Ensuite, une fonction objectif est définie, notée `objective(T)`, qui prend la température T comme paramètre. À l'intérieur de cette fonction, les logits sont divisés par la température T, puis passés à travers la fonction softmax. On extrait ensuite les probabilités maximales pour chaque exemple avec l'aide de la fonction `torch.max`. La valeur de retour de la fonction objectif est la moyenne de ces probabilités maximales moins la complémentaire de l'erreur de validation c'est-à-dire la précision moyenne sur l'ensemble de validation. On utilise l'optimiseur `optimize.root_scalar` de la bibliothèque `scipy` pour trouver la racine de cette fonction dans l'intervalle spécifié par $[T_{min}, T_{max}]$.
 
-## Résultats Obtenus 
+## Résultats Obtenus
 
 Nous avons utilisé des modèles pré-entraînés provenant du dépôt Github: <https://github.com/chenyaofo/pytorch-cifar-models>. Les valeurs trouvées pour température TS et température $T_{EC}$ sont respectivement 1.436 et 1.445, elle sont donc très proches. Nous remarquons que les deux méthodes donne des températures supérieures à 1 ce qui est cohérent avec le fait que les réseaux originaux étaient sûr-confiants.
 
@@ -226,9 +233,9 @@ On peux voir les résultats obtenus @tbl-first. D'après ces résultats on voit 
 
 L'Expected Calibration Error (ECE) est une mesure d'évaluation de la calibration d'un modèle de réseau de neurones, particulièrement dans le contexte de la classification probabiliste (cf. @guo2017calibration). La calibration se réfère à la justesse des prédictions de probabilité du modèle, c'est-à-dire à quel point les probabilités prédites correspondent aux fréquences réelles des événements.
 
-On dit qu'un algorithme de classification est calibré si la probabilité prédite $\hat{p}$, correspond à la probabilité réelle que la prédiction soit bonne. Ce qui revient mathématiquement à: 
+On dit qu'un algorithme de classification est calibré si la probabilité prédite $\hat{p}$, correspond à la probabilité réelle que la prédiction soit bonne. Ce qui revient mathématiquement à:
 $$
-P(\hat{y}=y|\hat{p}=p)=p, \quad \forall p\in [0;1]
+P(\hat{y}=y|\hat{p}=p)=p, \quad \forall p\in [0;1]\enspace,
 $$
 où $\hat{y}$ est la classe prédite et y est la vraie classe. Dans tous les contextes pratiques, atteindre une calibration parfaite est impossible. L'erreur de calibration est une valeur qui représente la calibration du modèle sur l'ensemble des prédictions. Il s'agit de l'espérance mathématique de la différence entre la réalité et la confiance du modèle. On a donc:
 $$
@@ -244,7 +251,7 @@ $$
 
 $$
 conf(B_m)=\frac{1}{|B_m|}\sum_{i\in B_m}\hat{p_i} \enspace .
-$$ 
+$$
 Puisqu’il y a un nombre fini M de groupes, on calcule l’erreur de calibration comme suit :
 
 $$
@@ -261,14 +268,14 @@ On peut donner un exemple assez simple, prenons 9 échantillons avec des probabi
 | 3               | 0.08                               | 0.92                                |  1                         |   0                |
 | 4               | 0.58                               | 0.42                                |  0                         |   0                |
 | 5               | 0.49                               | 0.51                                |  1                         |   0                |
-| 6               | 0.85                               | 0.15                                |  0                         |   0                |  
-| 7               | 0.30                               | 0.70                                |  1                         |   1                |         
+| 6               | 0.85                               | 0.15                                |  0                         |   0                |
+| 7               | 0.30                               | 0.70                                |  1                         |   1                |
 | 8               | 0.63                               | 0.37                                |  0                         |   1                |
 | 9               | 0.17                               | 0.83                                |  1                         |   0                |
 
 : Situation {#tbl-second}
 
-Pour déterminer le reste de la formule, nous devrons d'abord diviser nos échantillons en bacs. Seules les probabilités qui déterminent l'étiquette prévue sont utilisées dans le calcul de la ECE. Par conséquent, nous ne déposerons que des échantillons basés sur la probabilité maximale entre les étiquettes (voir @tbl-second). Pour garder l'exemple simple, nous avons divisé les données en 5 bacs, $M=5$. Avec B1 qui correspond aux probabiltées prédites de 0 à 0.2, B2 qui correspond aux probabiltées prédites de 0.2 à 0.4, B3 qui correspond aux probabiltéss prédites de 0.4 à 0.6, B4 qui correspond aux probabiltées prédites de 0.6 à 0.8 et B5 qui correspond aux probabiltées prédites de 0.8 à 1. Déposons maintenant les échantillons dans leurs bacs : dans B1 et B2 il n'y a aucun échantillons, dans B3 on a 4 et 5, dans B4 on a 8, 7, 2 et 1 et dans B5 on a 9, 6 et 3.
+Pour déterminer le reste de la formule, nous devrons d'abord diviser nos échantillons en bacs. Seules les probabilités qui déterminent l'étiquette prévue sont utilisées dans le calcul de la ECE. Par conséquent, nous ne déposerons que des échantillons basés sur la probabilité maximale entre les étiquettes (voir @tbl-second). Pour garder l'exemple simple, nous avons divisé les données en 5 bacs, $M=5$. Avec B1 qui correspond aux probabilités prédites de 0 à 0.2, B2 qui correspond aux probabilités prédites de 0.2 à 0.4, B3 qui correspond aux probabilités prédites de 0.4 à 0.6, B4 qui correspond aux probabilités prédites de 0.6 à 0.8 et B5 qui correspond aux probabilités prédites de 0.8 à 1. Déposons maintenant les échantillons dans leurs bacs : dans B1 et B2 il n'y a aucun échantillons, dans B3 on a 4 et 5, dans B4 on a 8, 7, 2 et 1 et dans B5 on a 9, 6 et 3.
 
 On va maintenant déterminer $conf(B_m)$, pour calculer $conf(B_m)$ nous prenons la somme des probabilités maximales estimées $\hat{p_i}$ pour chaque bac m dans @tbl-second, puis nous la divisons par la taille du bac |Bm|, on obtient : $con(B3)=\frac{0.58+0.51}{2}=0.545$, $con(B4)=\frac{0.78+0.64+0.7+0.63}{4}=0.6865$ et $con(B5)=\frac{0.92+0.85+0.83}{3}=0.8667$.
 
@@ -285,45 +292,48 @@ Dans notre petit exemple de 9 échantillons, nous nous avons une ECE de 0,1044. 
 On peut visualiser graphiquement cela à quoi ca correspond avec l'aide des diagrammes de fiabilité  (reliability diagrams en anglais) notre but ici est de montrer que le modèle calibrer avec la température $T_{EC}$ a une erreur de calibration plus faible que le modèle non calibré et une erreur de calibration relativement proche du modèle calibré avec TS. Voici les résultats pour un nombre de Bacs $M=10$:
 
 
-::: {layout-ncol=2}
-![Modèle non calibré](Figure_1.svg){width=230 #fig-1 fig-pos='H'}
+::: {#fig-ECE layout-ncol=3}
+![Modèle non calibré](Figure_1.svg){width=160 #fig-1 fig-pos='H'}
 
-![Modèle calibré avec TS](Figure_2.svg){width=230 #fig-2 fig-pos='H'}
+![Modèle calibré avec TS](Figure_2.svg){width=160 #fig-2 fig-pos='H'}
+
+![Modèle calibré avec TEC](Figure_3.svg){width=160 #fig-3 fig-pos='H'}
+
+Test XXX
 :::
-![Modèle calibré avec TEC](Figure_3.svg){width=230 #fig-3 fig-pos='H'}
 
 
-En comparant @fig-1 avec @fig-2 et @fig-3 on remarque que c'est bien le cas. Pour interpréter ces Figures, on voit que sur @fig-1 le modèle a tendence a etre sur-confiant, car les probabilités qu'il prédit (confidence) sont supèrieurs à l'Expected accuracy qui est la précision rélle du modèle. Un modèle parfaitement calibré reste sur la diagonale, les barres rouges montre l'écart entre la confiance et la précision du modèle. Pour la @fig-1 on voit que la confiance moyenne est largement supèrieir à la précision moyenne du modèle ce qui montre clairement que le modèle est sur-confiant. Tandis qu'on voit que sur les @fig-2 et @fig-3  le modèle est mieux calibré et il donne des prédictions plus cohérentes au vu de la précision du modèle.
+En comparant @fig-1 avec @fig-2 et @fig-3 on remarque que c'est bien le cas. Pour interpréter ces Figures, on voit que sur @fig-1 le modèle a tendance a être sur-confiant, car les probabilités qu'il prédit (confidence) sont supérieurs à l'Expected accuracy qui est la précision réelle du modèle. Un modèle parfaitement calibré reste sur la diagonale, les barres rouges montre l'écart entre la confiance et la précision du modèle. Pour la @fig-1 on voit que la confiance moyenne est largement supérieur à la précision moyenne du modèle ce qui montre clairement que le modèle est sur-confiant. Tandis qu'on voit que sur les @fig-2 et @fig-3  le modèle est mieux calibré et il donne des prédictions plus cohérentes au vu de la précision du modèle.
 
 
 # Score de Brier
 
-Le score de Brier est une fonction de Score qui mesure l'exactiture des préditictions probabilistes. Pour les prédictions unidimensionnelles, elle est strictement équivalente à l'erreur quadratique moyenne aux probabilités prédites.
+Le score de Brier est une fonction de Score qui mesure l'exactitude des préditictions probabilistes. Pour les prédictions unidimensionnelles, elle est strictement équivalente à l'erreur quadratique moyenne aux probabilités prédites.
 
 ## Définition générale :
 
-Dans le cas où une variable peut prendre plus de 2 valeurs. Le score de Brier est alors défini par : 
+Dans le cas où une variable peut prendre plus de 2 valeurs. Le score de Brier est alors défini par :
 
 $$
 B_s = \frac{1}{n}\sum_{i=1}^{n}\sum_{j=1}^{m}(p_{i,j} - o_{i,j})^2
 $$
 
 - $n$ représente le nombre total d'instances de toutes les classes (nombre de sous vecteurs)
-- $m$ représente le nombre total de classes possibles dans lesquels l'évènement peut tomber 
-- $p_{i,j}$ représente la probabilité prédite pour la classe $i$ pour i $\in [\![1,n]\!]$
-- $o_{i,j}$ vaut 1 si si la ième observation est de la catégorie j et 0 sinon pour j 
-$\in [\![1,m]\!]$
+- $m$ représente le nombre total de classes possibles dans lesquels l'évènement peut tomber
+- $p_{i,j}$ représente la probabilité prédite pour la classe $i$ pour i $\in \llbracket 1,n\rrbracket$
+- $o_{i,j}$ vaut 1 si si la ième observation est de la catégorie $j$ et 0 sinon pour $j$
+$\in \llbracket 1,m\rrbracket$
 
 Le score de Brier peut être décomposé en 3 composantes additives : incertitude, fiabilité et résolution
 
 $$
-B_s = F - R + I 
+B_s = F - R + I
 $$
 
 - $I$ : terme d'incertitude qui prend en compte la dispersion des observations.
 
-- $F$ : terme de fiabilité qui mesure dans quelle circonstances les probabilités prévues sont proches des probabilités réelles compte tenu d'une prévision. Si la fiabilité est de 0 la prévision est parfaitement fiable. 
-Par exemple si on regroupe tous les cas où 80% de probabilité de pluie était prévue, si il a plu 4 jours sur 5 on obtient ainsi une fiabilité parfaite. 
+- $F$ : terme de fiabilité qui mesure dans quelle circonstances les probabilités prévues sont proches des probabilités réelles compte tenu d'une prévision. Si la fiabilité est de 0 la prévision est parfaitement fiable.
+Par exemple si on regroupe tous les cas où 80% de probabilité de pluie était prévue, si il a plu 4 jours sur 5 on obtient ainsi une fiabilité parfaite.
 
 - $R$ : terme de résolution qui mesure la distance entre les probabilités d'occurence
 
@@ -336,7 +346,7 @@ Code de la fonction :
 
 
 ```{python}
-# code de la fonction 
+# code de la fonction
 
 
 def brier_score_f(predictions, observations):
@@ -344,9 +354,9 @@ def brier_score_f(predictions, observations):
     Calcul du score de Brier.
 
     Arguments:
-    predictions (liste de liste ou numpy array) Prédictions des probabilités 
+    predictions (liste de liste ou numpy array) Prédictions des probabilités
     pour chaque classe.
-    observations (liste de liste ou numpy arrays): Observations réelles 
+    observations (liste de liste ou numpy arrays): Observations réelles
     (0 ou 1 pour chaque classe).
 
     """
@@ -363,17 +373,17 @@ def brier_score_f(predictions, observations):
 
 ```
 
-Exécution : 
+Exécution :
 
 ```{python}
-# Exemple : 
+# Exemple :
 
 predictions = [[0.1, 0.9, 0.8, 0.3],[0.4,0.9,0.2,0.7]]
 observations = [[0, 1, 1, 0],[1,1,0,1]]
 
 bs = brier_score_f(predictions, observations)
 print("Score de Brier :", bs)
-    
+
 
 ```
 
