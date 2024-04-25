@@ -241,6 +241,19 @@ Pour le modèle CIFAR-10 Resnet20 les valeurs trouvées pour température TS et 
 
 On peux voir les résultats obtenus @tbl-j. D'après ces résultats on voit que les deux méthodes n'améliorent pas le score Brier et L'Expected Calibration Error et donnent des résultats moins bons que le modèle calibré, cela peut être du au fait que le modèle a une erreur de classification trés faible.
 
+
+A commenter 
+voir @tbl-s 
+
+
+| Modèle             | Score de Brier | ECE   |
+|--------------------|----------------|-------|
+| Modèle non calibré | 0.442          | 0.147 |
+| Calibré avec TS    | 0.405          | 0.048 |
+| Calibré avec TEC   | 0.405          | 0.046 |
+
+: Résultats obtenus pour CIFAR-100 Resnet44 {#tbl-s}
+
 # Erreur de calibration attendue (ECE)
 
 L'Expected Calibration Error (ECE) est une mesure d'évaluation de la calibration d'un modèle de réseau de neurones, particulièrement dans le contexte de la classification probabiliste (cf. @guo2017calibration). La calibration se réfère à la justesse des prédictions de probabilité du modèle, c'est-à-dire à quel point les probabilités prédites correspondent aux fréquences réelles des événements.
@@ -333,11 +346,28 @@ Diagrammes de fiabilité pour Cifar10-resnet20
 
 
 
-
-
-
-
 En comparant @fig-4 avec @fig-5 et @fig-6 on voit que pour ce modèle, les deux méthodes d'étalonnages n'améliore pas la calibration du modèle. Elles augmentent même l'ECE, cela peut être du au fait que l'on voit que le modèle est sous-confiant à un moment or ces méthodes semble être efficaces uniquement pour améliorer la calibration des modèles qui sont toujours sur-confiants.
+
+
+On a pour Cifar100-resnet44 : 
+
+
+
+
+
+::: {#fig-ECE layout-ncol=3 fig-pos='H'}
+![Modèle non calibré](figure_1_44_nc.svg){width=160 #fig-7}
+
+![Modèle calibré avec TS](Figure_2_44_ts.svg){width=160 #fig-8}
+
+![Modèle calibré avec TEC](Figure_3_44_ec.svg){width=160 #fig-9}
+
+Diagrammes de fiabilité pour Cifar100-resnet44 
+:::
+
+
+
+
 
 # Score de Brier
 
@@ -419,6 +449,7 @@ print("Score de Brier :", bs)
 
 
 ```
+
 
 
 
