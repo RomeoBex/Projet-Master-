@@ -106,7 +106,7 @@ $$
 L({\theta}) = \sum_{i=1}^{n} \log\left( sig({\theta}^\top x_i)^{y_i} sig(-{\theta}^\top x_i)^{1-y_i} \right)\enspace .
 $$
 
-où $l$ est définie comme étant la fonction de perte logistique. Il faut ensuite avoir recours à des algorithmes itératifs (descente de gradient, méthode de Newton,...) pour trouver ${\hat{\theta}}$.
+Il faut ensuite avoir recours à des algorithmes itératifs (descente de gradient, méthode de Newton,...) pour trouver ${\hat{\theta}}$.
 
 On peut passer du cadre binaire au cadre multi-classes avec $K$ classes, par exemple, c'est-à-dire en ayant $Y$ appartenant à $\{1, 2, \ldots, K\}$. De nouveau, on modélise les probabilités conditionnelles des classes, ou plutôt leur log-ratio, par des quantités linéaires, pour $k \in \{1, 2, \ldots, K-1\}$ et $\theta_{k} \in \mathbb{R}^p$:
 
@@ -403,12 +403,12 @@ Le score de Brier est une fonction de Score qui mesure l'exactitude des préditi
 Dans le cas où une variable peut prendre plus de 2 valeurs. Le score de Brier est alors défini par :
 
 $$
-B_s = \frac{1}{n}\sum_{i=1}^{n}\sum_{j=1}^{m}(p_{i,j} - o_{i,j})^2
+B_s = \frac{1}{n}\sum_{i=1}^{n}\sum_{j=1}^{m}(f_{i,j} - o_{i,j})^2
 $$
 
 - $n$ représente le nombre total d'instances de toutes les classes (nombre de sous vecteurs)
 - $m$ représente le nombre total de classes possibles dans lesquels l'évènement peut tomber
-- $p_{i,j}$ représente la probabilité prédite pour la classe $i$ pour i $\in \llbracket 1,n\rrbracket$
+- $f_{i,j}$ représente la probabilité prédite pour la classe $i$ pour i $\in \llbracket 1,n\rrbracket$
 - $o_{i,j}$ vaut 1 si si la ième observation est de la catégorie $j$ et 0 sinon pour $j$
 $\in \llbracket 1,m\rrbracket$
 
@@ -418,12 +418,28 @@ $$
 B_s = F - R + I
 $$
 
-- $I$ : terme d'incertitude qui prend en compte la dispersion des observations.
+- $I$ : terme d'incertitude qui prend en compte la dispersion des observations. Il est défini par : 
+$$
+\bar{o}(1-\bar{o}) 
+$$
+avec $\bar{o} = \frac{1}{n}\sum_{i=1}^{n}o_i$
+où $n$ représente le nombre total de prévisions émises et $n$
+
 
 - $F$ : terme de fiabilité qui mesure dans quelle circonstances les probabilités prévues sont proches des probabilités réelles compte tenu d'une prévision. Si la fiabilité est de 0 la prévision est parfaitement fiable.
-Par exemple si on regroupe tous les cas où 80% de probabilité de pluie était prévue, si il a plu 4 jours sur 5 on obtient ainsi une fiabilité parfaite.
+Par exemple si on regroupe tous les cas où 80% de probabilité de pluie était prévue, si il a plu 4 jours sur 5 on obtient ainsi une fiabilité parfaite. Il est défini par : 
+$$ 
+\frac{1}{N}\sum_{i=1}^{K}n_i(f_i - \bar{o})^2
+$$
 
-- $R$ : terme de résolution qui mesure la distance entre les probabilités d'occurence
+- $R$ : terme de résolution qui mesure la distance entre les probabilités d'occurence. Il est défini par : 
+
+$$
+\frac{1}{N}\sum_{i=1}^{K}n_i(\bar{o}_i - \bar{o})^2
+$$
+
+où $\bar{o}_i$ est la fréquence observée compte tenu des prévisions de probabilités $f_i$ et $K$ le nombre de prévisions uniques émises. 
+
 
 
 ## Interprétation et décomposition :
