@@ -79,8 +79,8 @@ Sous cette hypothèse, la règle de classification est simplement :
 
 $$
 \begin{cases}
-\text{si } {\theta}^\top \mathbf{x}\leq 0 , \text{ on étiquette 0 au point } \mathbf{x} \\
-\text{si } {\theta}^\top \mathbf{x} > 0, \text{ on étiquette 1 au point } \mathbf{x}
+\text{si } {\theta}^\top \mathbf{x}\leq 0 , \text{ on étiquette 1 au point } \mathbf{x} \\
+\text{si } {\theta}^\top \mathbf{x} > 0, \text{ on étiquette 0 au point } \mathbf{x}
 \end{cases}
 $$
 
