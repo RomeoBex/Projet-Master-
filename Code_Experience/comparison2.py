@@ -11,6 +11,7 @@ from dataloader import get_dataloader
 
 exp = sacred.Experiment("exp_calibration")
 
+# il faut faire pip install uncertainty-calibration pour utiliser calibration
 # Fonction pour charger un modèle à partir d'un chemin donné en fonction de son type
 def load_model(model_path, model_type):
     if model_type == "cifar100_resnet20":
