@@ -403,17 +403,30 @@ Le score de Brier est une fonction de Score qui mesure l'exactitude des préditi
 Dans le cas où une variable peut prendre plus de 2 valeurs. Le score de Brier est alors défini par :
 
 $$
-B_s = \frac{1}{n}\sum_{i=1}^{n}\sum_{j=1}^{m}(f_{i,j} - o_{i,j})^2
+B_s = \frac{1}{n}\sum_{i=1}^{m}\sum_{j=1}^{n_k}(f_{i,j} - o_{i,j})^2
 $$
 
-- $n$ représente le nombre total d'instances de toutes les classes (nombre de sous vecteurs)
-- $m$ représente le nombre total de classes possibles dans lesquels l'évènement peut tomber
-- $f_{i,j}$ représente la probabilité prédite pour la classe $i$ pour i $\in \llbracket 1,n\rrbracket$
-- $o_{i,j}$ vaut 1 si si la ième observation est de la catégorie $j$ et 0 sinon pour $j$
+- $m$ représente le nombre total d'instances de toutes les classes (nombre de sous vecteurs)
+- $n_k$ représente le nombre total de classes possibles dans lesquels l'évènement peut tomber
+- $f_{i,j}$ représente la probabilité prédite pour la classe $i$ pour $i$ $\in \llbracket 1,n\rrbracket$
+- $o_{i,j}$ vaut 1 si la ième observation est de la catégorie $j$ et 0 sinon pour $j$
 $\in \llbracket 1,m\rrbracket$
 
 Le score de Brier peut être décomposé en 3 composantes additives : incertitude, fiabilité et résolution
 
+En effet, par définition on a : 
+
+```{=tex}
+\begin{align*}
+B_s = \frac{1}{n}\sum_{k=1}^{m}\sum_{j=1}^{n_k}(f_{kj}-o_{kj})^2 \\
+&  = \frac{1}{n}\sum_{k=1}^{m}n_k\frac{1}{n_k}\sum_{j=1}^{n_k}(f_{kj}-o_{kj})^2 \\ 
+& =  3 \\ 
+& = laste \\
+\end{align*}
+```
+
+
+D'où
 $$
 B_s = F - R + I
 $$
