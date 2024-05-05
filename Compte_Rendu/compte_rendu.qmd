@@ -459,11 +459,35 @@ $$
 
 c'est le terme de fiabilité des prévisions, il compare les probabilités prévues aux probabilités d'observations il peut être réduit en un bon qualibrage des prévisions. 
 
-Le deuxième terme de cette somme est défini par 
+Le deuxième terme de cette somme est défini par $UNC - RES$ (et obtenu en faisant plus ou moins  ) :
 
+$$
+\frac{1}{n}\sum_{k=1}^{m}\sum_{j=1}^{n_k}n_k(o_{kj} - \bar{o}_k)^2 = \frac{1}{n}\sum_{k=1}^{m}\sum_{j=1}^{n_k}n_k(o_{kj}-\bar{o})^2 - \frac{1}{n}\sum_{k=1}^{m}n_{k}(o_k - \bar{o})^2 
+$$
 
+de plus, en utilisant le fait que $o_{kj}^2 = o_{kj}$ et que $\bar{o}_k = \frac{1}{n_k}\sum_{j=1}^{n_k}o_{kj}$ on a :
 
+```{=tex}
+\begin{align*}
+\frac{1}{n}\sum_{k=1}^{m}\sum_{j=1}^{n_k}n_k(o_{kj}-\bar{o})^2
+& = \frac{1}{n}\sum_{k=1}^{m}\sum_{j=1}^{n_k}n_k(o_{kj}^2 - 2o_{kj}\bar{o} + \bar{o}^2) \\
+& = \frac{1}{n}\sum_{k=1}^{m}\sum_{j=1}^{n_k}n_{k}o_{kj} - 2n_{k}o_{kj}\bar{o} + n_{k}\bar{o}\\
+& = \frac{1}{n}\sum_{k=1}^{m}n_{k}\bar{o}_{k} - \frac{2\bar{o}}{n}\sum_{k=1}^{m}\sum_{j=1}^{n_k}o_{kj} + \frac{\bar{o}}{n}\sum_{k=1}^{m}\sum_{j=1}^{n_k}n_k \\ 
+& = \bar{o} - 2\bar{o}^2 + \bar{o}^2 = \bar{o}(1-\bar{o})
+\end{align*}
+```
 
+Ainsi 
+
+$$
+B_s = \frac{1}{n}n_{k}(\bar{f}_k - \bar{o}_k)^2 + \frac{1}{n}\sum_{k=1}^{m}\sum_{j=1}^{m}(o_{kj}-\bar{o}_k)^2 + \frac{1}{n}\sum_{k=1}^{m}\sum_{j=1}^{m}(f_{kj}-\bar{f}_k)^2 - \frac{2}{n}\sum_{k=1}^{m}\sum_{j=1}^{n_k}(f_{kj} - \bar{f}_k)(o_{kj} - \bar{o}_k)
+$$
+
+Ce qui donne comme décomposition finale : 
+
+$$
+B_s = \frac{1}{n}\sum_{k=1}^{m}n_{k}(\bar{f}_k - \bar{o}_k)^2  
+$$
 
 
 
@@ -475,6 +499,8 @@ $$
 $$
 B_s = REL - RES + UNC + WBV - WBC
 $$
+
+- $WBV$ variance intra-groupe et $WBC$ covariance intra-groupe, ces termes disparaissent si une seule valeur de probabilité est prévue pour chaque groupe (on a $f_{kj} = f_{k}$)
 
 - $I$ : terme d'incertitude qui prend en compte la dispersion des observations. Il est défini par : 
 $$
