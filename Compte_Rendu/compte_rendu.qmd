@@ -485,11 +485,12 @@ $$
 
 Ce qui donne comme décomposition finale : 
 
-$$
-B_s = \frac{1}{n}\sum_{k=1}^{m}n_{k}(\bar{f}_k - \bar{o}_k)^2 - \frac{1}{n}\sum_{k=1}^{m}n_{k}(\bar{o}_k - \bar{o})^2 + \bar{o}(1-\bar{o}) + \frac{1}{n}\sum_{k=1}^{m}\sum_{j=1}^{n_k}(f_k - \bar{f}_k)^2 - \frac{2}{n}\sum_{k=1}^{m}\sum_{j=1}^{n_k}(f_{kj} - \bar{f}_k)(o_{kj}- \bar{o}_k) 
-$$
-
-
+ 
+```{=tex}
+\[
+\boxed{B_s = \frac{1}{n}\sum_{k=1}^{m}n_{k}(\bar{f}_k - \bar{o}_k)^2 - \frac{1}{n}\sum_{k=1}^{m}n_{k}(\bar{o}_k - \bar{o})^2 + \bar{o}(1-\bar{o}) + \frac{1}{n}\sum_{k=1}^{m}\sum_{j=1}^{n_k}(f_k - \bar{f}_k)^2 - \frac{2}{n}\sum_{k=1}^{m}\sum_{j=1}^{n_k}(f_{kj} - \bar{f}_k)(o_{kj}- \bar{o}_k)}
+\]
+```
 
 D'où 
 
@@ -498,28 +499,9 @@ B_s = REL - RES + UNC + WBV - WBC
 $$
 
 - $WBV$ variance intra-groupe et $WBC$ covariance intra-groupe, ces termes disparaissent si une seule valeur de probabilité est prévue pour chaque groupe (on a $f_{kj} = f_{k}$)
-
-- $I$ : terme d'incertitude qui prend en compte la dispersion des observations. Il est défini par : 
-$$
-\bar{o}(1-\bar{o}) 
-$$
-avec $\bar{o} = \frac{1}{n}\sum_{i=1}^{n}o_i$
-où $n$ représente le nombre total de prévisions émises et $n$
-
-
-- $F$ : terme de fiabilité qui mesure dans quelle circonstances les probabilités prévues sont proches des probabilités réelles compte tenu d'une prévision. Si la fiabilité est de 0 la prévision est parfaitement fiable.
-Par exemple si on regroupe tous les cas où 80% de probabilité de pluie était prévue, si il a plu 4 jours sur 5 on obtient ainsi une fiabilité parfaite. Il est défini par : 
-$$ 
-\frac{1}{N}\sum_{i=1}^{K}n_i(f_i - \bar{o})^2
-$$
-
-- $R$ : terme de résolution qui mesure la distance entre les probabilités d'occurence. Il est défini par : 
-
-$$
-\frac{1}{N}\sum_{i=1}^{K}n_i(\bar{o}_i - \bar{o})^2
-$$
-
-où $\bar{o}_i$ est la fréquence observée compte tenu des prévisions de probabilités $f_i$ et $K$ le nombre de prévisions uniques émises. 
+- $UNC$ incertitude des observations 
+- $RES$ résolution prévisionnelle 
+- $REL$ fiabilité des prévisions 
 
 
 
