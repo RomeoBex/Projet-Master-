@@ -12,3 +12,10 @@ L'objectif principal de ce travail est d'empiriquement démontrer que la méthod
 ## Avantages de la Méthode EC
 - Performances de calibrage comparables à la mise à l'échelle de la température (TS).
 - Nécessite des ressources similaires en termes d'échantillons de validation et de puissance informatique.
+
+Le code pour obtenir les résulats qui se trouve dans les tableaux du rapport est dans le fichier `comparison2.py` et le code pour obtenir les résulats et les diagrammes de fiabilités se trouve dans `diagrams.py` .
+
+Les référentiels suivants ont été partiellement utilisés :
+  - https://github.com/SPOC-group/expectation-consistency
+  - https://github.com/chenyaofo/pytorch-cifar-models
+  - https://github.com/hollance/reliability-diagrams
