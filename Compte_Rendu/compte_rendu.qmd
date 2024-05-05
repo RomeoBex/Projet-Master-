@@ -416,26 +416,44 @@ Le score de Brier peut être décomposé en 3 composantes additives : incertitud
 
 En effet, par définition on a : 
 
-```{=tex}
-\begin{align*}
-B_s = \frac{1}{n}\sum_{k=1}^{m}\sum_{j=1}^{n_k}(f_{kj}-o_{kj})^2 \\
-&  = \frac{1}{n}\sum_{k=1}^{m}n_k[\ \frac{1}{n_k}\sum_{j=1}^{n_k}(f_{kj}-o_{kj})^2]\ 
-\end{align*}
-```
-le terme entre crochet peut être vu comme la moyenne d'une quantité au carré et peut être ainsi décomposée comme la somme du carré de la quantité moyenne plus la variance de la quantité. 
+$$
+B_s = \frac{1}{n}\sum_{k=1}^{m}\sum_{j=1}^{n_k}(f_{kj}-o_{kj})^2 
+= \frac{1}{n}\sum_{k=1}^{m}n_k[\ \frac{1}{n_k}\sum_{j=1}^{n_k}(f_{kj}-o_{kj})^2]\ 
+$$
 
-d'où : 
+Le terme entre crochet peut être vu comme la moyenne d'une grandeur au carré et peut être donc décomposée comme la somme de la quantité moyenne au carré plus la variance de la quantité. Ainsi on a : 
 
 $$
 \frac{1}{n_k}\sum_{j=1}^{n_k}(f_{kj}-o_{kj})^2 = \frac{1}{n_k}\sum_{j=1}^{n_k}(f_{kj}-o_{kj} - \frac{1}{n_k}\sum_{j=1}^{n_k}(f_kj - o_{kj}))^2 + (\frac{1}{n_k}\sum_{j=1}^{n_k}(f_{kj}-o_{kj}))^2
 $$ 
 
-Ainsi 
+qui peut être écrit en utilisant la linéarité de la somme et en notant :
 
+$$
+\begin{cases}
+\bar{o}_k = \frac{1}{n_k}\sum_{j=1}^{n_k}o_{kj} \\
+\bar{f}_k = \frac{1}{n_k}\sum_{j=1}^{n_k}f_{kj} \\
+\end{cases}
+$$
+
+$$
+\frac{1}{n_k}\sum_{j=1}^{n_k}(f_{kj}-o_{kj})^2 = \frac{1}{n_k}\sum_{j=1}^{n_k}(f_{kj}-o_{kj} - \bar{f}_k + \bar{o}_k)^2 
+$$
+
+Ainsi on peut réécrire le Brier Score comme : erreur dans ce code 
+
+$$
+B_s = \frac{1}{n}\sum_{k=1}^{m}n_k \left[ (\bar{f}_k - \bar{o}_k)^2 + \frac{1}{n_k}\sum_{j=1}^{n_k}(f_{kj}-o_{kj} - \bar{f}_k + \bar{o}_k)^2 \right] = \frac{1}{n} \sum_{k=1}^{m} \left[ (\bar{f}_k - \bar{o}_k)^2 + \frac{1}{n_k} \sum_{j=1}^{n_k} ((f_{kj} - \bar{f}_k) - (o_{kj} - \bar{o}_k))^2 \right]
+$$
+
+En développant le carré on a : 
+
+$$ 
+B_s = \frac{1}{n} \sum_{k=1}^{m} \left[ (\bar{f}_k - \bar{o}_k)^2 + \frac{1}{n_k}\sum_{j=1}^{n_k}(o_{kj} - \bar{o}_k)^2 + \frac{1}{n_k}\sum_{j=1}^{n_k}(f_{kj} - \bar{f}_k)^2 - \frac{2}{n_k}\sum_{j=1}^{n_k} (f_{kj} - \bar{f}_k)(o_{kj} - \bar{o}_k) \right]
 $$
 
 
-$$
+
 
 
 
