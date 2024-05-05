@@ -486,15 +486,12 @@ $$
 Ce qui donne comme décomposition finale : 
 
 $$
-B_s = \frac{1}{n}\sum_{k=1}^{m}n_{k}(\bar{f}_k - \bar{o}_k)^2  
+B_s = \frac{1}{n}\sum_{k=1}^{m}n_{k}(\bar{f}_k - \bar{o}_k)^2 - \frac{1}{n}\sum_{k=1}^{m}n_{k}(\bar{o}_k - \bar{o})^2 + \bar{o}(1-\bar{o}) + \frac{1}{n}\sum_{k=1}^{m}\sum_{j=1}^{n_k}(f_k - \bar{f}_k)^2 - \frac{2}{n}\sum_{k=1}^{m}\sum_{j=1}^{n_k}(f_{kj} - \bar{f}_k)(o_{kj}- \bar{o}_k) 
 $$
 
 
 
-D'où
-$$
-B_s = F - R + I
-$$
+D'où 
 
 $$
 B_s = REL - RES + UNC + WBV - WBC
