@@ -440,7 +440,7 @@ $$
 \frac{1}{n_k}\sum_{j=1}^{n_k}(f_{kj}-o_{kj})^2 = \frac{1}{n_k}\sum_{j=1}^{n_k}(f_{kj}-o_{kj} - \bar{f}_k + \bar{o}_k)^2 
 $$
 
-Ainsi on peut réécrire le Brier Score comme : erreur dans ce code 
+Ainsi on peut réécrire le Brier Score comme : 
 
 $$
 B_s = \frac{1}{n}\sum_{k=1}^{m}n_k \left[ (\bar{f}_k - \bar{o}_k)^2 + \frac{1}{n_k}\sum_{j=1}^{n_k}(f_{kj}-o_{kj} - \bar{f}_k + \bar{o}_k)^2 \right] = \frac{1}{n} \sum_{k=1}^{m} \left[ (\bar{f}_k - \bar{o}_k)^2 + \frac{1}{n_k} \sum_{j=1}^{n_k} ((f_{kj} - \bar{f}_k) - (o_{kj} - \bar{o}_k))^2 \right]
@@ -449,9 +449,17 @@ $$
 En développant le carré on a : 
 
 $$ 
-B_s = \frac{1}{n} \sum_{k=1}^{m} \left[ (\bar{f}_k - \bar{o}_k)^2 + \frac{1}{n_k}\sum_{j=1}^{n_k}(o_{kj} - \bar{o}_k)^2 + \frac{1}{n_k}\sum_{j=1}^{n_k}(f_{kj} - \bar{f}_k)^2 - \frac{2}{n_k}\sum_{j=1}^{n_k} (f_{kj} - \bar{f}_k)(o_{kj} - \bar{o}_k) \right]
+B_s = \frac{1}{n} \sum_{k=1}^{m} n_k \left[ (\bar{f}_k - \bar{o}_k)^2 + \frac{1}{n_k}\sum_{j=1}^{n_k}(o_{kj} - \bar{o}_k)^2 + \frac{1}{n_k}\sum_{j=1}^{n_k}(f_{kj} - \bar{f}_k)^2 - \frac{2}{n_k}\sum_{j=1}^{n_k} (f_{kj} - \bar{f}_k)(o_{kj} - \bar{o}_k) \right]
 $$
 
+Le premier terme de cette somme (REL) est défini par 
+$$
+\frac{1}{n} \sum_{k=1}^{m} n_k(\bar{f}_k - \bar{o}_k)^2 
+$$
+
+c'est le terme de fiabilité des prévisions, il compare les probabilités prévues aux probabilités d'observations il peut être réduit en un bon qualibrage des prévisions. 
+
+Le deuxième terme de cette somme est défini par 
 
 
 
@@ -462,6 +470,10 @@ $$
 D'où
 $$
 B_s = F - R + I
+$$
+
+$$
+B_s = REL - RES + UNC + WBV - WBC
 $$
 
 - $I$ : terme d'incertitude qui prend en compte la dispersion des observations. Il est défini par : 
