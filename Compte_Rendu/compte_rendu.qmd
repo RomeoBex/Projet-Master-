@@ -398,7 +398,7 @@ En comparant @fig-7 avec @fig-8 et @fig-9, on voit que pour Cifar100-resnet44, l
 
 Le score de Brier est une fonction de Score qui mesure l'exactitude des préditictions probabilistes. Pour les prédictions unidimensionnelles, elle est strictement équivalente à l'erreur quadratique moyenne aux probabilités prédites.
 
-## Définition générale :
+## Définition générale 
 
 Dans le cas où une variable peut prendre plus de 2 valeurs. Le score de Brier est alors défini par :
 
@@ -505,7 +505,7 @@ $$
 
 
 
-## Interprétation et décomposition :
+## Interprétation et décomposition 
 
 Plus la valeur du score de Brier sera faible plus la prédiction sera bonne et une prévision parfaite obtiendra un score de 0. A l'inverse le plus mauvais score sera de 1.
 
