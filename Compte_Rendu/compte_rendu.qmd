@@ -459,13 +459,13 @@ $$
 
 c'est le terme de fiabilité des prévisions, il compare les probabilités prévues aux probabilités d'observations.
 
-Le deuxième terme de cette somme est défini par $UNC - RES$ (et obtenu en faisant plus ou moins ) :
+Le deuxième terme de cette somme est défini par $UNC - RES$ (est obtenu en ajoutant $\bar{o}$ puis en soustrayant $\bar{o}$) :
 
 $$
-\frac{1}{n}\sum_{k=1}^{m}\sum_{j=1}^{n_k}n_k(o_{kj} - \bar{o}_k)^2 = \frac{1}{n}\sum_{k=1}^{m}\sum_{j=1}^{n_k}n_k(o_{kj}-\bar{o})^2 - \frac{1}{n}\sum_{k=1}^{m}n_{k}(o_k - \bar{o})^2 
+\frac{1}{n}\sum_{k=1}^{m}\sum_{j=1}^{n_k}n_k(o_{kj} - \bar{o}_k)^2 = \frac{1}{n}\sum_{k=1}^{m}\sum_{j=1}^{n_k}n_k(o_{kj}-\bar{o})^2 - \frac{1}{n}\sum_{k=1}^{m}n_{k}(o_k - \bar{o})^2\enspace .
 $$
 
-de plus, en utilisant le fait que $o_{kj}^2 = o_{kj}$ et que $\bar{o}_k = \frac{1}{n_k}\sum_{j=1}^{n_k}o_{kj}$ on a :
+De plus, en utilisant le fait que $o_{kj}^2 = o_{kj}$ et que $\bar{o}_k = \frac{1}{n_k}\sum_{j=1}^{n_k}o_{kj}$ on a :
 
 ```{=tex}
 \begin{align*}
