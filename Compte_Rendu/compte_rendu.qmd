@@ -418,7 +418,7 @@ En effet, par définition on a :
 
 $$
 B_s = \frac{1}{n}\sum_{k=1}^{m}\sum_{j=1}^{n_k}(f_{kj}-o_{kj})^2 
-= \frac{1}{n}\sum_{k=1}^{m}n_k[\ \frac{1}{n_k}\sum_{j=1}^{n_k}(f_{kj}-o_{kj})^2]\ 
+= \frac{1}{n}\sum_{k=1}^{m}n_k[\ \frac{1}{n_k}\sum_{j=1}^{n_k}(f_{kj}-o_{kj})^2]\ \enspace .
 $$
 
 Le terme entre crochet peut être vu comme la moyenne d'une grandeur au carré et peut être donc décomposée comme la somme de la quantité moyenne au carré plus la variance de la quantité. Ainsi on a : 
@@ -437,29 +437,29 @@ $$
 $$
 
 $$
-\frac{1}{n_k}\sum_{j=1}^{n_k}(f_{kj}-o_{kj})^2 = \frac{1}{n_k}\sum_{j=1}^{n_k}(f_{kj}-o_{kj} - \bar{f}_k + \bar{o}_k)^2 
+\frac{1}{n_k}\sum_{j=1}^{n_k}(f_{kj}-o_{kj})^2 = \frac{1}{n_k}\sum_{j=1}^{n_k}(f_{kj}-o_{kj} - \bar{f}_k + \bar{o}_k)^2 \enspace .
 $$
 
 Ainsi on peut réécrire le Brier Score comme : 
 
 $$
-B_s = \frac{1}{n}\sum_{k=1}^{m}n_k \left[ (\bar{f}_k - \bar{o}_k)^2 + \frac{1}{n_k}\sum_{j=1}^{n_k}(f_{kj}-o_{kj} - \bar{f}_k + \bar{o}_k)^2 \right] = \frac{1}{n} \sum_{k=1}^{m} \left[ (\bar{f}_k - \bar{o}_k)^2 + \frac{1}{n_k} \sum_{j=1}^{n_k} ((f_{kj} - \bar{f}_k) - (o_{kj} - \bar{o}_k))^2 \right]
+B_s = \frac{1}{n}\sum_{k=1}^{m}n_k \left[ (\bar{f}_k - \bar{o}_k)^2 + \frac{1}{n_k}\sum_{j=1}^{n_k}(f_{kj}-o_{kj} - \bar{f}_k + \bar{o}_k)^2 \right] = \frac{1}{n} \sum_{k=1}^{m} \left[ (\bar{f}_k - \bar{o}_k)^2 + \frac{1}{n_k} \sum_{j=1}^{n_k} ((f_{kj} - \bar{f}_k) - (o_{kj} - \bar{o}_k))^2 \right]\enspace .
 $$
 
 En développant le carré on a : 
 
 $$ 
-B_s = \frac{1}{n} \sum_{k=1}^{m} n_k \left[ (\bar{f}_k - \bar{o}_k)^2 + \frac{1}{n_k}\sum_{j=1}^{n_k}(o_{kj} - \bar{o}_k)^2 + \frac{1}{n_k}\sum_{j=1}^{n_k}(f_{kj} - \bar{f}_k)^2 - \frac{2}{n_k}\sum_{j=1}^{n_k} (f_{kj} - \bar{f}_k)(o_{kj} - \bar{o}_k) \right]
+B_s = \frac{1}{n} \sum_{k=1}^{m} n_k \left[ (\bar{f}_k - \bar{o}_k)^2 + \frac{1}{n_k}\sum_{j=1}^{n_k}(o_{kj} - \bar{o}_k)^2 + \frac{1}{n_k}\sum_{j=1}^{n_k}(f_{kj} - \bar{f}_k)^2 - \frac{2}{n_k}\sum_{j=1}^{n_k} (f_{kj} - \bar{f}_k)(o_{kj} - \bar{o}_k) \right]\enspace .
 $$
 
-Le premier terme de cette somme (REL) est défini par 
+Le premier terme de cette somme (REL) est défini par :
 $$
 \frac{1}{n} \sum_{k=1}^{m} n_k(\bar{f}_k - \bar{o}_k)^2 
 $$
 
-c'est le terme de fiabilité des prévisions, il compare les probabilités prévues aux probabilités d'observations il peut être réduit en un bon qualibrage des prévisions. 
+c'est le terme de fiabilité des prévisions, il compare les probabilités prévues aux probabilités d'observations.
 
-Le deuxième terme de cette somme est défini par $UNC - RES$ (et obtenu en faisant plus ou moins  ) :
+Le deuxième terme de cette somme est défini par $UNC - RES$ (et obtenu en faisant plus ou moins ) :
 
 $$
 \frac{1}{n}\sum_{k=1}^{m}\sum_{j=1}^{n_k}n_k(o_{kj} - \bar{o}_k)^2 = \frac{1}{n}\sum_{k=1}^{m}\sum_{j=1}^{n_k}n_k(o_{kj}-\bar{o})^2 - \frac{1}{n}\sum_{k=1}^{m}n_{k}(o_k - \bar{o})^2 
@@ -477,7 +477,7 @@ de plus, en utilisant le fait que $o_{kj}^2 = o_{kj}$ et que $\bar{o}_k = \frac{
 \end{align*}
 ```
 
-Ainsi 
+Ainsi,
 
 $$
 B_s = \frac{1}{n}n_{k}(\bar{f}_k - \bar{o}_k)^2 + \frac{1}{n}\sum_{k=1}^{m}\sum_{j=1}^{m}(o_{kj}-\bar{o}_k)^2 + \frac{1}{n}\sum_{k=1}^{m}\sum_{j=1}^{m}(f_{kj}-\bar{f}_k)^2 - \frac{2}{n}\sum_{k=1}^{m}\sum_{j=1}^{n_k}(f_{kj} - \bar{f}_k)(o_{kj} - \bar{o}_k)
@@ -492,7 +492,7 @@ Ce qui donne comme décomposition finale :
 \]
 ```
 
-D'où 
+D'où :
 
 $$
 B_s = REL - RES + UNC + WBV - WBC
@@ -502,6 +502,7 @@ $$
 - $UNC$ incertitude des observations 
 - $RES$ résolution prévisionnelle 
 - $REL$ fiabilité des prévisions 
+
 
 
 
