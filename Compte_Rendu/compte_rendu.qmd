@@ -263,7 +263,7 @@ Pour le modèle CIFAR-10 Resnet20 les valeurs trouvées pour température TS et 
 | Calibré avec TS    | 0.136          | 0.061 |
 | Calibré avec TEC   | 0.135          | 0.060 |
 
-: Résultats obtenus pour CIFAR-100 Resnet20 {#tbl-j}
+: Résultats obtenus pour CIFAR-10 Resnet20 {#tbl-j}
 
 D'après les résultats obtenus dans @tbl-j  on voit que les deux méthodes n'améliorent pas le score Brier et L'Expected Calibration Error et donnent des résultats moins bons que le modèle non calibré, cela peut être du au fait que le modèle a une erreur de classification très faible et au fait que les deux températures sont inférieurs à 1.
 
