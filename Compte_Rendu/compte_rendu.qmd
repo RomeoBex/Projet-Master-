@@ -159,7 +159,7 @@ Ensuite, l'algorithme calcule la précision moyenne sur l'ensemble de validation
 
 ```{=tex}
 \begin{align*}
-A_{val} = \frac{1}{n_{\text{val}}} \sum_{i} \mathds{1}(y_i = \hat{y}_i)  \enspace .
+A_{val} = \frac{1}{n_{\text{val}}} \sum_{i=1}^{n_{\text{val}}} \mathds{1}(y_i = \hat{y}_i)  \enspace .
 \end{align*}
 ```
 
@@ -240,19 +240,6 @@ Nous avons utilisé des modèles pré-entraînés provenant du dépôt Github: <
 
 On peux voir les résultats obtenus @tbl-first. D'après ces résultats on voit que les deux méthodes améliorent le score Brier et L'Expected Calibration Error et donnent des résultats très similaires.
 
-Pour le modèle CIFAR-10 Resnet20 les valeurs trouvées pour température TS et température $T_{EC}$ sont respectivement 0.49 et 0.52 de plus l'erreur de classification vaut 0.077, elle est donc très faible. Nous remarquons que cette fois les deux méthodes donne des températures inférieures à 1.
-
-| Modèle             | Score de Brier | ECE   |
-|--------------------|----------------|-------|
-| Modèle non calibré | 0.122          | 0.041 |
-| Calibré avec TS    | 0.136          | 0.061 |
-| Calibré avec TEC   | 0.135          | 0.060 |
-
-: Résultats obtenus pour CIFAR-100 Resnet20 {#tbl-j}
-
-D'après les résultats obtenus dans @tbl-j  on voit que les deux méthodes n'améliorent pas le score Brier et L'Expected Calibration Error et donnent des résultats moins bons que le modèle non calibré, cela peut être du au fait que le modèle a une erreur de classification très faible et au fait que les deux températures sont inférieurs à 1.
-
-
 Pour le modèle CIFAR-100 Resnet44 les valeurs trouvées pour température TS et température $T_{EC}$ sont respectivement 1.71 et 1.76 de plus l'erreur de classification vaut 0.28.
 
 
@@ -266,6 +253,21 @@ Pour le modèle CIFAR-100 Resnet44 les valeurs trouvées pour température TS et
 
 
 D'après les résultats obtenus dans @tbl-s  on voit que les deux méthodes améliorent le score Brier et L'Expected Calibration Error.
+
+
+Pour le modèle CIFAR-10 Resnet20 les valeurs trouvées pour température TS et température $T_{EC}$ sont respectivement 0.49 et 0.52 de plus l'erreur de classification vaut 0.077, elle est donc très faible. Nous remarquons que cette fois les deux méthodes donne des températures inférieures à 1.
+
+| Modèle             | Score de Brier | ECE   |
+|--------------------|----------------|-------|
+| Modèle non calibré | 0.122          | 0.041 |
+| Calibré avec TS    | 0.136          | 0.061 |
+| Calibré avec TEC   | 0.135          | 0.060 |
+
+: Résultats obtenus pour CIFAR-100 Resnet20 {#tbl-j}
+
+D'après les résultats obtenus dans @tbl-j  on voit que les deux méthodes n'améliorent pas le score Brier et L'Expected Calibration Error et donnent des résultats moins bons que le modèle non calibré, cela peut être du au fait que le modèle a une erreur de classification très faible et au fait que les deux températures sont inférieurs à 1.
+
+
 
 # Erreur de calibration attendue (ECE)
 
@@ -357,23 +359,6 @@ En comparant @fig-1 avec @fig-2 et @fig-3 on remarque que c'est bien le cas. Pou
 
 Pour la @fig-1 on voit que la confiance moyenne est largement supérieur à la précision moyenne du modèle ce qui montre clairement que le modèle est sur-confiant. Tandis qu'on voit que sur les @fig-2 et @fig-3  le modèle est mieux calibré et il donne des prédictions plus cohérentes au vu de la précision du modèle.
 
-On a pour Cifar10-resnet20 :
-
-::: {#fig-ECE layout-ncol=3 fig-pos='H'}
-![Modèle non calibré](Figure_nc_c10.svg){width=170 #fig-4}
-
-![Modèle calibré avec TS](Figure_ts_c10.svg){width=170 #fig-5}
-
-![Modèle calibré avec TEC](Figure_ec_c10.svg){width=170 #fig-6}
-
-Diagrammes de fiabilité pour Cifar10-resnet20 
-:::
-
-
-
-En comparant @fig-4 avec @fig-5 et @fig-6 on voit que pour ce modèle, les deux méthodes d'étalonnages n'améliore pas la calibration du modèle. Elles augmentent même l'ECE, cela peut être du au fait que l'on voit que le modèle est très sous-confiant à un moment or ces méthodes semble être efficaces uniquement pour améliorer la calibration des modèles qui sont très sur-confiants.
-
-
 On obtient pour Cifar100-resnet44 :
 
 
@@ -391,6 +376,62 @@ Diagrammes de fiabilité pour Cifar100-resnet44
 :::
 
 En comparant @fig-7 avec @fig-8 et @fig-9, on voit que pour Cifar100-resnet44, les deux méthodes d'étalonnage améliorent la calibration du modèle et donnent des résultats très similaires, mais légèrement meilleurs pour la méthode EC. Les deux méthodes permettent presque de faire correspondre la confiance moyenne du modèle et la précision réelle du modèle.
+
+On a pour Cifar10-resnet20 :
+
+::: {#fig-ECE layout-ncol=3 fig-pos='H'}
+![Modèle non calibré](CIFAR10_NC.svg){width=170 #fig-4}
+
+![Modèle calibré avec TS](CIFAR10_TS.svg){width=170 #fig-5}
+
+![Modèle calibré avec TEC](CIFAR10_EC.svg){width=170 #fig-6}
+
+Diagrammes de fiabilité pour Cifar10-resnet20 
+:::
+
+
+
+En comparant @fig-4 avec @fig-5 et @fig-6, on voit que pour ce modèle, les deux méthodes d'étalonnage n'améliorent pas la calibration du modèle. Elles augmentent même l'ECE. Cela peut être dû au fait que le modèle est très confiant, comme on peut le voir en regardant la partie "count" en bas, en bleu. On voit que dans ce cas, la calibration n'a pas d'effet, car c'est comme si on calibrait uniquement les probabilités qui se trouvent entre 0.9 et 1 pour notre exemple.
+
+
+
+# Proprités mathématiques
+
+Nous nous appuierons sur cette article (cf. @rigollet2012sparse). Nous avons vu que pour un problème de classification en K classes, dans le cadre d'un modèle calibré avec une température $T>0$. Pour une image $y_i$ la fonction softmax va lui associer un vecteur de probabilités de la forme : 
+
+$$
+\left(\frac{e^{z_{1}/T}}{\sum_{j=1}^{K} e^{z_{j}/T}},\dots, \frac{e^{z_{K/T}}}{\sum_{j=1}^{K} e^{z_{j/T}}} \right)
+$$
+où $z_k$ correspond pour tous $k$ appartenant à $\llbracket 1, K \rrbracket$ au score associé a la classe K. On pose :
+$$
+\sigma_{k}= \frac{e^{z_{k}/T}}{\sum_{j=1}^{K} e^{z_{j}/T}}\enspace.
+$$
+On considère le vecteur $z=(z_{1},...,z_{K})$ et on définit le simplexe suivant :
+
+$$
+\Lambda_{K} := \left\{ z \in \mathbb{R}^{K} :z_{k} \geq 0, \sum_{j=1}^{K} z_{k}=1 \right\}\enspace.
+$$
+
+On définit $\lambda=(\lambda_1,...,\lambda_K)$ où $\lambda \in \Lambda_{K}$ qui est donc par définition une mesure de probabilité sur $\{1, \ldots, K\}$ et $\pi=(\frac{1}{K},...,\frac{1}{K})\in \mathbb{R}^{K}$ ($\pi$ suit une distibution uniforme sur $\{1, \ldots, K\}$). La divergence de Kullback-Leibler entre $\lambda$ et $\pi$ est alors définie de cette manière :
+$$
+K(\lambda,\pi)=\sum_{j=1}^{K} \lambda_j\log(\frac{\lambda_j}{\pi_j})\enspace.
+$$
+
+On a alors dans ce cas :
+
+$$
+\left(\sigma_1,\dots, \sigma_K \right)=\arg\min_{\lambda \in \Lambda_{K}}\left\{ -\sum_{j=1}^{K}\lambda_jz_{j}+T.K(\lambda,\pi) \right\}
+$$
+On trouve donc que quand $T \to 0^+$, 
+$$
+\left(\sigma_1,\dots, \sigma_K \right)\to \arg\max_{\lambda \in \Lambda_{K}}\left\{ \sum_{j=1}^{K}\lambda_jz_{j}\right\}
+$$ 
+donc $\left(\sigma_1,\dots, \sigma_K \right)\to \delta_{z_{max}}$. De plus, quand $T \to \infty$, 
+
+$$
+\left(\sigma_1,\dots, \sigma_K \right)\to\arg\min_{\lambda \in \Lambda_{K}}\left\{K(\lambda,\pi) \right\}
+$$
+donc $\left(\sigma_1,\dots, \sigma_K \right)\to \pi$.
 
 
 
@@ -561,18 +602,17 @@ print("Score de Brier :", bs)
 
 
 La méthode EC est une technique d'étalonnage post-entraînement qui peut presque parfaitement restaurer l'étalonnage de certains modèles de réseaux neuronaux.
+
 Elle permet d'obtenir des performances d'étalonnage très similaires à celles de la mise à l'échelle de la température (TS). 
 D'après nos observations, pour les modèles Cifar100-resnet20 et Cifar100-resnet44, elle permet de presque parfaitement restaurer l'étalonnage du réseau.
 
-Cependant, pour le modèle Cifar10-resnet20, les deux méthodes ne sont pas efficaces, cela semble être dû au fait que l'erreur de classification de ce modèle est très faible. 
-Le modèle non calibré a déjà une confiance moyenne proche des performances réelles du modèle, ce qui semble rendre inefficaces les deux méthodes d'étalonnage.
+Cependant, pour le modèle Cifar10-resnet20, les deux méthodes ne sont pas efficaces, cela semble être dû au fait que le modèle est très confiant. On remarque que quasiment toutes ses probabilités prédites se trouvent entre 0.9 et 1.
+
 
 Pour conclure, si vous avez un modèle entraîné qui est en moyenne beaucoup plus confiant que les performances réelles du modèle, vous pouvez procéder à la méthode d'étalonnage EC et vous obtiendrez des résultats très similaires à la méthode de mise à l'échelle de la température (TS).
-En revanche, si le modèle entraîné a une confiance moyenne dans ses prédictions proche de ses performances réelles, alors les deux méthodes d'étalonnage risquent de ne pas être efficaces.
+En revanche, si le modèle entraîné a des probabilités prédites qui se situent toutes dans l'intervalle 0.9 et 1, alors les deux méthodes d'étalonnage risquent de ne pas être efficaces.
 
 # Bibliographie
 
 ::: {#refs}
 :::
-
-
