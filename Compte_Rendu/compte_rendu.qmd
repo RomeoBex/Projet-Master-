@@ -421,7 +421,7 @@ $$
 On a alors dans ce cas :
 
 $$
-\underset{\lambda \in \Lambda_{K}}{\text{argmin}} \left\{ -\sum_{j=1}^{K}\lambda_jz_{j}+T \cdot K(\lambda,\pi) \right\}
+\left(\sigma_1,\dots, \sigma_K \right)=\underset{\lambda \in \Lambda_{K}}{\text{argmin}} \left\{ -\sum_{j=1}^{K}\lambda_jz_{j}+T \cdot K(\lambda,\pi) \right\}
 $$
 
 On trouve donc que quand $T \to 0^+$, 
