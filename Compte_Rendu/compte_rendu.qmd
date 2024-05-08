@@ -446,12 +446,25 @@ $$
 \frac{\partial L}{\partial \sigma_i}(\sigma_1, \dots , \sigma_K) = -z_i + T log (\frac{\sigma_i}{\frac{1}{K}}) - \sigma_i + \mu_i = 0
 $$
 
+$$
+log(o_{i}K) =
+$$
+
 ```{=tex}
 \begin{align*}
-    \sigma_i = \frac{exp(\frac{z_i + \sigma_i - \mu_i}{T})}{K} 
-    & = \frac{\frac{exp(\frac{z_i + \delta_i - \mu_i}{T})}{K}}{\frac{1}{K}\sum_{j=1}^{K}exp(\frac{z_i + \delta_i - \mu_i}{T})}
+     \sigma_i &= \frac{\exp\left(\frac{z_i + \sigma_i - \mu_i}{T}\right)}{K} \\
+    &= \frac{\frac{\exp\left(\frac{z_i + \delta_i - \mu_i}{T}\right)}{K}}{\frac{1}{K}\sum_{j=1}^{K}\exp\left(\frac{z_i + \delta_i - \mu_i}{T}\right)} \\
+    &= \frac{exp(\frac{z_i + \delta_i - \mu_i}{T})}{\sum_{j=1}^{K} exp(\frac{z_i + \delta_i - \mu_i}{T})} \\ 
+    &= \frac{exp(\frac{z_i}{T})}{\sum_{j=1}^{K} exp(\frac{z_i}{T})}
 \end{align*}
 
+```
+
+et 
+```{=tex}
+\[
+\boxed{(\sigma_1, \dots , \sigma_K) = \left(\frac{\exp\left(\frac{z_1}{T}\right)}{\sum_{j=1}^{K} \exp\left(\frac{z_i}{T}\right)}, \dots ,\frac{\exp\left(\frac{z_K}{T}\right)}{\sum_{j=1}^{K} \exp\left(\frac{z_K}{T}\right)}\right)}
+\]
 ```
 
 
