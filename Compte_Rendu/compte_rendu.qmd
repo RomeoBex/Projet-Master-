@@ -421,8 +421,10 @@ $$
 On a alors dans ce cas :
 
 $$
-\underset{\lambda \in \Lambda_{K}}{\text{argmin}} \left\{ -\sum_{j=1}^{K}\lambda_jz_{j}+T \cdot K(\lambda,\pi) \right\}
+\left(\sigma_1,\dots, \sigma_K \right) = \underset{\lambda \in \Lambda_{K}}{\text{argmin}} \left\{ -\sum_{j=1}^{K}\lambda_jz_{j}+T \cdot K(\lambda,\pi) \right\}
 $$
+
+Cela nous amène à un problème d'optimisation convexe, en effet le critère à minimiser et l'ensemble admissible sont convexe. 
 
 On trouve donc que quand $T \to 0^+$, 
 
