@@ -412,7 +412,7 @@ $$
 \Lambda_{K} := \left\{ z \in \mathbb{R}^{K} :z_{k} \geq 0, \sum_{j=1}^{K} z_{k}=1 \right\}\enspace.
 $$
 
-On définit $\lambda=(\lambda_1,...,\lambda_K)$ où $\lambda \in \Lambda_{K}$ qui est donc par définition une mesure de probabilité sur $\{1, \ldots, K\}$ et $\pi=(\frac{1}{K},...,\frac{1}{K})\in \mathbb{R}^{K}$ ($\pi$ suit une distibution uniforme sur $\{1, \ldots, K\}$). La divergence de Kullback-Leibler entre $\lambda$ et $\pi$ peut être vue comme une sorte de distance (même si elle n'est pas symétrique) entre deux distributions, ici $\lambda$ et $\pi$. Elle est définie comme 
+On définit $\lambda=(\lambda_1,...,\lambda_K)$ où $\lambda \in \Lambda_{K}$ qui est donc par définition une mesure de probabilité sur $\{1, \ldots, K\}$ et $\pi=(\frac{1}{K},...,\frac{1}{K})\in \mathbb{R}^{K}$ ($\pi$ suit une distibution uniforme sur $\{1, \ldots, K\}$). La divergence de Kullback-Leibler entre $\lambda$ et $\pi$ peut être vue comme une sorte de distance (même si elle n'est pas symétrique) entre deux distributions, ici $\lambda$ et $\pi$. Elle est définie comme : 
 
 $$
 K(\lambda,\pi)=\sum_{j=1}^{K} \lambda_j\log(\frac{\lambda_j}{\pi_j})\enspace.
@@ -424,7 +424,7 @@ $$
 \left(\sigma_1,\dots, \sigma_K \right)=\underset{\lambda \in \Lambda_{K}}{\text{argmin}} \left\{ -\sum_{j=1}^{K}\lambda_jz_{j}+T \cdot K(\lambda,\pi) \right\}
 $$
 
-Cela nous amène à un problème d'optimisation convexe, en effet le critère à minimiser et l'ensemble admissible sont convexe. Il existe donc une unique solution à ce problème que l'on notera $\left(\sigma_1,\dots, \sigma_K \right)$
+Pour prouver cela il nous faut résoudre un problème d'optimisation convexe, en effet le critère à minimiser et l'ensemble admissible sont convexe. Il existe donc une unique solution à ce problème que l'on notera $\left(\sigma_1,\dots, \sigma_K \right)$.
 
 On pose : 
 $$
@@ -443,16 +443,16 @@ $$
 
 et on obtient 
 $$
-\frac{\partial L}{\partial \sigma_i}(\sigma_1, \dots , \sigma_K) = -z_i + T log (\frac{\sigma_i}{\frac{1}{K}}) - \sigma_i + \mu_i = 0
+\frac{\partial L}{\partial \sigma_i}(\sigma_1, \dots , \sigma_K) = -z_i + T log (\frac{\sigma_i}{\frac{1}{K}}) - \delta_i + \mu_i = 0
 $$
 
 $$
-log(o_{i}K) = \frac{z_i + \delta_i - \mu_i}{T}
+log(\sigma_{i}K) = \frac{z_i + \delta_i - \mu_i}{T}
 $$
 
 ```{=tex}
 \begin{align*}
-     \sigma_i &= \frac{\exp\left(\frac{z_i + \sigma_i - \mu_i}{T}\right)}{K} \\
+     \sigma_i &= \frac{\exp\left(\frac{z_i + \delta_i - \mu_i}{T}\right)}{K} \\
     &= \frac{\frac{\exp\left(\frac{z_i + \delta_i - \mu_i}{T}\right)}{K}}{\frac{1}{K}\sum_{j=1}^{K}\exp\left(\frac{z_i + \delta_i - \mu_i}{T}\right)} \\
     &= \frac{exp(\frac{z_i + \delta_i - \mu_i}{T})}{\sum_{j=1}^{K} exp(\frac{z_i + \delta_i - \mu_i}{T})} \\ 
     &= \frac{exp(\frac{z_i}{T})}{\sum_{j=1}^{K} exp(\frac{z_i}{T})}
@@ -472,16 +472,17 @@ et
 On trouve donc que quand $T \to 0^+$, 
 
 
-
 $$
 \left(\sigma_1,\dots, \sigma_K \right)\to \underset{\lambda \in \Lambda_{K}}{\text{argmax}} \left\{ \sum_{j=1}^{K}\lambda_jz_{j} \right\}
 $$ 
-donc $\left(\sigma_1,\dots, \sigma_K \right)\to \delta_{z_{max}}$. De plus, quand $T \to \infty$, 
+donc $\left(\sigma_1,\dots, \sigma_K \right)\to \delta_{z_{max}}$, où $\delta$ est la fonction Dirac. De plus, quand $T \to \infty$, 
 
 $$
 \left(\sigma_1,\dots, \sigma_K \right)\to \underset{\lambda \in \Lambda_{K}}{\text{argmin}} \left\{ K(\lambda,\pi)  \right\}
 $$
 donc $\left(\sigma_1,\dots, \sigma_K \right)\to \pi$.
+
+
 
 
 
