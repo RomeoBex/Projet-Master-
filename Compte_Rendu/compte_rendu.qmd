@@ -429,12 +429,12 @@ On trouve donc que quand $T \to 0^+$,
 
 
 $$
-\left(\sigma_1,\dots, \sigma_K \right)\to \arg\max_{\lambda \in \Lambda_{K}}\left\{ \sum_{j=1}^{K}\lambda_jz_{j}\right\}
+\left(\sigma_1,\dots, \sigma_K \right)\to \underset{\lambda \in \Lambda_{K}}{\text{argmax}} \left\{ \sum_{j=1}^{K}\lambda_jz_{j} \right\}
 $$ 
 donc $\left(\sigma_1,\dots, \sigma_K \right)\to \delta_{z_{max}}$. De plus, quand $T \to \infty$, 
 
 $$
-\left(\sigma_1,\dots, \sigma_K \right)\to\arg\min_{\lambda \in \Lambda_{K}}\left\{K(\lambda,\pi) \right\}
+\left(\sigma_1,\dots, \sigma_K \right)\to \underset{\lambda \in \Lambda_{K}}{\text{argmin}} \left\{ K(\lambda,\pi)  \right\}
 $$
 donc $\left(\sigma_1,\dots, \sigma_K \right)\to \pi$.
 
