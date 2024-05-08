@@ -447,7 +447,7 @@ $$
 $$
 
 $$
-log(o_{i}K) =
+log(o_{i}K) = \frac{z_i + \delta_i - \mu_i}{T}
 $$
 
 ```{=tex}
