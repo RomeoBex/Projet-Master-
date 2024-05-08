@@ -412,7 +412,8 @@ $$
 \Lambda_{K} := \left\{ z \in \mathbb{R}^{K} :z_{k} \geq 0, \sum_{j=1}^{K} z_{k}=1 \right\}\enspace.
 $$
 
-On définit $\lambda=(\lambda_1,...,\lambda_K)$ où $\lambda \in \Lambda_{K}$ qui est donc par définition une mesure de probabilité sur $\{1, \ldots, K\}$ et $\pi=(\frac{1}{K},...,\frac{1}{K})\in \mathbb{R}^{K}$ ($\pi$ suit une distibution uniforme sur $\{1, \ldots, K\}$). La divergence de Kullback-Leibler entre $\lambda$ et $\pi$ est alors définie de cette manière :
+On définit $\lambda=(\lambda_1,...,\lambda_K)$ où $\lambda \in \Lambda_{K}$ qui est donc par définition une mesure de probabilité sur $\{1, \ldots, K\}$ et $\pi=(\frac{1}{K},...,\frac{1}{K})\in \mathbb{R}^{K}$ ($\pi$ suit une distibution uniforme sur $\{1, \ldots, K\}$). La divergence de Kullback-Leibler entre $\lambda$ et $\pi$ peut être vue comme une sorte de distance (même si elle n'est pas symétrique) entre deux distributions, ici $\lambda$ et $\pi$. Elle est définie comme 
+
 $$
 K(\lambda,\pi)=\sum_{j=1}^{K} \lambda_j\log(\frac{\lambda_j}{\pi_j})\enspace.
 $$
@@ -420,9 +421,13 @@ $$
 On a alors dans ce cas :
 
 $$
-\left(\sigma_1,\dots, \sigma_K \right)=\arg\min_{\lambda \in \Lambda_{K}}\left\{ -\sum_{j=1}^{K}\lambda_jz_{j}+T.K(\lambda,\pi) \right\}
+\underset{\lambda \in \Lambda_{K}}{\text{argmin}} \left\{ -\sum_{j=1}^{K}\lambda_jz_{j}+T \cdot K(\lambda,\pi) \right\}
 $$
+
 On trouve donc que quand $T \to 0^+$, 
+
+
+
 $$
 \left(\sigma_1,\dots, \sigma_K \right)\to \arg\max_{\lambda \in \Lambda_{K}}\left\{ \sum_{j=1}^{K}\lambda_jz_{j}\right\}
 $$ 
