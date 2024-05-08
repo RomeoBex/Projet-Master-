@@ -402,7 +402,7 @@ Nous nous appuierons sur cette article (cf. @rigollet2012sparse). Nous avons vu 
 $$
 \left(\frac{e^{z_{1}/T}}{\sum_{j=1}^{K} e^{z_{j}/T}},\dots, \frac{e^{z_{K/T}}}{\sum_{j=1}^{K} e^{z_{j/T}}} \right)
 $$
-où $z_k$ correspond pour tous $k$ appartenant à $\llbracket 1, K \rrbracket$ au score associé a la classe k. On pose :
+où $z_k$ correspond pour tout $k$ appartenant à $\llbracket 1, K \rrbracket$ au score associé a la classe k. On pose :
 $$
 \sigma_{k}= \frac{e^{z_{k}/T}}{\sum_{j=1}^{K} e^{z_{j}/T}}\enspace.
 $$
