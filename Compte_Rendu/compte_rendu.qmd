@@ -421,14 +421,11 @@ $$
 On a alors dans ce cas :
 
 $$
-<<<<<<< HEAD
-\left(\sigma_1,\dots, \sigma_K \right) = \underset{\lambda \in \Lambda_{K}}{\text{argmin}} \left\{ -\sum_{j=1}^{K}\lambda_jz_{j}+T \cdot K(\lambda,\pi) \right\}
-=======
 \left(\sigma_1,\dots, \sigma_K \right)=\underset{\lambda \in \Lambda_{K}}{\text{argmin}} \left\{ -\sum_{j=1}^{K}\lambda_jz_{j}+T \cdot K(\lambda,\pi) \right\}
->>>>>>> 880a73ff28b318c3f969777296dd9cb72834ba75
 $$
 
 Cela nous amène à un problème d'optimisation convexe, en effet le critère à minimiser et l'ensemble admissible sont convexe. 
+
 
 On trouve donc que quand $T \to 0^+$, 
 
