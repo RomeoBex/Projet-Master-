@@ -424,7 +424,36 @@ $$
 \left(\sigma_1,\dots, \sigma_K \right)=\underset{\lambda \in \Lambda_{K}}{\text{argmin}} \left\{ -\sum_{j=1}^{K}\lambda_jz_{j}+T \cdot K(\lambda,\pi) \right\}
 $$
 
-Cela nous amène à un problème d'optimisation convexe, en effet le critère à minimiser et l'ensemble admissible sont convexe. 
+Cela nous amène à un problème d'optimisation convexe, en effet le critère à minimiser et l'ensemble admissible sont convexe. Il existe donc une unique solution à ce problème que l'on notera $\left(\sigma_1,\dots, \sigma_K \right)$
+
+On pose : 
+$$
+\begin{cases}
+    g(\sigma_1, \dots , \sigma_K) = \sum_{j=1}^{K}\sigma_i - 1 \\
+    h_i(\sigma_1, \dots , \sigma_K) = -\lambda_i \quad \text{pour } i \in \llbracket 1,K \rrbracket \\
+    f(\sigma_1, \dots , \sigma_K) = -\sum_{j=1}^{K}\sigma_{j}z_{j} + T \cdot K(\lambda, \pi)
+\end{cases}
+$$
+
+Le Lagrangien devient : 
+
+$$
+L(\sigma_1, \dots , \sigma_K,\lambda,\mu) = f(\sigma_1, \dots , \sigma_K) - \delta g(\sigma_1, \dots , \sigma_K) - \mu_1 h_1(\sigma_1, \dots , \sigma_K) - ... - \mu_{K}h_{K}(\sigma_1, \dots , \sigma_K)
+$$ 
+
+et on obtient 
+$$
+\frac{\partial L}{\partial \sigma_i}(\sigma_1, \dots , \sigma_K) = -z_i + T log (\frac{\sigma_i}{\frac{1}{K}}) - \sigma_i + \mu_i = 0
+$$
+
+```{=tex}
+\begin{align*}
+    \sigma_i = \frac{exp(\frac{z_i + \sigma_i - \mu_i}{T})}{K} 
+    & = \frac{\frac{exp(\frac{z_i + \delta_i - \mu_i}{T})}{K}}{\frac{1}{K}\sum_{j=1}^{K}exp(\frac{z_i + \delta_i - \mu_i}{T})}
+\end{align*}
+
+```
+
 
 
 On trouve donc que quand $T \to 0^+$, 
