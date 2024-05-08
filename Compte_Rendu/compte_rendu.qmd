@@ -453,9 +453,9 @@ $$
 ```{=tex}
 \begin{align*}
      \sigma_i &= \frac{\exp\left(\frac{z_i + \delta_i - \mu_i}{T}\right)}{K} \\
-    &= \frac{\frac{\exp\left(\frac{z_i + \delta_i - \mu_i}{T}\right)}{K}}{\frac{1}{K}\sum_{j=1}^{K}\exp\left(\frac{z_i + \delta_i - \mu_i}{T}\right)} \\
-    &= \frac{exp(\frac{z_i + \delta_i - \mu_i}{T})}{\sum_{j=1}^{K} exp(\frac{z_i + \delta_i - \mu_i}{T})} \\ 
-    &= \frac{exp(\frac{z_i}{T})}{\sum_{j=1}^{K} exp(\frac{z_i}{T})}
+    &= \frac{\frac{\exp\left(\frac{z_i + \delta_i - \mu_i}{T}\right)}{K}}{\frac{1}{K}\sum_{i=1}^{K}\exp\left(\frac{z_i + \delta_i - \mu_i}{T}\right)} \\
+    &= \frac{exp(\frac{z_i + \delta_i - \mu_i}{T})}{\sum_{i=1}^{K} exp(\frac{z_i + \delta_i - \mu_i}{T})} \\ 
+    &= \frac{exp(\frac{z_i}{T})}{\sum_{i=1}^{K} exp(\frac{z_i}{T})}
 \end{align*}
 
 ```
