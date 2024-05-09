@@ -228,7 +228,9 @@ Ensuite, une fonction objectif est définie, notée `objective(T)`, qui prend la
 
 ## Résultats Obtenus
 
-Nous avons utilisé des modèles pré-entraînés provenant du dépôt Github: <https://github.com/chenyaofo/pytorch-cifar-models>. Pour le modèle  CIFAR-100 Resnet20 les valeurs trouvées pour température TS et température $T_{EC}$ sont respectivement 1.436 et 1.445, elle sont donc très proches.L'erreur de classification vaut 0.32. Nous remarquons que les deux méthodes donne des températures supérieures à 1 ce qui est cohérent avec le fait que les réseaux originaux étaient sûr-confiants.
+Nous avons utilisé des modèles pré-entraînés provenant du dépôt Github: <https://github.com/chenyaofo/pytorch-cifar-models>. Le modèle CIFAR-100 ResNet20 signifie qu'il s'agit d'un réseau ResNet avec 20 couches entraîné sur la base de données CIFAR-100. Cet ensemble de données contient un total de 60 000 images, réparties en 100 classes différentes, avec 600 images par classe. Il est divisé en un ensemble d'entraînement de 50 000 images et un ensemble de test de 10 000 images. Ce modèle a été entraîné sur l'intégralité de l'ensemble d'entraînement, donc l'ensemble de test contenant 10 000 images a été divisé en deux pour former un ensemble de validation et un ensemble de test, chacun contenant 5 000 images. 
+
+Pour le modèle  CIFAR-100 Resnet20 les valeurs trouvées pour température TS et température $T_{EC}$ sont respectivement 1.436 et 1.445, elle sont donc très proches.L'erreur de classification vaut 0.32. Nous remarquons que les deux méthodes donne des températures supérieures à 1 ce qui est cohérent avec le fait que les réseaux originaux étaient sûr-confiants.
 
 | Modèle             | Score de Brier | ECE   |
 |--------------------|----------------|-------|
@@ -240,7 +242,7 @@ Nous avons utilisé des modèles pré-entraînés provenant du dépôt Github: <
 
 On peux voir les résultats obtenus @tbl-first. D'après ces résultats on voit que les deux méthodes améliorent le score Brier et L'Expected Calibration Error et donnent des résultats très similaires.
 
-Pour le modèle CIFAR-100 Resnet44 les valeurs trouvées pour température TS et température $T_{EC}$ sont respectivement 1.71 et 1.76 de plus l'erreur de classification vaut 0.28.
+Pour le modèle CIFAR-100 ResNet44, qui correspond à la même base de données que le modèle précédent mais avec un réseau ResNet de 44 couches. Les valeurs trouvées pour température TS et température $T_{EC}$ sont respectivement 1.71 et 1.76 de plus l'erreur de classification vaut 0.28.
 
 
 | Modèle             | Score de Brier | ECE   |
@@ -254,7 +256,7 @@ Pour le modèle CIFAR-100 Resnet44 les valeurs trouvées pour température TS et
 
 D'après les résultats obtenus dans @tbl-s  on voit que les deux méthodes améliorent le score Brier et L'Expected Calibration Error.
 
-
+Le modèle CIFAR-10 Resnet20  signifie qu'il s'agit d'un réseau ResNet avec 20 couches entraîné sur la base de données CIFAR-10. Cet ensemble de données contient un total de 60 000 images réparties en 10 classes différentes, avec 6 000 images par classe. Cet ensemble de données est divisé en un ensemble d'entraînement de 50 000 images et un ensemble de test de 10 000 images. Ce modèle a été entraîné sur l'intégralité de l'ensemble d'entraînement, donc l'ensemble de test contenant 10 000 images a été divisé en deux pour former un ensemble de validation et un ensemble de test, chacun contenant 5 000 images.
 Pour le modèle CIFAR-10 Resnet20 les valeurs trouvées pour température TS et température $T_{EC}$ sont respectivement 0.49 et 0.52 de plus l'erreur de classification vaut 0.077, elle est donc très faible. Nous remarquons que cette fois les deux méthodes donne des températures inférieures à 1.
 
 | Modèle             | Score de Brier | ECE   |
@@ -481,6 +483,9 @@ $$
 \left(\sigma_1,\dots, \sigma_K \right)\to \underset{\lambda \in \Lambda_{K}}{\text{argmin}} \left\{ K(\lambda,\pi)  \right\}
 $$
 donc $\left(\sigma_1,\dots, \sigma_K \right)\to \pi$.
+
+Donc si $T ≪ 1$, le softmax sera dominé par la classe ayant la plus grande confiance. Cela conduira généralement à un prédicteur surconfiant. D'autre part, pour $T ≫ 1$, le softmax sera de moins en moins sensible aux poids entraînés et convergera vers un vecteur uniforme quand $T \to \infty$. Cela correspondra généralement à un prédicteur sous-confiant. Par conséquent, en réglant T, nous pouvons rendre un prédicteur moins sous-confiant (en abaissant la température T < 1) ou moins sur-confiant (en augmentant la température T > 1).
+
 
 
 
