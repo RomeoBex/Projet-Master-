@@ -1,0 +1,152 @@
+---
+title: "Cohérence des attentes pour l'étalonnage des réseaux neuronaux"
+author: "Roméo BEX, Tristan RIVALDI"
+format: 
+    revealjs :
+        transition: slide
+        background-transition: fade
+---
+
+
+## Introduction
+
+- Contexte
+- Objectif
+- Méthode
+
+
+## Reégression logistique 
+
+Pour le cas multi-classes on fait l'hypothèse que :
+$$
+\log\left(\frac{P(Y=k|\mathbf{x})}{P(Y=K|\mathbf{x})}\right) = \theta_k^\top \mathbf{x}
+$$
+Ce qui donne :
+$$
+P(Y=k | \mathbf{x}) = \frac{\exp(\langle {\theta}_k, \mathbf{x} \rangle)}{\sum_{l=1}^{K} \exp(\langle {\theta}_l, \mathbf{x} \rangle)} \\
+= \frac{\exp({\theta}_k^T \mathbf{x})}{\sum_{l=1}^{K} \exp({\theta}_l^T \mathbf{x})}\enspace .
+$$
+
+## Explication de l'algorithme pour la méthode EC
+
+Le but de cet algorithme est de calculer $T_{\text{EC}}$ pour que la confiance moyenne corresponde à la précision moyenne sur l'ensemble de validation.
+
+Il faut que $T_{\text{EC}}$ vérifie :
+
+$$
+\frac{1}{n_{\text{val}}} \sum_{i =1}^{n_{\text{val}}} \max_{k=1}^{K} \sigma \left(\frac{z^{(i)}}{T_{\text{EC}}}\right)_k = A_{\text{val}} \enspace .
+$$
+
+
+## Erreur de calibration attendue (ECE)
+
+ Pour chaque groupe $B_m$ on calcule la précision (accuracy) qui correspond à la proportion d'échantillons correctement classés et la confiance moyenne:
+
+$$
+acc(B_m)=\frac{1}{|B_m|}\sum_{i\in B_m}{1}(y_i=\hat{y_i}) 
+$$
+$$
+conf(B_m)=\frac{1}{|B_m|}\sum_{i\in B_m}\hat{p_i}
+$$
+$$
+ECE=\frac{1}{N}\sum_{m=1}^{M}|B_m||acc(B_m)-conf(B_m)|
+$$
+
+## Score de Brier
+
+A compléter
+
+## Cifar100-resnet20
+
+| Modèle             | Score de Brier | ECE   |
+|--------------------|----------------|-------|
+| Modèle non calibré | 0.455          | 0.104 |
+| Calibré avec TS    | 0.436          | 0.030 |
+| Calibré avec TEC   | 0.436          | 0.028 |
+
+: Résultats pour CIFAR-100 Resnet20 {#tbl-first}
+
+- L'erreur de classification vaut 32%.
+
+## Cifar100-resnet20
+
+::: {#fig-ECE layout-ncol=3 fig-pos='H'}
+![Modèle non calibré](Figure_1.svg){width=300 #fig-1 }
+
+![Modèle calibré avec TS](Figure_2.svg){width=300 #fig-2 }
+
+![Modèle calibré avec TEC](Figure_3.svg){width=300 #fig-3 }
+
+Diagrammes de fiabilité pour Cifar100-resnet20 
+:::
+
+
+
+
+
+## Cifar100-resnet44 
+
+| Modèle             | Score de Brier | ECE   |
+|--------------------|----------------|-------|
+| Modèle non calibré | 0.442          | 0.147 |
+| Calibré avec TS    | 0.405          | 0.048 |
+| Calibré avec TEC   | 0.405          | 0.046 |
+
+: Résultats pour CIFAR-100 Resnet44 {#tbl-s}
+
+- L'erreur de classification vaut 28%.
+
+##  Cifar100-resnet44 
+
+::: {#fig-ECE layout-ncol=3 fig-pos='H'}
+![Modèle non calibré](figure_1_44_nc.svg){width=300 #fig-7}
+
+![Modèle calibré avec TS](Figure_2_44_ts.svg){width=300 #fig-8}
+
+![Modèle calibré avec TEC](Figure_3_44_ec.svg){width=300 #fig-9}
+
+Diagrammes de fiabilité pour Cifar100-resnet44 
+:::
+
+
+## Cifar10-resnet20
+
+| Modèle             | Score de Brier | ECE   |
+|--------------------|----------------|-------|
+| Modèle non calibré | 0.122          | 0.041 |
+| Calibré avec TS    | 0.136          | 0.061 |
+| Calibré avec TEC   | 0.135          | 0.060 |
+
+: Résultats obtenus pour CIFAR-10 Resnet20 {#tbl-j}
+
+- L'erreur de classification vaut 7,7%.
+
+
+## Cifar10-resnet20
+
+::: {#fig-ECE layout-ncol=3}
+![Modèle non calibré](CIFAR10_NC.svg){width=300 #fig-4}
+
+![Modèle calibré avec TS](CIFAR10_TS.svg){width=300 #fig-5}
+
+![Modèle calibré avec TEC](CIFAR10_EC.svg){width=300 #fig-6}
+
+Diagrammes de fiabilité pour Cifar10-resnet20 
+:::
+
+
+## Propriété Mthématique 
+
+Pour :
+
+$$
+\sigma_{k}= \frac{e^{z_{k}/T}}{\sum_{j=1}^{K} e^{z_{j}/T}}
+$$
+On a :
+
+$$
+\left(\sigma_1,\dots, \sigma_K \right)=\underset{\lambda \in \Lambda_{K}}{\text{argmin}} \left\{ -\sum_{j=1}^{K}\lambda_jz_{j}+T \cdot K(\lambda,\pi) \right\}
+$$
+
+
+## Conclusion
