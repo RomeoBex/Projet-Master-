@@ -113,13 +113,13 @@ Diagrammes de fiabilité pour Cifar100-resnet44
 
 | Modèle             | Score de Brier | ECE   |
 |--------------------|----------------|-------|
-| Modèle non calibré | 0.122          | 0.041 |
-| Calibré avec TS    | 0.136          | 0.061 |
-| Calibré avec TEC   | 0.135          | 0.060 |
+| Modèle non calibré | 0.129          | 0.044 |
+| Calibré avec TS    | 0.121          | 0.018 |
+| Calibré avec TEC   | 0.121          | 0.016 |
 
 : Résultats obtenus pour CIFAR-10 Resnet20 {#tbl-j}
 
-- L'erreur de classification vaut 7,7%.
+- L'erreur de classification vaut 7,9%.
 
 
 ## Cifar10-resnet20
@@ -150,3 +150,5 @@ $$
 
 
 ## Conclusion
+
+
