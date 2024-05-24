@@ -14,8 +14,21 @@ format:
 - Objectif
 - Méthode
 
+## Régréssion logistique (1)
+- Qu'est-ce que c'est ?
 
-## Reégression logistique 
+
+## Régression logistique (2)
+
+![](regression.svg){width=300}
+
+## Régression logistique (3)
+
+- Vision Probabiliste 
+
+
+
+## Régression logistique (4)
 
 Pour le cas multi-classes on fait l'hypothèse que :
 $$
