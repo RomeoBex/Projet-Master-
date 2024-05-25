@@ -432,13 +432,12 @@ Pour prouver cela il nous faut résoudre un problème d'optimisation convexe, en
 On pose :  
 $$
 \begin{cases}
-    g(\sigma_1, \dots , \sigma_K) = \sum_{j=1}^{K}\sigma_i - 1 \\
-    h_i(\sigma_1, \dots , \sigma_K) = -\lambda_i \quad \text{pour } i \in \llbracket 1,K \rrbracket \\
+    g(\sigma_1, \dots , \sigma_K) = \sum_{j=1}^{K}\sigma_j - 1 \\
+    h_j(\sigma_1, \dots , \sigma_K) = -\lambda_j \quad \text{pour } j \in \llbracket 1,K \rrbracket \\
     f(\sigma_1, \dots , \sigma_K) = -\sum_{j=1}^{K}\sigma_{j}z_{j} + T \cdot K(\lambda, \pi) 
 \end{cases}
 $$
 
-Avec comme contrainte de complémentarité $\sigma_i\delta_i = 0$ pour tout $i$.
 
 Le Lagrangien devient : 
 
@@ -454,6 +453,9 @@ $$
 $$
 log(\sigma_{i}K) = \frac{z_i + \delta_i - \mu_i}{T}
 $$
+
+De plus, en utilisant notre contrainte de complémentarité $\sigma_i\delta_i = 0$ et le fait que $\sum_{i=1}^{K}\sigma_i = 1$ on a : 
+
 
 ```{=tex}
 \begin{align*}
