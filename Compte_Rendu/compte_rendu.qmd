@@ -429,14 +429,16 @@ $$
 
 Pour prouver cela il nous faut résoudre un problème d'optimisation convexe, en effet le critère à minimiser et l'ensemble admissible sont convexe. Il existe donc une unique solution à ce problème que l'on notera $\left(\sigma_1,\dots, \sigma_K \right)$.
 
-On pose : 
+On pose :  
 $$
 \begin{cases}
     g(\sigma_1, \dots , \sigma_K) = \sum_{j=1}^{K}\sigma_i - 1 \\
     h_i(\sigma_1, \dots , \sigma_K) = -\lambda_i \quad \text{pour } i \in \llbracket 1,K \rrbracket \\
-    f(\sigma_1, \dots , \sigma_K) = -\sum_{j=1}^{K}\sigma_{j}z_{j} + T \cdot K(\lambda, \pi)
+    f(\sigma_1, \dots , \sigma_K) = -\sum_{j=1}^{K}\sigma_{j}z_{j} + T \cdot K(\lambda, \pi) 
 \end{cases}
 $$
+
+Avec comme contrainte de complémentarité $\sigma_i\delta_i = 0$ pour tout $i$.
 
 Le Lagrangien devient : 
 
