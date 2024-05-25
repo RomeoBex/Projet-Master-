@@ -454,7 +454,7 @@ $$
 log(\sigma_{i}K) = \frac{z_i + \delta - \mu_i}{T}
 $$
 
-De plus, en utilisant notre contrainte de complémentarité $\sigma_i\mu_i = 0$ ce qui donne $\mu_i=0$ car $\sigma_i = \frac{\exp\left(\frac{z_i + \delta - \mu_i}{T}\right)}{K}$ est différent de 0 et le fait que $\sum_{i=1}^{K}\sigma_i = 1$ on a : 
+De plus, en utilisant notre contrainte de complémentarité $\sigma_i\mu_i = 0$ pour tout $i \in \llbracket 1,K \rrbracket$ ce qui donne $\mu_i=0$ car $\sigma_i = \frac{\exp\left(\frac{z_i + \delta - \mu_i}{T}\right)}{K}$ est différent de 0 et le fait que $\sum_{i=1}^{K}\sigma_i = 1$ on a : 
 
 
 ```{=tex}
