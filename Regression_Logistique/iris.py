@@ -39,7 +39,7 @@ print(f"Accuracy: {accuracy:.2f}")
 # Matrice de confusion
 conf_matrix = confusion_matrix(y_test, y_pred)
 print("Matrice de confusion:")
-print(conf_matrix) 
+print(conf_matrix)   
 
 # Rapport de classification
 class_report = classification_report(y_test, y_pred, target_names=target_names)
