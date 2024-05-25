@@ -447,21 +447,21 @@ $$
 
 et on obtient 
 $$
-\frac{\partial L}{\partial \sigma_i}(\sigma_1, \dots , \sigma_K) = -z_i + T log (\frac{\sigma_i}{\frac{1}{K}}) - \delta_i + \mu_i = 0
+\frac{\partial L}{\partial \sigma_i}(\sigma_1, \dots , \sigma_K) = -z_i + T log (\frac{\sigma_i}{\frac{1}{K}}) - \delta + \mu_i = 0
 $$
 
 $$
-log(\sigma_{i}K) = \frac{z_i + \delta_i - \mu_i}{T}
+log(\sigma_{i}K) = \frac{z_i + \delta - \mu_i}{T}
 $$
 
-De plus, en utilisant notre contrainte de complémentarité $\sigma_i\delta_i = 0$ et le fait que $\sum_{i=1}^{K}\sigma_i = 1$ on a : 
+De plus, en utilisant notre contrainte de complémentarité $\sigma_i\mu_i = 0$ ce qui donne $\mu_i=0$ car $\sigma_i = \frac{\exp\left(\frac{z_i + \delta - \mu_i}{T}\right)}{K}$ est différent de 0 et le fait que $\sum_{i=1}^{K}\sigma_i = 1$ on a : 
 
 
 ```{=tex}
 \begin{align*}
-     \sigma_i &= \frac{\exp\left(\frac{z_i + \delta_i - \mu_i}{T}\right)}{K} \\
-    &= \frac{\frac{\exp\left(\frac{z_i + \delta_i - \mu_i}{T}\right)}{K}}{\frac{1}{K}\sum_{i=1}^{K}\exp\left(\frac{z_i + \delta_i - \mu_i}{T}\right)} \\
-    &= \frac{exp(\frac{z_i + \delta_i - \mu_i}{T})}{\sum_{i=1}^{K} exp(\frac{z_i + \delta_i - \mu_i}{T})} \\ 
+     \sigma_i &= \frac{\exp\left(\frac{z_i + \delta - \mu_i}{T}\right)}{K} \\
+    &= \frac{\frac{\exp\left(\frac{z_i + \delta - \mu_i}{T}\right)}{K}}{\frac{1}{K}\sum_{i=1}^{K}\exp\left(\frac{z_i + \delta - \mu_i}{T}\right)} \\
+    &= \frac{exp(\frac{z_i + \delta - \mu_i}{T})}{\sum_{i=1}^{K} exp(\frac{z_i + \delta - \mu_i}{T})} \\ 
     &= \frac{exp(\frac{z_i}{T})}{\sum_{i=1}^{K} exp(\frac{z_i}{T})}
 \end{align*}
 
@@ -490,6 +490,7 @@ $$
 donc $\left(\sigma_1,\dots, \sigma_K \right)\to \pi$.
 
 Donc si $T ≪ 1$, le softmax sera dominé par la classe ayant la plus grande confiance. Cela conduira généralement à un prédicteur surconfiant. D'autre part, pour $T ≫ 1$, le softmax sera de moins en moins sensible aux poids entraînés et convergera vers un vecteur uniforme quand $T \to \infty$. Cela correspondra généralement à un prédicteur sous-confiant. Par conséquent, en réglant T, nous pouvons rendre un prédicteur moins sous-confiant (en abaissant la température T < 1) ou moins sur-confiant (en augmentant la température T > 1).
+
 
 
 
