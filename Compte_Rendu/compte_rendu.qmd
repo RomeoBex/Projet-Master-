@@ -108,8 +108,8 @@ $$
 
 Il faut ensuite avoir recours à des algorithmes itératifs (descente de gradient, méthode de Newton,...) pour trouver ${\hat{\theta}}$.
 
-On peut passer du cadre binaire au cadre multi-classes avec $K$ classes, par exemple, c'est-à-dire en ayant $Y$ appartenant à $\{1, 2, \ldots, K\}$. De nouveau, on modélise les probabilités conditionnelles des classes, ou plutôt leur log-ratio, par des quantités linéaires, pour $k \in \{1, 2, \ldots, K-1\}$ et $\theta_{k} \in \mathbb{R}^p$:
-
+On peut passer du cadre binaire au cadre multi-classes avec $K$ classes, par exemple, c'est-à-dire en ayant $Y$ appartenant à $\{1, 2, \ldots, K\}^n$. De nouveau, on modélise les probabilités conditionnelles des classes, ou plutôt leur log-ratio, par des quantités linéaires, pour $k \in \{1, 2, \ldots, K\}$ et $\theta_{k} \in \mathbb{R}^p$:
+ 
 
 $$
 \log\left(\frac{P(Y=k|\mathbf{x})}{P(Y=K|\mathbf{x})}\right) = \theta_k^\top \mathbf{x}\enspace .
