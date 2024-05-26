@@ -433,7 +433,7 @@ On pose :
 $$
 \begin{cases}
     g(\sigma_1, \dots , \sigma_K) = \sum_{j=1}^{K}\sigma_j - 1 \\
-    h_j(\sigma_1, \dots , \sigma_K) = -\lambda_j \quad \text{pour } j \in \llbracket 1,K \rrbracket \\
+    h_j(\sigma_1, \dots , \sigma_K) = -\sigma_j \quad \text{pour } j \in \llbracket 1,K \rrbracket \\
     f(\sigma_1, \dots , \sigma_K) = -\sum_{j=1}^{K}\sigma_{j}z_{j} + T \cdot K(\lambda, \pi) 
 \end{cases}
 $$
