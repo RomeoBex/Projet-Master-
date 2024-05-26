@@ -14,16 +14,12 @@ format:
 - Objectif
 - Méthode
 
-## Régréssion logistique (1)
-- Qu'est-ce que c'est ?
-
-
 ## Régression logistique (2)
 
 ![](regression.svg){width=300}
 
 ## Régression logistique (3)
-
+- Dans le cadre binaire 
 - Vision Probabiliste 
 
 
@@ -68,6 +64,10 @@ $$
 ## Score de Brier
 
 A compléter
+
+## Présentation des jeux de données : 
+
+
 
 ## Cifar100-resnet20
 
