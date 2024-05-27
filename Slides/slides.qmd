@@ -75,7 +75,7 @@ A compléter
 ::: {layout-ncol=1 layout="[[40,-20,80], [150]]"}
 ![](cif10.png){width=300}
 ![](cif100.jpg){width=300}
-:::
+::: 
 
 
 ## Cifar100-resnet20
