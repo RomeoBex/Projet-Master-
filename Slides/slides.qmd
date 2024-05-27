@@ -65,7 +65,12 @@ $$
 
 A compléter
 
-## Présentation des jeux de données : 
+## Présentation des jeux de données 
+
+- Cifar10 : 60000 images, 10 classes : avion, voiture, oiseau, chat, biche/cerf, chien, grenouille, cheval, bateau, camion
+
+
+- Cifar100 : 60000 images, 100 classes : dauphin, requin, tulippes, chaise, loup, crocodile,...
 
 
 
