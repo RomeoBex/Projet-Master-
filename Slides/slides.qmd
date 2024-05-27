@@ -72,12 +72,11 @@ A compléter
 
 - Cifar100 : 60000 images, 100 classes : dauphin, requin, tulippes, chaise, loup, crocodile,...
 
-::: {layout-ncol=1 layout="[[40,-20,80], [150]]"}
-![](cif10.png){width=300}
-![](cif100.jpg){width=300}
-::: 
 
+![](cif10.png){width=370}
+![](cif100.png){width=490}
 
+ 
 ## Cifar100-resnet20
 
 | Modèle             | Score de Brier | ECE   |
