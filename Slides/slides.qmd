@@ -26,7 +26,7 @@ format:
 
 ## Régression logistique (4)
 
-Pour le cas multiclasse on fait l'hypothèse que :
+Pour le cas multiclasse avec K classes on fait l'hypothèse que :
 $$
 \log\left(\frac{P(Y=k|\mathbf{x})}{P(Y=K|\mathbf{x})}\right) = \theta_k^\top \mathbf{x}
 $$
