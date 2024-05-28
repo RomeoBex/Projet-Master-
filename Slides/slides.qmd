@@ -62,7 +62,7 @@ ECE=\frac{1}{N}\sum_{m=1}^{M}|B_m||acc(B_m)-conf(B_m)|
 $$
 
 ## Score de Brier
-
+ 
 - cas binaire :
   $$
     \frac{1}{n}\sum_{i=1}^{n}(f_i - o_i)^2
