@@ -14,6 +14,14 @@ format:
 - Objectif
 - Méthode
 
+
+::: { fig-pos='H'}
+
+
+![](Softmax.svg){width=800}
+
+:::
+
 ## Régression logistique (1)
 
 ![](regression.svg){width=300}
@@ -138,6 +146,7 @@ Diagrammes de fiabilité pour Cifar100-resnet20
 
 Diagrammes de fiabilité pour Cifar100-resnet44 
 :::
+
 
 
 ## Cifar10-resnet20
