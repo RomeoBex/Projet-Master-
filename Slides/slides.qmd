@@ -105,7 +105,7 @@ $$
 
 : Résultats pour CIFAR-100 Resnet20 {#tbl-first}
 
-- L'erreur de classification vaut 32%.
+- L'erreur de classification vaut 32%, TS=1.436 et TEC=1.445
 
 ## Cifar100-resnet20
 
@@ -133,7 +133,7 @@ Diagrammes de fiabilité pour Cifar100-resnet20
 
 : Résultats pour CIFAR-100 Resnet44 {#tbl-s}
 
-- L'erreur de classification vaut 28%.
+- L'erreur de classification vaut 28%, TS=1.71 et TEC=1.76
 
 ##  Cifar100-resnet44 
 
@@ -159,7 +159,7 @@ Diagrammes de fiabilité pour Cifar100-resnet44
 
 : Résultats obtenus pour CIFAR-10 Resnet20 {#tbl-j}
 
-- L'erreur de classification vaut 7,9%.
+- L'erreur de classification vaut 7,9%, TS=1.66 et TEC=1.70
 
 
 ## Cifar10-resnet20
