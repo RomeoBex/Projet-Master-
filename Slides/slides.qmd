@@ -14,17 +14,17 @@ format:
 - Objectif
 - Méthode
 
-## Régression logistique (2)
+## Régression logistique (1)
 
 ![](regression.svg){width=300}
 
-## Régression logistique (3)
+## Régression logistique (2)
 - Dans le cadre binaire 
 - Vision Probabiliste 
 
 
 
-## Régression logistique (4)
+## Régression logistique (3)
 
 Pour le cas multiclasse on fait l'hypothèse que :
 $$
