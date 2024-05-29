@@ -24,7 +24,7 @@ format:
 
 
 
-## Régression logistique (3)
+## Régression logistique (3) 
 
 Pour le cas multiclasse avec K classes on fait l'hypothèse que :
 $$
