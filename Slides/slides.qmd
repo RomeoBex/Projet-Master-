@@ -68,9 +68,9 @@ $$
     \frac{1}{n}\sum_{i=1}^{n}(f_i - o_i)^2
   $$
 
-- cas multiclasses :
+- cas multiclasses : 
   $$
-    B_s = \frac{1}{m}\sum_{i=1}^{m}\sum_{j=1}^{n_k}(f_{i,j} - o_{i,j})^2
+    B_s = \frac{1}{n}\sum_{i=1}^{n}\sum_{j=1}^{n_k}(f_{i,j} - o_{i,j})^2
   $$
 
 
